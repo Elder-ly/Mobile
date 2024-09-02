@@ -99,7 +99,7 @@ fun Search(){
 fun CardCuidador(){
     Column (
         modifier = Modifier
-            .height(208.dp)
+            .height(232.dp)
             .padding(top = 16.dp)
     ){
         Column (
@@ -118,10 +118,11 @@ fun CardCuidador(){
                     color = tertiaryContainerLight,
                     shape = RoundedCornerShape(4.dp)
                 )
-                .padding(12.dp)
+                .padding(16.dp)
         ){
             Row(
                 modifier = Modifier
+                    .padding(bottom = 8.dp)
             ){
                 Image(
                     painter = painterResource(ic_launcher_background),
@@ -249,7 +250,7 @@ fun NavBar() {
 fun Tag(text: String) {
     Box(
         modifier = Modifier
-            .padding(end = 8.dp)
+            .padding(top = 8.dp, end = 8.dp)
             .background(backgroundCustomBlue, RoundedCornerShape(4.dp))
             .padding(horizontal = 8.dp)
     ) {
