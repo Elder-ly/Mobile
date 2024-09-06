@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
-import elder.ly.mobile.R.drawable.ic_pesquisar
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +63,7 @@ fun Search(){
             .padding(8.dp)
     ) {
         Image(
-            painter = painterResource(id = ic_pesquisar),
+            painter = painterResource(id = R.drawable.ic_launcher_background),
             contentDescription = "Ícone de pesquisa",
             modifier = Modifier
                 .size(48.dp)
