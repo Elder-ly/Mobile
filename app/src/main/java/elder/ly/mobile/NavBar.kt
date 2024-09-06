@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -38,8 +37,10 @@ fun NavBar() {
             .border(
                 width = 1.dp,
                 color = tertiaryContainerLight
-            )
-            .padding(top = 12.dp)
+            ),
+
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier
@@ -69,7 +70,6 @@ fun NavBar() {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .align(Alignment.CenterVertically)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_chat),
