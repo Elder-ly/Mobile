@@ -46,9 +46,9 @@ fun PesquisaCuidador2() {
 
             LazyColumn(
                 modifier = Modifier
-                    .weight(0.8f)
+                    .weight(1f)
             ) {
-                items(3) {
+                items(10) {
                     CardCuidador()
                 }
             }
