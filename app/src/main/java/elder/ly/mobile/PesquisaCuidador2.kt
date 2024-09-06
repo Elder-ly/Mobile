@@ -3,7 +3,6 @@ package elder.ly.mobile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,9 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import elder.ly.mobile.R.drawable.ic_chat
 import elder.ly.mobile.R.drawable.ic_launcher_background
-import elder.ly.mobile.R.drawable.ic_perfil
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.theme.backgroundCustomBlue
@@ -42,13 +40,18 @@ fun PesquisaCuidador2() {
             modifier = Modifier
                 .weight(1f)
                 .background(Color.White)
-                .padding(16.dp)
+                .padding(top = 16.dp, bottom = 0.dp, start = 16.dp, end = 16.dp)
         ) {
             Search()
 
-            CardCuidador()
-            CardCuidador()
-            CardCuidador()
+            LazyColumn(
+                modifier = Modifier
+                    .weight(0.8f)
+            ) {
+                items(3) {
+                    CardCuidador()
+                }
+            }
 
         }
         NavBar()
@@ -163,90 +166,6 @@ fun CardCuidador(){
 
             }
 
-        }
-    }
-}
-
-@Composable
-fun NavBar() {
-    Column(
-        modifier = Modifier
-            .height(80.dp)
-            .fillMaxWidth()
-            .shadow(
-                elevation = 4.dp,
-                shape = RoundedCornerShape(8.dp),
-                clip = false
-            )
-            .background(
-                color = Color.White
-            )
-            .border(
-                width = 1.dp,
-                color = tertiaryContainerLight
-            )
-            .padding(top = 12.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .align(Alignment.CenterVertically)
-            ) {
-                Image(
-                    painter = painterResource(id = ic_pesquisar),
-                    contentDescription = "ícone de pesquisa",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Text(
-                    text = "Pesquisar",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .align(Alignment.CenterVertically)
-            ) {
-                Image(
-                    painter = painterResource(id = ic_chat),
-                    contentDescription = "ícone de chat",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Text(
-                    text = "Chat",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .align(Alignment.CenterVertically)
-            ) {
-                Image(
-                    painter = painterResource(id = ic_perfil),
-                    contentDescription = "ícone de perfil",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Text(
-                    text = "Perfil",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
         }
     }
 }
