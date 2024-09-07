@@ -3,11 +3,9 @@ package elder.ly.mobile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,11 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.Divider
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -105,8 +103,8 @@ fun Contacts() {
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp)
+                .height(88.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_launcher_background),
@@ -120,31 +118,35 @@ fun Contacts() {
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .weight(1f)
+                    .align(Alignment.CenterVertically)
 
             ) {
                 Text(text = "Vila Matilde", color = secondaryContainerLight)
                 Text(text = "Maria Antonieta", fontSize = 18.sp)
-                Row (){
-                    Feature(text = "Fraldas")
-                    Feature(text = "Bingo")
-                    Feature(text = "Medicação")
+                LazyRow {
+                    items(listOf("Fraldas", "Bingo", "Medicação")) { featureText ->
+                        Feature(text = featureText)
+                    }
                 }
             }
-            Arrow()
+            Column (
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically),
+                horizontalAlignment = Alignment.End
+            ){
+                Arrow()
+            }
         }
-        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.fillMaxWidth())
+        HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Gray)
     }
 }
 
 @Composable
 fun Arrow() {
-    Column(
-        modifier = Modifier
-            .padding(top = 16.dp)
-    ) {
+    Column{
         Icon(
-            imageVector = Icons.Filled.KeyboardArrowRight,
+            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = "Arrow Forward",
             tint = Color(0xFF343643),
             modifier = Modifier
