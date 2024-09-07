@@ -3,6 +3,7 @@ package elder.ly.mobile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,28 +14,36 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsEndWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.ui.theme.MobileTheme
+import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
 fun Chat1() {
-    Column (
+    Column(
         modifier = Modifier
             .background(Color.White)
-    ){
+            .fillMaxSize()
+    ) {
         Column(
             modifier = Modifier
                 .background(Color.White)
@@ -43,21 +52,21 @@ fun Chat1() {
             SearchChat()
         }
 
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-            ) {
-                items(10) {
-                    Contacts()
-                }
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            items(10) {
+                Contacts()
             }
+        }
 
         NavBar()
     }
 }
 
 @Composable
-fun SearchChat(){
+fun SearchChat() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -83,34 +92,65 @@ fun SearchChat(){
             modifier = Modifier
                 .size(48.dp)
                 .align(alignment = Alignment.CenterStart)
-                .padding(8.dp)
+                .padding(start = 8.dp)
         )
     }
 }
 
 @Composable
-fun Contacts(){
-        Column(
+fun Contacts() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Row(
             modifier = Modifier
-                .padding(top = 16.dp, bottom = 8.dp)
-                .height(64.dp)
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp)
         ) {
-            Row (
+            Image(
+                painter = painterResource(id = R.drawable.ic_launcher_background),
+                contentDescription = "Foto de perfil do cuidador",
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp, start = 24.dp, end = 24.dp)
-            ){
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = "Foto de perfil do cuidador")
+                    .size(48.dp)
+                    .align(Alignment.CenterVertically),
+                Alignment.CenterStart
+            )
 
-                Column {
+            Column(
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .weight(1f)
 
+            ) {
+                Text(text = "Vila Matilde", color = secondaryContainerLight)
+                Text(text = "Maria Antonieta", fontSize = 18.sp)
+                Row (){
+                    Feature(text = "Fraldas")
+                    Feature(text = "Bingo")
+                    Feature(text = "Medicação")
                 }
-
             }
+            Arrow()
         }
-        Divider(color = Color.LightGray, thickness = 1.dp)
+        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.fillMaxWidth())
+    }
+}
+
+@Composable
+fun Arrow() {
+    Column(
+        modifier = Modifier
+            .padding(top = 16.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.KeyboardArrowRight,
+            contentDescription = "Arrow Forward",
+            tint = Color(0xFF343643),
+            modifier = Modifier
+                .size(48.dp)
+        )
+    }
 }
 
 @Preview(showBackground = true)
