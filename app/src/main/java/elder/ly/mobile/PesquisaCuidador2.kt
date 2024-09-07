@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -160,9 +161,9 @@ fun CardCuidador(){
             Row (
                 modifier = Modifier
             ){
-                Tag(text = "Fraldas")
-                Tag(text = "Bingo")
-                Tag(text = "Medicação")
+//                Feature(text = "Fraldas")
+//                Feature(text = "Bingo")
+//                Feature(text = "Medicação")
 
             }
 
@@ -170,20 +171,6 @@ fun CardCuidador(){
     }
 }
 
-@Composable
-fun Tag(text: String) {
-    Box(
-        modifier = Modifier
-            .padding(top = 8.dp, end = 8.dp)
-            .background(backgroundCustomBlue, RoundedCornerShape(4.dp))
-            .padding(horizontal = 8.dp)
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.align(Alignment.Center)
-        )
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
