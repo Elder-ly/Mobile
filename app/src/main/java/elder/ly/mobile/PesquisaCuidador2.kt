@@ -161,9 +161,9 @@ fun CardCuidador(){
             Row (
                 modifier = Modifier
             ){
-//                Feature(text = "Fraldas")
-//                Feature(text = "Bingo")
-//                Feature(text = "Medicação")
+                Feature(text = "Fraldas")
+                Feature(text = "Bingo")
+                Feature(text = "Medicação")
 
             }
 
