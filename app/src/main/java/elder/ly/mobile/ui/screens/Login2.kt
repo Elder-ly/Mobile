@@ -1,4 +1,4 @@
-package elder.ly.mobile
+package elder.ly.mobile.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import elder.ly.mobile.CustomMaskTranformation
 import elder.ly.mobile.ui.theme.onPrimaryLightHighContrast
 import elder.ly.mobile.ui.theme.outlineLight
 import elder.ly.mobile.ui.theme.primaryContainerLight
