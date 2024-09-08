@@ -311,7 +311,7 @@ fun ComposeDataTimePickerTheme() {
                 .background(Color.Transparent),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
-                contentColor = tertiaryContainerLight
+                contentColor = Color.Gray
             ),
             shape = RoundedCornerShape(10.dp),
 
@@ -321,7 +321,7 @@ fun ComposeDataTimePickerTheme() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Selecionar Data")
+                Text(text = "Selecione Data", fontSize = 16.sp)
                 Icon(
                     imageVector = Icons.Filled.DateRange,
                     contentDescription = "Ícone de Calendário",
@@ -341,7 +341,7 @@ fun ComposeDataTimePickerTheme() {
                 .width(320.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
-                contentColor = tertiaryContainerLight
+                contentColor = Color.Gray
             ),
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -350,7 +350,7 @@ fun ComposeDataTimePickerTheme() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Selecionar Data")
+                Text(text = "Selecione Data", fontSize = 16.sp)
                 Icon(
                     imageVector = Icons.Filled.DateRange,
                     contentDescription = "Ícone de Calendário",
