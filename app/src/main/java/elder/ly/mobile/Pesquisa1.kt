@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -58,14 +57,20 @@ import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 import elder.ly.mobile.ui.theme.tertiaryLight
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.IconButton
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.draw.clip
 
 
 @Composable
 fun Pesquisa1() {
-
-    var especialidades by remember {
-        mutableStateOf("")
-    }
+    var especialidades by remember { mutableStateOf("") }
+    var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 
     Column(
         modifier = Modifier
@@ -75,11 +80,7 @@ fun Pesquisa1() {
     ) {
         Text(
             text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        fontWeight = FontWeight.Bold
-                    )
-                ) {
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
                     append("O Que Precisa?")
                 }
             },
@@ -92,21 +93,27 @@ fun Pesquisa1() {
                 append("Pesquise o cuidador ideal para você")
             },
             fontSize = 18.sp,
-            color = tertiaryLight
+            color = Color.Gray
         )
 
         ComposeDataTimePickerTheme()
-
 
         DefaultDropdownMenu(
             label = "Especialidades",
             placeholder = "Selecione Especialidade(s)",
             options = listOf("Fraldas", "Bingo", "Medicação"),
             value = especialidades,
-            changeValue = { newEspecialidades : String ->
+            changeValue = { newEspecialidades ->
                 especialidades = newEspecialidades
+                if (newEspecialidades.isNotEmpty() && !selectedSpecialties.contains(newEspecialidades)) {
+                    selectedSpecialties = selectedSpecialties + newEspecialidades
+                }
             }
         )
+
+        SpecialtyList(specialties = selectedSpecialties, onRemove = { specialty ->
+            selectedSpecialties = selectedSpecialties - specialty
+        })
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -124,8 +131,8 @@ fun DefaultDropdownMenu(
     value: String,
     changeValue: (String) -> Unit
 ) {
-    val unfocusedBorderColor = outlineLight
-    val focusedBorderColor = primaryContainerLight
+    val unfocusedBorderColor = Color.Gray
+    val focusedBorderColor = Color.Blue
 
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("") }
@@ -137,22 +144,17 @@ fun DefaultDropdownMenu(
 
         ExposedDropdownMenuBox(
             expanded = expanded,
-            onExpandedChange = {
-                expanded = !expanded
-            }
+            onExpandedChange = { expanded = !expanded }
         ) {
             OutlinedTextField(
-                placeholder = { Text(text = placeholder, color = tertiaryContainerLight) },
+                placeholder = { Text(text = placeholder, color = Color.Gray) },
                 value = selectedOption,
                 onValueChange = {},
                 readOnly = true,
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                 colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = unfocusedBorderColor, // Usando a cor animada
-                    focusedBorderColor = focusedBorderColor,   // Usando a cor animada
-                    cursorColor = focusedBorderColor
+                    unfocusedBorderColor = unfocusedBorderColor,
+                    focusedBorderColor = focusedBorderColor
                 ),
                 shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
@@ -163,16 +165,15 @@ fun DefaultDropdownMenu(
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier
-                    .width(320.dp)
+                modifier = Modifier.width(320.dp)
             ) {
                 options.forEach { option ->
                     DropdownMenuItem(
                         text = { Text(option) },
                         onClick = {
                             selectedOption = option
-                            expanded = false
                             changeValue(option)
+                            expanded = false
                         }
                     )
                 }
@@ -181,7 +182,61 @@ fun DefaultDropdownMenu(
     }
 }
 
+@Composable
+fun SpecialtyList(specialties: List<String>, onRemove: (String) -> Unit) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3),
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(specialties) { specialty ->
+            SpecialtyItem(
+                text = specialty,
+                onRemove = { onRemove(specialty) }
+            )
+        }
+    }
+}
 
+@Composable
+fun SpecialtyItem(text: String, onRemove: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp))
+            .background(Color.White, shape = RoundedCornerShape(8.dp))
+            .width(132.dp)
+            .height(40.dp)
+            .padding(horizontal = 8.dp)
+            .clip(RoundedCornerShape(8.dp))
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = text,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp),
+                color = Color.Black
+            )
+            IconButton(
+                onClick = onRemove,
+                modifier = Modifier.size(24.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Clear,
+                    contentDescription = "Delete",
+                    tint = Color.Black
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun NextButton(
@@ -201,6 +256,7 @@ fun NextButton(
         ),
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
+            .padding(bottom = 16.dp)
             .width(320.dp)
             .height(56.dp)
     ) {
@@ -237,15 +293,10 @@ fun NextButton(
 fun ComposeDataTimePickerTheme() {
     val calendarState = rememberSheetState()
     val clockState = rememberSheetState()
-
-    // Cores e estilo
-    val dialogBackgroundColor = Color.White
-    val buttonColor = primaryContainerLight
-    val buttonContentColor = Color.White
-
+    
     Column(
         modifier = Modifier
-            .padding(16.dp),
+            .padding(top = 16.dp),
         verticalArrangement = Arrangement.Center
     ) {
         Text(
@@ -264,7 +315,7 @@ fun ComposeDataTimePickerTheme() {
             ),
             shape = RoundedCornerShape(10.dp),
 
-        ) {
+            ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -326,7 +377,6 @@ fun ComposeDataTimePickerTheme() {
         )
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
