@@ -4,13 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import elder.ly.mobile.ui.screens.InformacoesPessoaisEndereco
+import elder.ly.mobile.ui.screens.Login3
 import elder.ly.mobile.ui.theme.MobileTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,16 +16,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            App()
+            MaterialTheme {
+                App()
+            }
         }
     }
 }
 
 @Composable
 fun App() {
-    Text(
-        text = "Elderly"
-    )
+    Login3()
 }
 
 @Preview(showBackground = true)
