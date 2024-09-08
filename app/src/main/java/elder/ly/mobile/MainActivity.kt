@@ -7,8 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import elder.ly.mobile.ui.screens.InformacoesPessoaisEndereco
-import elder.ly.mobile.ui.screens.Login3
+import elder.ly.mobile.ui.screens.Login2
 import elder.ly.mobile.ui.theme.MobileTheme
 
 class MainActivity : ComponentActivity() {
