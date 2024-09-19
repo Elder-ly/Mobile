@@ -157,7 +157,7 @@ fun Arrow() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun Chat1Preview() {
     MobileTheme {
         Chat1()
     }
