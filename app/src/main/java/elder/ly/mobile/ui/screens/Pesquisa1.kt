@@ -1,5 +1,6 @@
-package elder.ly.mobile
+package elder.ly.mobile.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,9 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,11 +40,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.theme.MobileTheme
-import elder.ly.mobile.ui.theme.onPrimaryLightHighContrast
-import elder.ly.mobile.ui.theme.primaryContainerLight
+import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.calendar.CalendarDialog
+import com.maxkeppeler.sheets.calendar.models.CalendarSelection
+import com.maxkeppeler.sheets.clock.ClockDialog
+import com.maxkeppeler.sheets.clock.models.ClockConfig
+import com.maxkeppeler.sheets.clock.models.ClockSelection
+import elder.ly.mobile.ui.theme.tertiaryLight
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -51,16 +58,13 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.draw.clip
-import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.NavBar
-import elder.ly.mobile.ui.theme.customBlueColor
 
 
 @Composable
-fun PerfilProfissional() {
+fun Pesquisa1() {
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
-
 
     Column(
         modifier = Modifier
@@ -68,38 +72,25 @@ fun PerfilProfissional() {
             .padding(top = 44.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            BackIconButton()
-
         Text(
             text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        fontWeight = FontWeight.Bold
-                    )
-                ) {
-                    append("Profissional")
+                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                    append("O Que Precisa?")
                 }
             },
             fontSize = 36.sp,
-            modifier = Modifier
-                .width(272.dp)
-            )
-        }
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
 
-        var biografia by remember {
-            mutableStateOf("")
-        }
+        Text(
+            text = buildAnnotatedString {
+                append("Pesquise o cuidador ideal para você")
+            },
+            fontSize = 18.sp,
+            color = Color.Gray
+        )
 
-        Biografia(valorCampo = biografia){
-            novaBiografia -> biografia = novaBiografia
-        }
-
+        ComposeDataTimePickerTheme()
 
         DefaultDropdownMenu(
             label = "Especialidades",
@@ -120,36 +111,8 @@ fun PerfilProfissional() {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        NextButton(label = "Salvar")
+        NextButton(label = "Avançar")
         NavBar()
-    }
-}
-
-@Composable
-fun Biografia(
-    valorCampo: String,
-    mudaValorCampo: (String) -> Unit
-){
-    Column (
-        modifier = Modifier
-            .width(320.dp)
-            .padding(top = 8.dp)
-    ){
-        Text(text = "Biografia")
-        OutlinedTextField(
-            placeholder = { Text(text = "Digite sua biografia...", color = Color.Gray) },
-            value = valorCampo,
-            onValueChange = mudaValorCampo,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(320.dp)
-                .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(12.dp)),
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = customBlueColor,
-                disabledContainerColor = customBlueColor
-            ),
-            shape = RoundedCornerShape(12.dp)
-        )
     }
 }
 
@@ -216,7 +179,7 @@ fun DefaultDropdownMenu(
 @Composable
 fun SpecialtyList(specialties: List<String>, onRemove: (String) -> Unit) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -234,13 +197,12 @@ fun SpecialtyList(specialties: List<String>, onRemove: (String) -> Unit) {
 fun SpecialtyItem(text: String, onRemove: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(16.dp))
+            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp))
             .background(Color.White, shape = RoundedCornerShape(8.dp))
             .width(132.dp)
             .height(40.dp)
             .padding(horizontal = 8.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(8.dp))
     ) {
         Row(
             modifier = Modifier
@@ -270,53 +232,100 @@ fun SpecialtyItem(text: String, onRemove: () -> Unit) {
     }
 }
 
-@Composable
-fun NextButton(
-    label: String,
-    onclick: (Any) -> Any = {}
-) {
-    var isLoading by remember { mutableStateOf(false) }
 
-    Button(
-        onClick = {
-            isLoading = true
-            onclick({})
-        },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = primaryContainerLight,
-            contentColor = onPrimaryLightHighContrast
-        ),
-        shape = RoundedCornerShape(8.dp),
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ComposeDataTimePickerTheme() {
+    val calendarState = rememberSheetState()
+    val clockState = rememberSheetState()
+
+    Column(
         modifier = Modifier
-            .padding(bottom = 16.dp)
-            .width(320.dp)
-            .height(56.dp)
+            .padding(top = 16.dp),
+        verticalArrangement = Arrangement.Center
     ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                color = onPrimaryLightHighContrast,
-                modifier = Modifier.size(24.dp)
-            )
-        } else {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+        Text(
+            text = "Data de Início"
+        )
+        TextButton(
+            onClick = { calendarState.show() },
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .border(width = 1.dp, color = tertiaryLight, shape = RoundedCornerShape(8.dp))
+                .width(320.dp)
+                .background(Color.Transparent),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Gray
+            ),
+            shape = RoundedCornerShape(10.dp),
+
             ) {
-                Text(
-                    text = label,
-                    fontSize = 16.sp
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Selecione Data", fontSize = 16.sp)
+                Icon(
+                    imageVector = Icons.Filled.DateRange,
+                    contentDescription = "Ícone de Calendário",
+                    tint = tertiaryContainerLight
                 )
-                Spacer(modifier = Modifier.width(8.dp))
             }
         }
+
+        Text(
+            text = "Data de Fim",
+        )
+        TextButton(
+            onClick = { clockState.show() },
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .border(width = 1.dp, color = tertiaryLight, shape = RoundedCornerShape(8.dp))
+                .width(320.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.Gray
+            ),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Selecione Data", fontSize = 16.sp)
+                Icon(
+                    imageVector = Icons.Filled.DateRange,
+                    contentDescription = "Ícone de Calendário",
+                    tint = tertiaryContainerLight
+                )
+            }
+        }
+
+        CalendarDialog(
+            state = calendarState,
+            selection = CalendarSelection.Date { date ->
+                Log.d("Selected Date", "$date")
+            },
+        )
+
+        ClockDialog(
+            state = clockState,
+            config = ClockConfig(
+                is24HourFormat = true
+            ),
+            selection = ClockSelection.HoursMinutes { hours, minutes ->
+                Log.d("Selected Time", "$hours:$minutes")
+            },
+        )
     }
-
 }
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun Pesquisa1Preview() {
     MobileTheme {
-        PerfilProfissional()
+        Pesquisa1()
     }
 }

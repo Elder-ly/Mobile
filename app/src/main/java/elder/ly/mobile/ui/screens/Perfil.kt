@@ -1,4 +1,4 @@
-package elder.ly.mobile
+package elder.ly.mobile.ui.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import elder.ly.mobile.ui.theme.MobileTheme
+import elder.ly.mobile.ui.components.NavBar
 import elder.ly.mobile.ui.theme.tertiaryLight
 
 @Composable
