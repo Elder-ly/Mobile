@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 data class ExtendedColorScheme(
     val customColor1: ColorFamily,
 )
-
+val customBlueColor = Color(0xFFB0DDFC)
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
     onPrimary = onPrimaryLight,

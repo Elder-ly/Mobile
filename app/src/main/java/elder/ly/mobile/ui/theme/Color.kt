@@ -1,6 +1,7 @@
 package elder.ly.mobile.ui.theme
 import androidx.compose.ui.graphics.Color
 
+val backgroundCustomBlue = Color(0xFFB0DDFC)
 val primaryLight = Color(0xFF00629F)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val primaryContainerLight = Color(0xFF44AAFF)
