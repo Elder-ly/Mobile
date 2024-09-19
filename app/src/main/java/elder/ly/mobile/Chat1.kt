@@ -31,6 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.R.drawable.ic_pesquisar
+import elder.ly.mobile.ui.components.Feature
+import elder.ly.mobile.ui.components.NavBar
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
