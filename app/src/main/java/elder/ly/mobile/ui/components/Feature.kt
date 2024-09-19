@@ -1,4 +1,4 @@
-package elder.ly.mobile
+package elder.ly.mobile.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
