@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.signupstep2
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.Composable
@@ -9,12 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +32,7 @@ import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.ui.theme.MobileTheme
 
 @Composable
-fun InformacoesPessoaisEndereco() {
+fun Login3() {
     val brazilStates = listOf(
         "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
         "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
@@ -93,7 +88,7 @@ fun InformacoesPessoaisEndereco() {
                             fontWeight = FontWeight.Bold
                         )
                     ) {
-                        append("Endereço")
+                        append("Cadastro")
                     }
                 },
                 fontSize = 36.sp
@@ -173,14 +168,14 @@ fun InformacoesPessoaisEndereco() {
 
         Spacer(modifier = Modifier.weight(1f))
 
-        NextButton(label = "Salvar")
+        NextButton(label = "Avançar")
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun InformacoesPessoaisEnderecoPreview() {
+fun Login3Preview() {
     MobileTheme {
-        InformacoesPessoaisEndereco()
+        Login3()
     }
 }

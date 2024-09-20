@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.chat
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background

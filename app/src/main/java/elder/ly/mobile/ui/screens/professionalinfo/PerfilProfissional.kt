@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.professionalinfo
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -32,6 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.screens.search.DefaultDropdownMenu
+import elder.ly.mobile.ui.screens.profilepreview.NextButton
+import elder.ly.mobile.ui.screens.search.SpecialtyList
 import elder.ly.mobile.ui.theme.customBlueColor
 
 

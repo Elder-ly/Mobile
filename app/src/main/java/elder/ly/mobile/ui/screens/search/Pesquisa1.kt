@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.search
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -59,6 +59,7 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.draw.clip
 import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.screens.profilepreview.NextButton
 
 
 @Composable

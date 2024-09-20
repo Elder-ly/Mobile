@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.chatlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

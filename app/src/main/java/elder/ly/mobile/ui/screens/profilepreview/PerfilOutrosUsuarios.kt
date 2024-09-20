@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.profilepreview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.screens.profile.DrawCircle
 import elder.ly.mobile.ui.theme.onPrimaryLightHighContrast
 import elder.ly.mobile.ui.theme.primaryContainerLight
 import elder.ly.mobile.ui.theme.primaryLight

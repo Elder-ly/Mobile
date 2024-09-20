@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.profile
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable

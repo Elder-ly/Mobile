@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens
+package elder.ly.mobile.ui.screens.signupstep1
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
