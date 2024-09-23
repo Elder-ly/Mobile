@@ -1,4 +1,4 @@
-package elder.ly.mobile
+package elder.ly.mobile.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import elder.ly.mobile.R
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
