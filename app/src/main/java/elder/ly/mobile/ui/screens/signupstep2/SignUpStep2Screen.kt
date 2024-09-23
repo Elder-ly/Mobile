@@ -32,7 +32,7 @@ import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.ui.theme.MobileTheme
 
 @Composable
-fun Login3() {
+fun SignUpStep2Screen() {
     val brazilStates = listOf(
         "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
         "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
@@ -174,8 +174,8 @@ fun Login3() {
 
 @Preview(showBackground = true)
 @Composable
-fun Login3Preview() {
+fun SignUpStep2ScreenPreview() {
     MobileTheme {
-        Login3()
+        SignUpStep2Screen()
     }
 }

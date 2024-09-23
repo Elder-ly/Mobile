@@ -27,7 +27,7 @@ import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun Login2() {
+fun SignUpStep1Screen() {
     var fullName by remember {
         mutableStateOf("")
     }
@@ -127,8 +127,8 @@ fun Login2() {
 
 @Preview(showBackground = true)
 @Composable
-private fun Login2Preview() {
+private fun SignUpStep1ScreenPreview() {
     MobileTheme {
-        Login2()
+        SignUpStep1Screen()
     }
 }

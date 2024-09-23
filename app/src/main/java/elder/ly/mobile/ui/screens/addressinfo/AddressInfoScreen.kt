@@ -1,6 +1,8 @@
-package elder.ly.mobile.ui.screens.personalinfo
+package elder.ly.mobile.ui.screens.addressinfo
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,18 +11,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,28 +28,42 @@ import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
 import elder.ly.mobile.ui.components.NextButton
-import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
+import elder.ly.mobile.ui.theme.MobileTheme
 
 @Composable
-fun InformacoesAdicionais() {
-    var fullName by remember {
+fun AddressInfoScreen() {
+    val brazilStates = listOf(
+        "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
+        "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
+        "RS", "RO", "RR", "SC", "SP", "SE", "TO"
+    )
+
+    var cep by remember {
         mutableStateOf("")
     }
 
-    var email by remember {
+    var street by remember {
         mutableStateOf("")
     }
 
-    var document by remember {
+    var number by remember {
         mutableStateOf("")
     }
 
-    var birthDate by remember {
+    var complement by remember {
         mutableStateOf("")
     }
 
-    var gender by remember {
+    var state by remember {
+        mutableStateOf("")
+    }
+
+    var city by remember {
+        mutableStateOf("")
+    }
+
+    var district by remember {
         mutableStateOf("")
     }
 
@@ -62,13 +75,12 @@ fun InformacoesAdicionais() {
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             BackIconButton()
-
+            
             Text(
                 text = buildAnnotatedString {
                     withStyle(
@@ -76,78 +88,94 @@ fun InformacoesAdicionais() {
                             fontWeight = FontWeight.Bold
                         )
                     ) {
-                        append("Informações\nAdicionais")
+                        append("Endereço")
                     }
                 },
-                fontSize = 36.sp,
-                textAlign = TextAlign.Center,
-                lineHeight = 40.sp
+                fontSize = 36.sp
             )
 
             Spacer(modifier = Modifier.width(56.dp))
         }
 
         DefaultTextInput(
-            label = "Nome Completo",
-            value = fullName,
-            changeValue = { newFullName : String ->
-                fullName = newFullName
-            }
-        )
-
-        DefaultTextInput(
-            label = "Email",
-            placeholder = "seuemail@gmail.com",
-            keyboardType = KeyboardType.Email,
-            value = email,
-            changeValue = { newEmail : String ->
-                email = newEmail
-            }
-        )
-
-        DefaultTextInput(
-            label = "Documento (CPF/CNPJ)",
-            placeholder = "12345678910",
+            label = "CEP",
+            placeholder = "01234-567",
             keyboardType = KeyboardType.Number,
-            maxChar = 11,
-            value = document,
-            changeValue = { newDocument : String ->
-                document = newDocument
-            }
-        )
-
-        DefaultTextInput(
-            label = "Data de Nascimento",
-            placeholder = "23/06/1991",
-            keyboardType = KeyboardType.Number,
-            mask = CustomMaskTranformation(mask = "##/##/####"),
+            mask = CustomMaskTranformation(mask = "#####-###"),
             maxChar = 8,
-            value = birthDate,
-            changeValue = { newBirthDate : String ->
-                birthDate = newBirthDate
+            value = cep,
+            changeValue = { newCep : String ->
+                cep = newCep
+            }
+        )
+
+        DefaultTextInput(
+            label = "Logradouro",
+            placeholder = "Rua Haddock Lobo",
+            value = street,
+            changeValue = { newStreet : String ->
+                street = newStreet
+            }
+        )
+
+        DefaultTextInput(
+            label = "Número",
+            placeholder = "12",
+            keyboardType = KeyboardType.Number,
+            maxChar = 6,
+            value = number,
+            changeValue = { newNumber : String ->
+                number = newNumber
+            }
+        )
+
+        DefaultTextInput(
+            label = "Complemento",
+            placeholder = "Bloco A",
+            value = complement,
+            changeValue = { newComplememt : String ->
+                complement = newComplememt
             },
         )
 
         DefaultDropdownMenu(
-            label = "Gênero",
-            placeholder = "Selecione um Gênero",
-            options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
-            value = gender,
-            changeValue = { newGender : String ->
-                gender = newGender
+            label = "Estado",
+            placeholder = "Selecione um Estado",
+            options = brazilStates,
+            value = state,
+            changeValue = { newState : String ->
+                state = newState
             }
+        )
+
+        DefaultTextInput(
+            label = "Cidade",
+            placeholder = "São Paulo",
+            value = city,
+            changeValue = { newCity : String ->
+                city = newCity
+            },
+        )
+
+        DefaultTextInput(
+            label = "Bairro",
+            placeholder = "Consolação",
+            value = district,
+            changeValue = { newDistrict : String ->
+                district = newDistrict
+            },
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
-        NextButton(label = "Avançar")
+        NextButton(label = "Salvar")
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun InformacoesAdicionaisPreview() {
+fun AddressInfoScreenPreview() {
     MobileTheme {
-        InformacoesAdicionais()
+        AddressInfoScreen()
     }
 }

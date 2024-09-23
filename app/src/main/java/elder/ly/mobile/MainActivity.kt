@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import elder.ly.mobile.ui.screens.signupstep1.Login2
+import elder.ly.mobile.ui.screens.signupstep1.SignUpStep1Screen
 import elder.ly.mobile.ui.theme.MobileTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,12 +24,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    Login2()
+    SignUpStep1Screen()
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun AppPreview() {
     MobileTheme {
         App()
     }

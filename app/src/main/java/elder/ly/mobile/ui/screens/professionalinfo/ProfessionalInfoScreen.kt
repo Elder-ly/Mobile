@@ -33,13 +33,13 @@ import androidx.compose.ui.text.withStyle
 import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.NavBar
 import elder.ly.mobile.ui.screens.search.DefaultDropdownMenu
-import elder.ly.mobile.ui.screens.profilepreview.NextButton
+import elder.ly.mobile.ui.screens.profiledetails.NextButton
 import elder.ly.mobile.ui.screens.search.SpecialtyList
 import elder.ly.mobile.ui.theme.customBlueColor
 
 
 @Composable
-fun PerfilProfissional() {
+fun ProfessionalInfoScreen() {
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 
@@ -137,8 +137,8 @@ fun Biografia(
 
 @Preview(showBackground = true)
 @Composable
-fun PerfilProfissionalPreview() {
+fun ProfessionalInfoScreenPreview() {
     MobileTheme {
-        PerfilProfissional()
+        ProfessionalInfoScreen()
     }
 }

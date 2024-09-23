@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.screens.profilepreview
+package elder.ly.mobile.ui.screens.profiledetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +42,7 @@ import elder.ly.mobile.ui.theme.primaryContainerLight
 import elder.ly.mobile.ui.theme.primaryLight
 
 @Composable
-fun PerfilOutrosUsuarios(
+fun ProfileDetailsScreen(
     modifier: Modifier = Modifier
         .fillMaxSize(),
 ) {
@@ -177,7 +177,7 @@ fun NextButton(
 
 @Preview(showBackground = true)
 @Composable
-fun PerfilOutrosUsuariosPreview(
+fun ProfileDetailsScreenPreview(
     modifier: Modifier = Modifier) {
-    PerfilOutrosUsuarios()
+    ProfileDetailsScreen()
 }

@@ -59,11 +59,11 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.draw.clip
 import elder.ly.mobile.ui.components.NavBar
-import elder.ly.mobile.ui.screens.profilepreview.NextButton
+import elder.ly.mobile.ui.screens.profiledetails.NextButton
 
 
 @Composable
-fun Pesquisa1() {
+fun SearchScreen() {
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 
@@ -325,8 +325,8 @@ fun ComposeDataTimePickerTheme() {
 }
 @Preview(showBackground = true)
 @Composable
-fun Pesquisa1Preview() {
+fun SearchScreenPreview() {
     MobileTheme {
-        Pesquisa1()
+        SearchScreen()
     }
 }

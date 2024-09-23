@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.theme.primaryLight
 
 @Composable
-fun Chat2(
+fun ChatScreen(
     modifier: Modifier = Modifier
         .fillMaxSize()) {
 
@@ -160,6 +160,6 @@ fun MessageInputField() {
 
 @Preview(showBackground = true)
 @Composable
-fun Chat2Preview(modifier: Modifier = Modifier) {
-    Chat2()
+fun ChatScreenPreview(modifier: Modifier = Modifier) {
+    ChatScreen()
 }

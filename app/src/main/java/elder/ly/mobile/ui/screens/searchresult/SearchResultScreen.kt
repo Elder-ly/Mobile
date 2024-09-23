@@ -32,7 +32,7 @@ import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
-fun PesquisaCuidador2() {
+fun SearchResultScreen() {
     Column (
         modifier = Modifier
             .background(Color.White)
@@ -174,8 +174,8 @@ fun CardCuidador(){
 
 @Preview(showBackground = true)
 @Composable
-fun PesquisaCuidadorPreview() {
+fun SearchResultScreenPreview() {
     MobileTheme {
-        PesquisaCuidador2()
+        SearchResultScreen()
     }
 }

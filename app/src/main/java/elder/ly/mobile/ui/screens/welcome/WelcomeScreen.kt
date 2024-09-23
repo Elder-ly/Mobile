@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import elder.ly.mobile.R
 
 @Composable
-fun Login1() {
+fun WelcomeScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,8 +101,8 @@ fun Login1() {
 
 @Preview(showBackground = true)
 @Composable
-fun Login1Preview() {
+fun WelcomeScreenPreview() {
     MaterialTheme {
-        Login1()
+        WelcomeScreen()
     }
 }

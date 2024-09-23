@@ -38,7 +38,7 @@ import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
-fun Chat1() {
+fun ChatListScreen() {
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -159,8 +159,8 @@ fun Arrow() {
 
 @Preview(showBackground = true)
 @Composable
-fun Chat1Preview() {
+fun ChatListScreenPreview() {
     MobileTheme {
-        Chat1()
+        ChatListScreen()
     }
 }

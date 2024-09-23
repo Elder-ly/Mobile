@@ -34,7 +34,7 @@ import elder.ly.mobile.ui.components.NavBar
 import elder.ly.mobile.ui.theme.tertiaryLight
 
 @Composable
-fun Perfil() {
+fun ProfileScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,6 +120,6 @@ fun DrawCircle() {
 
 @Preview(showBackground = true)
 @Composable
-fun PerfilPreview(modifier: Modifier = Modifier) {
-    Perfil()
+fun ProfileScreenPreview(modifier: Modifier = Modifier) {
+    ProfileScreen()
 }
