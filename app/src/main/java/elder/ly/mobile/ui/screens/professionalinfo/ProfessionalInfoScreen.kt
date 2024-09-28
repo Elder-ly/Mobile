@@ -32,9 +32,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.NavBar
-import elder.ly.mobile.ui.screens.search.DefaultDropdownMenu
+import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.screens.profiledetails.NextButton
-import elder.ly.mobile.ui.screens.search.SpecialtyList
+import elder.ly.mobile.ui.components.SpecialtyList
 import elder.ly.mobile.ui.theme.customBlueColor
 
 

@@ -14,7 +14,7 @@ import elder.ly.mobile.ui.theme.customBlueColor
 @Composable
 fun Feature(text: String, modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .padding(top = 8.dp, end = 8.dp)
             .background(customBlueColor, RoundedCornerShape(4.dp))
             .padding(horizontal = 8.dp)

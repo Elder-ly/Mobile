@@ -76,7 +76,7 @@ fun Search(){
             .border(
                 width = 1.dp,
                 color = tertiaryContainerLight,
-                shape = RoundedCornerShape(4.dp)
+                shape = RoundedCornerShape(8.dp)
             )
             .padding(8.dp)
     ) {

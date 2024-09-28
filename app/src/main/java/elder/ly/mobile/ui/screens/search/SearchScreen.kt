@@ -35,15 +35,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.theme.MobileTheme
-import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
@@ -57,237 +53,175 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.draw.clip
-import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.components.BottomBar
+import elder.ly.mobile.ui.components.DefaultDropdownMenu
+import elder.ly.mobile.ui.components.SpecialtyList
+import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.screens.profiledetails.NextButton
+import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 44.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = buildAnnotatedString {
-                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append("O Que Precisa?")
-                }
-            },
-            fontSize = 36.sp,
-            modifier = Modifier.padding(bottom = 12.dp)
-        )
-
-        Text(
-            text = buildAnnotatedString {
-                append("Pesquise o cuidador ideal para você")
-            },
-            fontSize = 18.sp,
-            color = Color.Gray
-        )
-
-        ComposeDataTimePickerTheme()
-
-        DefaultDropdownMenu(
-            label = "Especialidades",
-            placeholder = "Selecione Especialidade(s)",
-            options = listOf("Fraldas", "Bingo", "Medicação"),
-            value = especialidades,
-            changeValue = { newEspecialidades ->
-                especialidades = newEspecialidades
-                if (newEspecialidades.isNotEmpty() && !selectedSpecialties.contains(newEspecialidades)) {
-                    selectedSpecialties = selectedSpecialties + newEspecialidades
-                }
-            }
-        )
-
-        SpecialtyList(specialties = selectedSpecialties, onRemove = { specialty ->
-            selectedSpecialties = selectedSpecialties - specialty
-        })
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        NextButton(label = "Avançar")
-        NavBar()
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DefaultDropdownMenu(
-    label: String,
-    placeholder: String = label,
-    options: List<String>,
-    value: String,
-    changeValue: (String) -> Unit
-) {
-    val unfocusedBorderColor = Color.Gray
-    val focusedBorderColor = Color.Blue
-
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier.padding(vertical = 8.dp)
-    ) {
-        Text(text = label)
-
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
-        ) {
-            OutlinedTextField(
-                placeholder = { Text(text = placeholder, color = Color.Gray) },
-                value = selectedOption,
-                onValueChange = {},
-                readOnly = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = unfocusedBorderColor,
-                    focusedBorderColor = focusedBorderColor
-                ),
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .menuAnchor()
-                    .width(320.dp)
-            )
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.width(320.dp)
-            ) {
-                options.forEach { option ->
-                    DropdownMenuItem(
-                        text = { Text(option) },
-                        onClick = {
-                            selectedOption = option
-                            changeValue(option)
-                            expanded = false
-                        }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun SpecialtyList(specialties: List<String>, onRemove: (String) -> Unit) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        items(specialties) { specialty ->
-            SpecialtyItem(
-                text = specialty,
-                onRemove = { onRemove(specialty) }
-            )
-        }
-    }
-}
-
-@Composable
-fun SpecialtyItem(text: String, onRemove: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .border(width = 1.dp, color = Color.Black, shape = RoundedCornerShape(8.dp))
-            .background(Color.White, shape = RoundedCornerShape(8.dp))
-            .width(132.dp)
-            .height(40.dp)
-            .padding(horizontal = 8.dp)
-            .clip(RoundedCornerShape(8.dp))
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = text,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp),
-                color = Color.Black
-            )
-            IconButton(
-                onClick = onRemove,
-                modifier = Modifier.size(24.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Clear,
-                    contentDescription = "Delete",
-                    tint = Color.Black
+    Scaffold(
+        topBar = {
+            if(showTopBar){
+                TopBar(
+                    title = "O Que Precisa?",
+                    showBackButton = false,
+                    modifier = Modifier.padding(top = 24.dp)
                 )
             }
-        }
-    }
-}
+        },
+        bottomBar = {
+            if (showBottomBar){
+                BottomBar()
+            }
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+//        Text(
+//            text = buildAnnotatedString {
+//                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+//                    append("O Que Precisa?")
+//                }
+//            },
+//            fontSize = 36.sp,
+//            modifier = Modifier.padding(bottom = 12.dp)
+//        )
 
+                    Text(
+                        text = buildAnnotatedString {
+                            append("Pesquise o cuidador ideal para você")
+                        },
+                        fontSize = 18.sp,
+                        color = Color.Gray
+                    )
+
+                    DataTextButton(modifier = Modifier.padding(top = 16.dp), labelData = "Data Início")
+                    DataTextButton(labelData = "Data Fim")
+                    HourTextButton(labelHora = "Hora Início")
+                    HourTextButton(labelHora = "Hora Fim")
+
+
+                    DefaultDropdownMenu(
+                        label = "Especialidades",
+                        placeholder = "Selecione Especialidade(s)",
+                        options = listOf("Fraldas", "Bingo", "Medicação"),
+                        value = especialidades,
+                        changeValue = { newEspecialidades ->
+                            especialidades = newEspecialidades
+                            if (newEspecialidades.isNotEmpty() && !selectedSpecialties.contains(newEspecialidades)) {
+                                selectedSpecialties = selectedSpecialties + newEspecialidades
+                            }
+                        }
+                    )
+
+                    SpecialtyList(specialties = selectedSpecialties, onRemove = { specialty ->
+                        selectedSpecialties = selectedSpecialties - specialty
+                    })
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    NextButton(label = "Avançar")
+//        NavBar()
+                }
+            }
+        }
+    )
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ComposeDataTimePickerTheme() {
+fun DataTextButton(modifier: Modifier = Modifier, labelData: String) {
     val calendarState = rememberSheetState()
-    val clockState = rememberSheetState()
+
+    var dateEntered by remember { mutableStateOf("Selecione Data") }
 
     Column(
-        modifier = Modifier
-            .padding(top = 16.dp),
+        modifier = modifier,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Data de Início"
+            text = labelData,
         )
         TextButton(
             onClick = { calendarState.show() },
             modifier = Modifier
-                .padding(vertical = 8.dp)
-                .border(width = 1.dp, color = tertiaryLight, shape = RoundedCornerShape(8.dp))
+                .padding(bottom = 8.dp)
                 .width(320.dp)
-                .background(Color.Transparent),
+                .height(56.dp)
+                .border(width = 1.dp, color = tertiaryLight, shape = RoundedCornerShape(10.dp)),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
-                contentColor = Color.Gray
+                contentColor = if(dateEntered == "Selecione Data") tertiaryContainerLight else Color.Black
             ),
             shape = RoundedCornerShape(10.dp),
-
-            ) {
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Selecione Data", fontSize = 16.sp)
+                Text(text = dateEntered, fontSize = 16.sp)
                 Icon(
                     imageVector = Icons.Filled.DateRange,
                     contentDescription = "Ícone de Calendário",
-                    tint = tertiaryContainerLight
+                    tint = Color.Gray
                 )
             }
         }
+        CalendarDialog(
+            state = calendarState,
+            selection = CalendarSelection.Date { date ->
+                dateEntered = date.toString()
+                Log.d("Selected Date", "$date")
+            },
+        )
+    }
+}
 
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HourTextButton(modifier: Modifier = Modifier, labelHora: String) {
+    val clockState = rememberSheetState()
+
+    var hourEntered by remember { mutableStateOf("Selecione Hora") }
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center
+    ) {
         Text(
-            text = "Data de Fim",
+            text = labelHora
         )
         TextButton(
             onClick = { clockState.show() },
             modifier = Modifier
-                .padding(vertical = 8.dp)
-                .border(width = 1.dp, color = tertiaryLight, shape = RoundedCornerShape(8.dp))
-                .width(320.dp),
+                .width(320.dp)
+                .height(56.dp)
+                .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp)),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
-                contentColor = Color.Gray
+                contentColor = if(hourEntered == "Selecione Hora") tertiaryContainerLight else Color.Black
             ),
             shape = RoundedCornerShape(10.dp)
         ) {
@@ -296,33 +230,27 @@ fun ComposeDataTimePickerTheme() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Selecione Data", fontSize = 16.sp)
+                Text(text = hourEntered, fontSize = 16.sp)
                 Icon(
                     imageVector = Icons.Filled.DateRange,
-                    contentDescription = "Ícone de Calendário",
-                    tint = tertiaryContainerLight
+                    contentDescription = "Ícone de Relógio",
+                    tint = Color.Gray
                 )
             }
         }
-
-        CalendarDialog(
-            state = calendarState,
-            selection = CalendarSelection.Date { date ->
-                Log.d("Selected Date", "$date")
-            },
-        )
-
         ClockDialog(
             state = clockState,
             config = ClockConfig(
                 is24HourFormat = true
             ),
             selection = ClockSelection.HoursMinutes { hours, minutes ->
+                hourEntered = String.format("%02d:%02d", hours, minutes) // Formatar a hora
                 Log.d("Selected Time", "$hours:$minutes")
             },
         )
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun SearchScreenPreview() {
