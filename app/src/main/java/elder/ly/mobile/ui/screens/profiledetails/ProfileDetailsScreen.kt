@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.screens.profile.DrawCircle
 import elder.ly.mobile.ui.theme.onPrimaryLightHighContrast
 import elder.ly.mobile.ui.theme.primaryContainerLight
@@ -123,55 +124,6 @@ fun ProfileDetailsScreen(
         Spacer(modifier = Modifier.height(16.dp))
         NavBar()
     }
-}
-
-@Composable
-fun NextButton(
-    label: String,
-    onclick: (Any) -> Any = {}
-) {
-    var isLoading by remember { mutableStateOf(false) }
-
-    Button(
-        onClick = {
-            isLoading = true
-            onclick({})
-        },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = primaryContainerLight,
-            contentColor = onPrimaryLightHighContrast
-        ),
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier
-            .padding(bottom = 16.dp)
-            .width(320.dp)
-            .height(56.dp)
-    ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                color = onPrimaryLightHighContrast,
-                modifier = Modifier.size(24.dp)
-            )
-        } else {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = label,
-                    fontSize = 16.sp
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Seta para a direita",
-                    modifier = Modifier
-                        .size(36.dp)
-                )
-            }
-        }
-    }
-
 }
 
 

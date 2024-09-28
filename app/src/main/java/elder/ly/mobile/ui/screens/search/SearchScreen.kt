@@ -1,7 +1,6 @@
 package elder.ly.mobile.ui.screens.search
 
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,20 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -47,19 +41,12 @@ import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
 import elder.ly.mobile.ui.theme.tertiaryLight
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.ui.draw.clip
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
+import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.components.SpecialtyList
 import elder.ly.mobile.ui.components.TopBar
-import elder.ly.mobile.ui.screens.profiledetails.NextButton
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 
@@ -73,7 +60,7 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
             if(showTopBar){
                 TopBar(
                     title = "O Que Precisa?",
-                    showBackButton = false,
+                    showBackButton = true,
                     modifier = Modifier.padding(top = 24.dp)
                 )
             }
@@ -82,20 +69,20 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
             if (showBottomBar){
                 BottomBar()
             }
-        },
-        content = { paddingValues ->
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Column(
                 modifier = Modifier
-                    .padding(paddingValues)
                     .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
 //        Text(
 //            text = buildAnnotatedString {
 //                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -106,45 +93,46 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
 //            modifier = Modifier.padding(bottom = 12.dp)
 //        )
 
-                    Text(
-                        text = buildAnnotatedString {
-                            append("Pesquise o cuidador ideal para você")
-                        },
-                        fontSize = 18.sp,
-                        color = Color.Gray
-                    )
+                Text(
+                    text = buildAnnotatedString {
+                        append("Pesquise o cuidador ideal para você")
+                    },
+                    fontSize = 18.sp,
+                    color = Color.Gray
+                )
 
-                    DataTextButton(modifier = Modifier.padding(top = 16.dp), labelData = "Data Início")
-                    DataTextButton(labelData = "Data Fim")
-                    HourTextButton(labelHora = "Hora Início")
-                    HourTextButton(labelHora = "Hora Fim")
+                DataTextButton(modifier = Modifier.padding(top = 16.dp), labelData = "Data Início")
+                HourTextButton(labelHora = "Hora Início")
+                DataTextButton(labelData = "Data Fim")
+                HourTextButton(labelHora = "Hora Fim")
 
 
-                    DefaultDropdownMenu(
-                        label = "Especialidades",
-                        placeholder = "Selecione Especialidade(s)",
-                        options = listOf("Fraldas", "Bingo", "Medicação"),
-                        value = especialidades,
-                        changeValue = { newEspecialidades ->
-                            especialidades = newEspecialidades
-                            if (newEspecialidades.isNotEmpty() && !selectedSpecialties.contains(newEspecialidades)) {
-                                selectedSpecialties = selectedSpecialties + newEspecialidades
-                            }
+                DefaultDropdownMenu(
+                    label = "Especialidades",
+                    placeholder = "Selecione Especialidade(s)",
+                    options = listOf("Fraldas", "Bingo", "Medicação"),
+                    value = especialidades,
+                    changeValue = { newEspecialidades ->
+                        especialidades = newEspecialidades
+                        if (newEspecialidades.isNotEmpty() && !selectedSpecialties.contains(
+                                newEspecialidades
+                            )
+                        ) {
+                            selectedSpecialties = selectedSpecialties + newEspecialidades
                         }
-                    )
+                    }
+                )
 
-                    SpecialtyList(specialties = selectedSpecialties, onRemove = { specialty ->
-                        selectedSpecialties = selectedSpecialties - specialty
-                    })
+                SpecialtyList(specialties = selectedSpecialties, onRemove = { specialty ->
+                    selectedSpecialties = selectedSpecialties - specialty
+                })
 
-                    Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(1f))
 
-                    NextButton(label = "Avançar")
-//        NavBar()
-                }
+                NextButton(label = "Pesquisar", icon = Icons.Filled.Search)
             }
         }
-    )
+    }
 
 }
 
