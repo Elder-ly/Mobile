@@ -43,7 +43,9 @@ import com.maxkeppeler.sheets.clock.models.ClockSelection
 import elder.ly.mobile.ui.theme.tertiaryLight
 import androidx.compose.material3.Scaffold
 import elder.ly.mobile.ui.components.BottomBar
+import elder.ly.mobile.ui.components.DataTextButton
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
+import elder.ly.mobile.ui.components.HourTextButton
 import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.components.SpecialtyList
 import elder.ly.mobile.ui.components.TopBar
@@ -60,8 +62,8 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
             if(showTopBar){
                 TopBar(
                     title = "O Que Precisa?",
-                    showBackButton = true,
-                    modifier = Modifier.padding(top = 24.dp)
+                    showBackButton = false,
+                    modifier = Modifier.padding(top = 44.dp)
                 )
             }
         },
@@ -83,16 +85,6 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-//        Text(
-//            text = buildAnnotatedString {
-//                withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-//                    append("O Que Precisa?")
-//                }
-//            },
-//            fontSize = 36.sp,
-//            modifier = Modifier.padding(bottom = 12.dp)
-//        )
-
                 Text(
                     text = buildAnnotatedString {
                         append("Pesquise o cuidador ideal para você")
@@ -102,9 +94,9 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
                 )
 
                 DataTextButton(modifier = Modifier.padding(top = 16.dp), labelData = "Data Início")
-                HourTextButton(labelHora = "Hora Início")
-                DataTextButton(labelData = "Data Fim")
-                HourTextButton(labelHora = "Hora Fim")
+                HourTextButton(modifier = Modifier.padding(top = 8.dp), labelHora = "Hora Início")
+                DataTextButton(modifier = Modifier.padding(top = 8.dp), labelData = "Data Fim")
+                HourTextButton(modifier = Modifier.padding(top = 8.dp), labelHora = "Hora Fim")
 
 
                 DefaultDropdownMenu(
@@ -132,110 +124,6 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
                 NextButton(label = "Pesquisar", icon = Icons.Filled.Search)
             }
         }
-    }
-
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DataTextButton(modifier: Modifier = Modifier, labelData: String) {
-    val calendarState = rememberSheetState()
-
-    var dateEntered by remember { mutableStateOf("Selecione Data") }
-
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = labelData,
-        )
-        TextButton(
-            onClick = { calendarState.show() },
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .width(320.dp)
-                .height(56.dp)
-                .border(width = 1.dp, color = tertiaryLight, shape = RoundedCornerShape(10.dp)),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = if(dateEntered == "Selecione Data") tertiaryContainerLight else Color.Black
-            ),
-            shape = RoundedCornerShape(10.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = dateEntered, fontSize = 16.sp)
-                Icon(
-                    imageVector = Icons.Filled.DateRange,
-                    contentDescription = "Ícone de Calendário",
-                    tint = Color.Gray
-                )
-            }
-        }
-        CalendarDialog(
-            state = calendarState,
-            selection = CalendarSelection.Date { date ->
-                dateEntered = date.toString()
-                Log.d("Selected Date", "$date")
-            },
-        )
-    }
-}
-
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HourTextButton(modifier: Modifier = Modifier, labelHora: String) {
-    val clockState = rememberSheetState()
-
-    var hourEntered by remember { mutableStateOf("Selecione Hora") }
-
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = labelHora
-        )
-        TextButton(
-            onClick = { clockState.show() },
-            modifier = Modifier
-                .width(320.dp)
-                .height(56.dp)
-                .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp)),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = if(hourEntered == "Selecione Hora") tertiaryContainerLight else Color.Black
-            ),
-            shape = RoundedCornerShape(10.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = hourEntered, fontSize = 16.sp)
-                Icon(
-                    imageVector = Icons.Filled.DateRange,
-                    contentDescription = "Ícone de Relógio",
-                    tint = Color.Gray
-                )
-            }
-        }
-        ClockDialog(
-            state = clockState,
-            config = ClockConfig(
-                is24HourFormat = true
-            ),
-            selection = ClockSelection.HoursMinutes { hours, minutes ->
-                hourEntered = String.format("%02d:%02d", hours, minutes) // Formatar a hora
-                Log.d("Selected Time", "$hours:$minutes")
-            },
-        )
     }
 }
 
