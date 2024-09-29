@@ -64,7 +64,6 @@ fun WelcomeScreen() {
         Button(
             modifier = Modifier.padding(horizontal = 52.dp),
             shape = RoundedCornerShape(10.dp),
-            //Adicionar borda
             border = ButtonDefaults.outlinedButtonBorder,
             onClick = {
                 //aguardando função de login com google
