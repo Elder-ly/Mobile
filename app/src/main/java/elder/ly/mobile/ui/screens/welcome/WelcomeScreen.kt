@@ -28,10 +28,11 @@ import elder.ly.mobile.R
 
 @Composable
 fun WelcomeScreen() {
-    Scaffold {
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .padding(vertical = 44.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

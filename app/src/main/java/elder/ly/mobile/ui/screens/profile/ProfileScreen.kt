@@ -97,6 +97,7 @@ fun MenuButton(label: String, icon: androidx.compose.ui.graphics.vector.ImageVec
     Divisor()
 }
 
+
 @Composable
 fun Divisor() {
     HorizontalDivider(

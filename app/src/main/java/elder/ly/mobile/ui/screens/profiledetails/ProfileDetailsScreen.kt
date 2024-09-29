@@ -49,11 +49,15 @@ fun ProfileDetailsScreen(
 ) {
     val lista = List(3) { "Medicação" }
 
+    var bio by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally// Ajusta o conteúdo para ocupar o espaço disponível
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
             modifier = Modifier
@@ -97,18 +101,7 @@ fun ProfileDetailsScreen(
             }
             Text(
                 fontSize = 12.sp,
-                text = "Sou uma pessoa dedicada e experiente, " +
-                        "comprometida em proporcionar cuidados compassivos " +
-                        "e de qualidade para seus entes queridos. Com habilidades " +
-                        "abrangentes em assistência diária, incluindo higiene pessoal," +
-                        "alimentação e administração de medicamentos, garanto um ambiente " +
-                        "seguro e acolhedor, promovendo o bem-estar físico e emocional dos " +
-                        "idosos sob meus cuidados. Estou pronta para oferecer suporte " +
-                        "personalizado e atenção dedicada, adaptando-me às necessidades " +
-                        "individuais de cada cliente para garantir o melhor cuidado " +
-                        "possível.\n" +
-                        "Estou aqui para proporcionar tranquilidade e conforto para você " +
-                        "e sua família."
+                text = "Escreva sua biografia aqui!"
             )
         }
 

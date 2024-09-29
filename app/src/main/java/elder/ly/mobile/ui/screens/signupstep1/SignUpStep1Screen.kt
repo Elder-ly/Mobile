@@ -49,10 +49,11 @@ fun SignUpStep1Screen() {
         mutableStateOf("")
     }
 
-    Scaffold {
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .padding(vertical = 44.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
