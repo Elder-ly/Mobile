@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,80 +49,82 @@ fun SignUpStep1Screen() {
         mutableStateOf("")
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 44.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        fontWeight = FontWeight.Bold
-                    )
-                ) {
-                    append("Cadastro")
+    Scaffold {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = 44.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            fontWeight = FontWeight.Bold
+                        )
+                    ) {
+                        append("Cadastro")
+                    }
+                },
+                fontSize = 36.sp,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            DefaultTextInput(
+                label = "Nome Completo",
+                value = fullName,
+                changeValue = { newFullName : String ->
+                    fullName = newFullName
                 }
-            },
-            fontSize = 36.sp,
-            modifier = Modifier.padding(bottom = 12.dp)
-        )
+            )
 
-        DefaultTextInput(
-            label = "Nome Completo",
-            value = fullName,
-            changeValue = { newFullName : String ->
-                fullName = newFullName
-            }
-        )
+            DefaultTextInput(
+                label = "Email",
+                placeholder = "seuemail@gmail.com",
+                keyboardType = KeyboardType.Email,
+                value = email,
+                changeValue = { newEmail : String ->
+                    email = newEmail
+                }
+            )
 
-        DefaultTextInput(
-            label = "Email",
-            placeholder = "seuemail@gmail.com",
-            keyboardType = KeyboardType.Email,
-            value = email,
-            changeValue = { newEmail : String ->
-                email = newEmail
-            }
-        )
+            DefaultTextInput(
+                label = "Documento (CPF/CNPJ)",
+                placeholder = "12345678910",
+                keyboardType = KeyboardType.Number,
+                maxChar = 11,
+                value = document,
+                changeValue = { newDocument : String ->
+                    document = newDocument
+                }
+            )
 
-        DefaultTextInput(
-            label = "Documento (CPF/CNPJ)",
-            placeholder = "12345678910",
-            keyboardType = KeyboardType.Number,
-            maxChar = 11,
-            value = document,
-            changeValue = { newDocument : String ->
-                document = newDocument
-            }
-        )
+            DefaultTextInput(
+                label = "Data de Nascimento",
+                placeholder = "23/06/1991",
+                keyboardType = KeyboardType.Number,
+                mask = CustomMaskTranformation(mask = "##/##/####"),
+                maxChar = 8,
+                value = birthDate,
+                changeValue = { newBirthDate : String ->
+                    birthDate = newBirthDate
+                },
+            )
 
-        DefaultTextInput(
-            label = "Data de Nascimento",
-            placeholder = "23/06/1991",
-            keyboardType = KeyboardType.Number,
-            mask = CustomMaskTranformation(mask = "##/##/####"),
-            maxChar = 8,
-            value = birthDate,
-            changeValue = { newBirthDate : String ->
-                birthDate = newBirthDate
-            },
-        )
+            DefaultDropdownMenu(
+                label = "Gênero",
+                placeholder = "Selecione um Gênero",
+                options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
+                value = gender,
+                changeValue = { newGender : String ->
+                    gender = newGender
+                }
+            )
 
-        DefaultDropdownMenu(
-            label = "Gênero",
-            placeholder = "Selecione um Gênero",
-            options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
-            value = gender,
-            changeValue = { newGender : String ->
-                gender = newGender
-            }
-        )
+            Spacer(modifier = Modifier.weight(1f))
 
-        Spacer(modifier = Modifier.weight(1f))
-
-        NextButton(label = "Avançar")
+            NextButton(label = "Avançar")
+        }
     }
 }
 

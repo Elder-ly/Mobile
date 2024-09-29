@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,108 +68,110 @@ fun SignUpStep2Screen() {
         mutableStateOf("")
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 44.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
+    Scaffold {
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
+                .fillMaxSize()
+                .padding(vertical = 44.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BackIconButton()
-            
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontWeight = FontWeight.Bold
-                        )
-                    ) {
-                        append("Cadastro")
-                    }
-                },
-                fontSize = 36.sp
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                BackIconButton()
+
+                Text(
+                    text = buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) {
+                            append("Cadastro")
+                        }
+                    },
+                    fontSize = 36.sp
+                )
+
+                Spacer(modifier = Modifier.width(56.dp))
+            }
+
+            DefaultTextInput(
+                label = "CEP",
+                placeholder = "01234-567",
+                keyboardType = KeyboardType.Number,
+                mask = CustomMaskTranformation(mask = "#####-###"),
+                maxChar = 8,
+                value = cep,
+                changeValue = { newCep : String ->
+                    cep = newCep
+                }
             )
 
-            Spacer(modifier = Modifier.width(56.dp))
+            DefaultTextInput(
+                label = "Logradouro",
+                placeholder = "Rua Haddock Lobo",
+                value = street,
+                changeValue = { newStreet : String ->
+                    street = newStreet
+                }
+            )
+
+            DefaultTextInput(
+                label = "Número",
+                placeholder = "12",
+                keyboardType = KeyboardType.Number,
+                maxChar = 6,
+                value = number,
+                changeValue = { newNumber : String ->
+                    number = newNumber
+                }
+            )
+
+            DefaultTextInput(
+                label = "Complemento",
+                placeholder = "Bloco A",
+                value = complement,
+                changeValue = { newComplememt : String ->
+                    complement = newComplememt
+                },
+            )
+
+            DefaultDropdownMenu(
+                label = "Estado",
+                placeholder = "Selecione um Estado",
+                options = brazilStates,
+                value = state,
+                changeValue = { newState : String ->
+                    state = newState
+                }
+            )
+
+            DefaultTextInput(
+                label = "Cidade",
+                placeholder = "São Paulo",
+                value = city,
+                changeValue = { newCity : String ->
+                    city = newCity
+                },
+            )
+
+            DefaultTextInput(
+                label = "Bairro",
+                placeholder = "Consolação",
+                value = district,
+                changeValue = { newDistrict : String ->
+                    district = newDistrict
+                },
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            NextButton(label = "Avançar")
         }
-
-        DefaultTextInput(
-            label = "CEP",
-            placeholder = "01234-567",
-            keyboardType = KeyboardType.Number,
-            mask = CustomMaskTranformation(mask = "#####-###"),
-            maxChar = 8,
-            value = cep,
-            changeValue = { newCep : String ->
-                cep = newCep
-            }
-        )
-
-        DefaultTextInput(
-            label = "Logradouro",
-            placeholder = "Rua Haddock Lobo",
-            value = street,
-            changeValue = { newStreet : String ->
-                street = newStreet
-            }
-        )
-
-        DefaultTextInput(
-            label = "Número",
-            placeholder = "12",
-            keyboardType = KeyboardType.Number,
-            maxChar = 6,
-            value = number,
-            changeValue = { newNumber : String ->
-                number = newNumber
-            }
-        )
-
-        DefaultTextInput(
-            label = "Complemento",
-            placeholder = "Bloco A",
-            value = complement,
-            changeValue = { newComplememt : String ->
-                complement = newComplememt
-            },
-        )
-
-        DefaultDropdownMenu(
-            label = "Estado",
-            placeholder = "Selecione um Estado",
-            options = brazilStates,
-            value = state,
-            changeValue = { newState : String ->
-                state = newState
-            }
-        )
-
-        DefaultTextInput(
-            label = "Cidade",
-            placeholder = "São Paulo",
-            value = city,
-            changeValue = { newCity : String ->
-                city = newCity
-            },
-        )
-
-        DefaultTextInput(
-            label = "Bairro",
-            placeholder = "Consolação",
-            value = district,
-            changeValue = { newDistrict : String ->
-                district = newDistrict
-            },
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        NextButton(label = "Avançar")
     }
 }
 
