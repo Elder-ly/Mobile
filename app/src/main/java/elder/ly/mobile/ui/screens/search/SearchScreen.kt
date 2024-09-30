@@ -1,26 +1,14 @@
 package elder.ly.mobile.ui.screens.search
 
-import android.util.Log
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,19 +17,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import elder.ly.mobile.ui.theme.MobileTheme
-import androidx.compose.ui.text.buildAnnotatedString
-import com.maxkeppeker.sheets.core.models.base.rememberSheetState
-import com.maxkeppeler.sheets.calendar.CalendarDialog
-import com.maxkeppeler.sheets.calendar.models.CalendarSelection
-import com.maxkeppeler.sheets.clock.ClockDialog
-import com.maxkeppeler.sheets.clock.models.ClockConfig
-import com.maxkeppeler.sheets.clock.models.ClockSelection
-import elder.ly.mobile.ui.theme.tertiaryLight
-import androidx.compose.material3.Scaffold
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DataTextButton
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
@@ -49,7 +28,7 @@ import elder.ly.mobile.ui.components.HourTextButton
 import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.components.SpecialtyList
 import elder.ly.mobile.ui.components.TopBar
-import elder.ly.mobile.ui.theme.tertiaryContainerLight
+import elder.ly.mobile.ui.theme.MobileTheme
 
 
 @Composable
@@ -69,7 +48,9 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
         },
         bottomBar = {
             if (showBottomBar){
-                BottomBar()
+                BottomBar(
+                    //modifier = Modifier.padding(bottom = 44.dp)
+                )
             }
         }
     ) { paddingValues ->

@@ -27,14 +27,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.components.BackIconButton
+import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
 import elder.ly.mobile.ui.components.NextButton
+import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun PersonalInfoScreen() {
+fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
     var fullName by remember {
         mutableStateOf("")
     }
@@ -55,41 +57,29 @@ fun PersonalInfoScreen() {
         mutableStateOf("")
     }
 
-    Scaffold { paddingValues ->
+    Scaffold (
+        topBar = {
+            if(showTopBar){
+                TopBar(
+                    title = "Informações Adicionais",
+                    modifier = Modifier.padding(top = 44.dp, bottom = 16.dp)
+                )
+            }
+        },
+        bottomBar = {
+            if (showBottomBar){
+                BottomBar(
+                    //modifier = Modifier.padding(bottom = 44.dp)
+                )
+            }
+        }
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(vertical = 44.dp),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                BackIconButton()
-
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append("Informações\nAdicionais")
-                        }
-                    },
-                    fontSize = 36.sp,
-                    textAlign = TextAlign.Center,
-                    lineHeight = 40.sp
-                )
-
-                Spacer(modifier = Modifier.width(56.dp))
-            }
-
             DefaultTextInput(
                 label = "Nome Completo",
                 value = fullName,

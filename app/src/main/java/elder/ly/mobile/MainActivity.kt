@@ -11,10 +11,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import elder.ly.mobile.ui.screens.addressinfo.AddressInfoScreen
 import elder.ly.mobile.ui.screens.chatlist.ChatListScreen
 import elder.ly.mobile.ui.screens.search.SearchScreen
+import elder.ly.mobile.ui.screens.searchresult.SearchResultScreen
 import elder.ly.mobile.ui.screens.signupstep1.SignUpStep1Screen
 import elder.ly.mobile.ui.screens.signupstep2.SignUpStep2Screen
+import elder.ly.mobile.ui.screens.welcome.WelcomeScreen
 import elder.ly.mobile.ui.theme.MobileTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(modifier: Modifier = Modifier) {
-    ChatListScreen()
+    WelcomeScreen()
 }
 
 @Preview(showBackground = true)

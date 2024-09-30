@@ -21,6 +21,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.screens.profile.DrawCircle
 import elder.ly.mobile.ui.theme.onPrimaryLightHighContrast
@@ -46,6 +47,7 @@ import elder.ly.mobile.ui.theme.primaryLight
 fun ProfileDetailsScreen(
     modifier: Modifier = Modifier
         .fillMaxSize(),
+    showBottomBar: Boolean = true
 ) {
     val lista = List(3) { "Medicação" }
 
@@ -53,70 +55,81 @@ fun ProfileDetailsScreen(
         mutableStateOf("")
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+
+    Scaffold (
+        bottomBar = {
+            if (showBottomBar){
+                BottomBar()
+            }
+        }
+    ){ paddingValues ->
         Column(
             modifier = Modifier
-                .weight(1f)
-                .padding(top = 30.dp, start = 16.dp, end = 16.dp),
+                .fillMaxSize()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DrawCircle()
-            Text(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                fontSize = 36.sp,
-                color = Color.Black,
-                text = "Maria Antonieta"
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                fontSize = 16.sp,
-                color = primaryLight,
-                text = "Vila Matilde"
-            )
-
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(3),
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
+                    .weight(1f)
+                    .padding(top = 30.dp, start = 16.dp, end = 16.dp),
             ) {
-                itemsIndexed(lista) { index, itemDaLista ->
-                    Text(
-                        fontSize = 12.sp,
-                        text = "$itemDaLista",
-                        modifier = Modifier
-                            .padding(14.dp)
-                            .background(primaryContainerLight, shape = RoundedCornerShape(8.dp)),
-                        textAlign = TextAlign.Center
-                    )
+                DrawCircle()
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 36.sp,
+                    color = Color.Black,
+                    text = "Maria Antonieta"
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
+                    color = primaryLight,
+                    text = "Vila Matilde"
+                )
+
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                ) {
+                    itemsIndexed(lista) { index, itemDaLista ->
+                        Text(
+                            fontSize = 12.sp,
+                            text = "$itemDaLista",
+                            modifier = Modifier
+                                .padding(14.dp)
+                                .background(primaryContainerLight, shape = RoundedCornerShape(8.dp)),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
+                Text(
+                    fontSize = 12.sp,
+                    text = "Escreva sua biografia aqui!"
+                )
             }
+
             Text(
-                fontSize = 12.sp,
-                text = "Escreva sua biografia aqui!"
+                modifier = Modifier.fillMaxWidth(),
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                text = "R$150/hora"
             )
+
+            Spacer(modifier = Modifier.size(8.dp))
+
+            NextButton(label = "Conversar")
         }
-
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            text = "R$150/hora"
-        )
-
-        NextButton(label = "Conversar")
-
-        Spacer(modifier = Modifier.height(16.dp))
-        NavBar()
     }
+
+
 }
 
 

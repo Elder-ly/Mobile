@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,37 +31,47 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.components.BottomBar
+import elder.ly.mobile.ui.components.ImageCuidador
+import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.theme.tertiaryLight
 
 @Composable
-fun ProfileScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+fun ProfileScreen(showBottomBar: Boolean = true) {
+    Scaffold (
+        bottomBar = {
+            if (showBottomBar){
+                BottomBar()
+            }
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .weight(1f)
-                .padding(top = 30.dp, start = 16.dp, end = 16.dp)
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
-            DrawCircle()
-            Text(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp),
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                fontSize = 36.sp,
-                color = Color.Black,
-                text = "Maria Antonieta"
-            )
-            MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle)
-            MenuButton(label = "Endereço", icon = Icons.Filled.Home)
-            MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List)
-            MenuButton(label = "Sair", icon = Icons.Filled.ExitToApp)
+                    .weight(1f)
+                    .padding(top = 30.dp, start = 16.dp, end = 16.dp)
+            ) {
+                ImageCuidador(modifier = Modifier.size(144.dp).align(Alignment.CenterHorizontally))
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp),
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 36.sp,
+                    color = Color.Black,
+                    text = "Maria Antonieta"
+                )
+                MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle)
+                MenuButton(label = "Endereço", icon = Icons.Filled.Home)
+                MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List)
+                MenuButton(label = "Sair", icon = Icons.Filled.ExitToApp)
+            }
         }
-        NavBar()
     }
 }
 
@@ -77,7 +88,7 @@ fun MenuButton(label: String, icon: androidx.compose.ui.graphics.vector.ImageVec
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(32.dp),
             tint = tertiaryLight
         )
         Spacer(Modifier.width(16.dp))

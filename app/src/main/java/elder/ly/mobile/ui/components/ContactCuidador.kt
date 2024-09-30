@@ -1,7 +1,5 @@
 package elder.ly.mobile.ui.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,26 +12,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.theme.secondaryContainerLight
+import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
 fun Contacts() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
         Row(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 8.dp)
+                .padding(start = 12.dp, end = 12.dp, bottom = 8.dp, top = 8.dp)
                 .height(88.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -59,15 +52,14 @@ fun Contacts() {
                     .align(Alignment.CenterVertically),
                 horizontalAlignment = Alignment.End
             ){
-                Arrow()
+                KeyboardArrowRight()
             }
         }
-        HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = Color.Gray)
-    }
+        HorizontalDivider(modifier = Modifier.fillMaxWidth(), thickness = 1.dp, color = tertiaryContainerLight)
 }
 
 @Composable
-fun Arrow() {
+fun KeyboardArrowRight() {
     Column{
         Icon(
             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,

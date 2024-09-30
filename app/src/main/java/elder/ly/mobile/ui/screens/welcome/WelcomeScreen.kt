@@ -37,21 +37,21 @@ fun WelcomeScreen() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.height(56.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Image(
                 painter = painterResource(id = R.drawable.logo_elder),
                 contentDescription = "Logo"
             )
 
-            Spacer(modifier = Modifier.height(86.dp))
+            Spacer(modifier = Modifier.height(64.dp))
 
             Image(
                 painter = painterResource(id = R.drawable.titulo),
                 contentDescription = "Titulo"
             )
 
-            Spacer(modifier = Modifier.height(46.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Text(
                 text = """Nossos profissionais são treinados e qualificados
@@ -62,11 +62,11 @@ fun WelcomeScreen() {
                 modifier = Modifier.padding(horizontal = 12.dp)
             )
 
-            Spacer(modifier = Modifier.height(46.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Button(
-                modifier = Modifier.padding(horizontal = 52.dp),
-                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier.padding(horizontal = 44.dp).height(72.dp),
+                shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
                 onClick = {
                     //aguardando função de login com google
@@ -75,25 +75,21 @@ fun WelcomeScreen() {
             ) {
                 Row(
                     modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.logo_google),
                         contentDescription = "Logo Google",
                         modifier = Modifier
-                            .size(24.dp)
-                            .weight(1f)
-
+                            .size(32.dp)
                     )
                     Text(
-                        text = "Login com Google",
+                        text = "Continuar com Google",
                         modifier = Modifier
-                            .padding(horizontal = 0.dp)
                             .align(Alignment.CenterVertically)
-                            .weight(2f),
-                        fontSize = 17.sp,
-
+                            .weight(1f),
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
                         color = Color.Black
                     )
                 }

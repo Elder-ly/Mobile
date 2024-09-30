@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,79 +32,72 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import elder.ly.mobile.ui.components.BackIconButton
-import elder.ly.mobile.ui.components.NavBar
+import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.components.SpecialtyList
+import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.theme.customBlueColor
 
 
 @Composable
-fun ProfessionalInfoScreen() {
+fun ProfessionalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 44.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            BackIconButton()
-
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        fontWeight = FontWeight.Bold
-                    )
-                ) {
-                    append("Profissional")
-                }
-            },
-            fontSize = 36.sp,
-            modifier = Modifier
-                .width(272.dp)
-            )
-        }
-
-        var biografia by remember {
-            mutableStateOf("")
-        }
-
-        Biografia(valorCampo = biografia){
-            novaBiografia -> biografia = novaBiografia
-        }
-
-
-        DefaultDropdownMenu(
-            label = "Especialidades",
-            placeholder = "Selecione Especialidade(s)",
-            options = listOf("Fraldas", "Bingo", "Medicação"),
-            value = especialidades,
-            changeValue = { newEspecialidades ->
-                especialidades = newEspecialidades
-                if (newEspecialidades.isNotEmpty() && !selectedSpecialties.contains(newEspecialidades)) {
-                    selectedSpecialties = selectedSpecialties + newEspecialidades
-                }
+    Scaffold (
+        topBar = {
+            if (showTopBar){
+                TopBar(
+                    title = "Profissional",
+                    modifier = Modifier.padding(top = 44.dp)
+                )
             }
-        )
+        },
+        bottomBar = {
+            if (showBottomBar){
+                BottomBar()
+            }
+        }
+    ){ paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        SpecialtyList(specialties = selectedSpecialties, onRemove = { specialty ->
-            selectedSpecialties = selectedSpecialties - specialty
-        })
+            var biografia by remember {
+                mutableStateOf("")
+            }
 
-        Spacer(modifier = Modifier.weight(1f))
+            Biografia(valorCampo = biografia){
+                    novaBiografia -> biografia = novaBiografia
+            }
 
-        NextButton(label = "Salvar")
-        NavBar()
+
+            DefaultDropdownMenu(
+                label = "Especialidades",
+                placeholder = "Selecione Especialidade(s)",
+                options = listOf("Fraldas", "Bingo", "Medicação"),
+                value = especialidades,
+                changeValue = { newEspecialidades ->
+                    especialidades = newEspecialidades
+                    if (newEspecialidades.isNotEmpty() && !selectedSpecialties.contains(newEspecialidades)) {
+                        selectedSpecialties = selectedSpecialties + newEspecialidades
+                    }
+                }
+            )
+
+            SpecialtyList(specialties = selectedSpecialties, onRemove = { specialty ->
+                selectedSpecialties = selectedSpecialties - specialty
+            })
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            NextButton(label = "Salvar")
+        }
     }
 }
 

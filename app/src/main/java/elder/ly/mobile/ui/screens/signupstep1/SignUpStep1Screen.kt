@@ -24,11 +24,12 @@ import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
 import elder.ly.mobile.ui.components.NextButton
+import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun SignUpStep1Screen() {
+fun SignUpStep1Screen(showTopBar: Boolean = true) {
     var fullName by remember {
         mutableStateOf("")
     }
@@ -49,28 +50,23 @@ fun SignUpStep1Screen() {
         mutableStateOf("")
     }
 
-    Scaffold { paddingValues ->
+    Scaffold (
+        topBar = {
+            if (showTopBar){
+                TopBar(
+                    title = "Cadastro",
+                    modifier = Modifier.padding(top = 44.dp, bottom = 16.dp),
+                    showBackButton = false
+                    )
+            }
+        }
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(vertical = 44.dp),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontWeight = FontWeight.Bold
-                        )
-                    ) {
-                        append("Cadastro")
-                    }
-                },
-                fontSize = 36.sp,
-                modifier = Modifier.padding(bottom = 12.dp)
-            )
-
             DefaultTextInput(
                 label = "Nome Completo",
                 value = fullName,

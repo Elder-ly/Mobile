@@ -29,11 +29,12 @@ import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
 import elder.ly.mobile.ui.components.NextButton
+import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.ui.theme.MobileTheme
 
 @Composable
-fun SignUpStep2Screen() {
+fun SignUpStep2Screen(showTopBar: Boolean = true) {
     val brazilStates = listOf(
         "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
         "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
@@ -68,38 +69,22 @@ fun SignUpStep2Screen() {
         mutableStateOf("")
     }
 
-    Scaffold { paddingValues ->
+    Scaffold (
+        topBar = {
+            if (showTopBar){
+                TopBar(
+                    title = "Cadastro",
+                    modifier = Modifier.padding(top = 44.dp, bottom = 12.dp)
+                )
+            }
+        }
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(vertical = 44.dp),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                BackIconButton()
-
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append("Cadastro")
-                        }
-                    },
-                    fontSize = 36.sp
-                )
-
-                Spacer(modifier = Modifier.width(56.dp))
-            }
-
             DefaultTextInput(
                 label = "CEP",
                 placeholder = "01234-567",

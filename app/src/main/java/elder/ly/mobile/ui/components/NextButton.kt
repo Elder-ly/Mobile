@@ -36,7 +36,8 @@ import elder.ly.mobile.ui.theme.primaryContainerLight
 fun NextButton(
     label: String,
     onclick: (Any) -> Any = {},
-    icon: ImageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight
+    icon: ImageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+    modifier: Modifier = Modifier
 ) {
     var isLoading by remember { mutableStateOf(false) }
 
@@ -50,7 +51,7 @@ fun NextButton(
             contentColor = onPrimaryLightHighContrast // Cor do texto e ícone
         ),
         shape = RoundedCornerShape(8.dp), // Borda arredondada
-        modifier = Modifier
+        modifier = modifier
             .padding(bottom = 16.dp)
             .width(320.dp)
             .height(56.dp)

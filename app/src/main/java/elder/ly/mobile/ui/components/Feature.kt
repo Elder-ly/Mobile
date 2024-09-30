@@ -2,7 +2,9 @@ package elder.ly.mobile.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +17,6 @@ import elder.ly.mobile.ui.theme.customBlueColor
 fun Feature(text: String, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .padding(top = 8.dp, end = 8.dp)
             .background(customBlueColor, RoundedCornerShape(4.dp))
             .padding(horizontal = 8.dp)
     ) {
@@ -24,4 +25,5 @@ fun Feature(text: String, modifier: Modifier = Modifier) {
             modifier = Modifier.align(Alignment.Center)
         )
     }
+    Spacer(modifier = Modifier.width(8.dp))
 }
