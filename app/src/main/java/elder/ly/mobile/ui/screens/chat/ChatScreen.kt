@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -32,19 +33,23 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ChatScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        ChatTopBar()
-        LazyColumn(
+    Scaffold { paddingValues ->
+        Column(
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            reverseLayout = true
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
+            ChatTopBar()
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                reverseLayout = true
+            ) {
 
+            }
+            MessageInputField()
         }
-        MessageInputField()
     }
 }
 @Composable
