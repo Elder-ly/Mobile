@@ -1,22 +1,19 @@
 package elder.ly.mobile.ui.screens.chat
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -30,87 +27,72 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import elder.ly.mobile.ui.theme.primaryLight
 
 @Composable
-fun ChatScreen(
-    modifier: Modifier = Modifier
-        .fillMaxSize()) {
+fun ChatScreen() {
+    Scaffold { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            ChatTopBar()
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                reverseLayout = true
+            ) {
 
-    var text by remember {
-        mutableStateOf(
-            TextFieldValue("")
-        )
+            }
+            MessageInputField()
+        }
     }
-
-
-  Column () {
-      Column(
-          modifier = Modifier
-              .weight(1f)
-              .padding(top = 30.dp, start = 16.dp, end = 16.dp)
-      ) {
-          Row(
-              modifier = Modifier
-                  .padding(15.dp)
-                  .fillMaxWidth()
-                  .align(Alignment.CenterHorizontally),
-              verticalAlignment = Alignment.CenterVertically,
-              horizontalArrangement = Arrangement.SpaceBetween
-          ) {
-              Icon(
-                  imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                  contentDescription = "Seta para a esquerda",
-                  modifier = Modifier.size(50.dp),
-                  tint = Color.Black
-              )
-              Row(
-                  modifier = Modifier
-                      .align(Alignment.CenterVertically),
-                  verticalAlignment = Alignment.CenterVertically,
-                  horizontalArrangement = Arrangement.spacedBy(35.dp)
-              ) {
-                  DrawMiniCircle()
-                  Column {
-                      Text(
-                          fontSize = 18.sp,
-                          fontWeight = FontWeight.Bold,
-                          text = "Maria Antonieta")
-                      Text(
-                          color = primaryLight,
-                          text = "Online")
-                  }
-              }
-              Icon(
-                  imageVector = Icons.Filled.Info,
-                  contentDescription = "Seta para a esquerda",
-                  modifier = Modifier.size(30.dp),
-                  tint = Color.Black
-              )
-          }
-      }
-      MessageInputField()
-  }
 }
-
-
 @Composable
-fun DrawMiniCircle() {
-    Canvas(modifier = Modifier
-        .height(1.dp)) {
-        drawCircle(
-            color = primaryLight,
-            radius = 60f,
+fun MessageInputField(onMessageSent: (String) -> Unit) {
+    var message by remember { mutableStateOf("") }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(
+            onClick = {},
+            modifier = Modifier.padding(start = 8.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = android.R.drawable.ic_input_add),
+                contentDescription = "Enviar",
+                tint = Color.White
+            )
+        }
+
+        TextField(
+            value = message,
+            onValueChange = { message = it },
+            modifier = Modifier.weight(1f),
+            placeholder = { Text("Digite sua mensagem") }
         )
+
+        Button(
+            onClick = {
+                if (message.isNotBlank()) {
+                    onMessageSent(message)
+                    message = ""
+                }
+            },
+            modifier = Modifier.padding(start = 8.dp)
+        ) {
+            Text("Enviar")
+        }
     }
 }
-
-
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -125,6 +107,21 @@ fun MessageInputField() {
             .background(Color(0xFFDFDFDF), CircleShape),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        IconButton(
+            onClick = { /* Ação do botão */ },
+            modifier = Modifier
+                .padding(start = 10.dp)
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(Color(0xFF2196F3))
+        ) {
+            Icon(
+                painter = painterResource(id = android.R.drawable.ic_input_add),
+                contentDescription = "Enviar",
+                tint = Color.White
+            )
+        }
+
         TextField(
             value = text,
             onValueChange = { newText -> text = newText },
@@ -163,3 +160,4 @@ fun MessageInputField() {
 fun ChatScreenPreview(modifier: Modifier = Modifier) {
     ChatScreen()
 }
+

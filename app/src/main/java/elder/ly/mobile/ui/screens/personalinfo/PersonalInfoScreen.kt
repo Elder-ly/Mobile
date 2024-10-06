@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,14 +27,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.components.BackIconButton
+import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
 import elder.ly.mobile.ui.components.NextButton
+import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun PersonalInfoScreen() {
+fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
     var fullName by remember {
         mutableStateOf("")
     }
@@ -54,93 +57,84 @@ fun PersonalInfoScreen() {
         mutableStateOf("")
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 44.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Row(
+    Scaffold (
+        topBar = {
+            if(showTopBar){
+                TopBar(
+                    title = "Informações Adicionais",
+                    modifier = Modifier.padding(top = 44.dp, bottom = 16.dp)
+                )
+            }
+        },
+        bottomBar = {
+            if (showBottomBar){
+                BottomBar(
+                    //modifier = Modifier.padding(bottom = 44.dp)
+                )
+            }
+        }
+    ){ paddingValues ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
+                .fillMaxSize()
+                .padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BackIconButton()
-
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontWeight = FontWeight.Bold
-                        )
-                    ) {
-                        append("Informações\nAdicionais")
-                    }
-                },
-                fontSize = 36.sp,
-                textAlign = TextAlign.Center,
-                lineHeight = 40.sp
+            DefaultTextInput(
+                label = "Nome Completo",
+                value = fullName,
+                changeValue = { newFullName : String ->
+                    fullName = newFullName
+                }
             )
 
-            Spacer(modifier = Modifier.width(56.dp))
+            DefaultTextInput(
+                label = "Email",
+                placeholder = "seuemail@gmail.com",
+                keyboardType = KeyboardType.Email,
+                value = email,
+                changeValue = { newEmail : String ->
+                    email = newEmail
+                }
+            )
+
+            DefaultTextInput(
+                label = "Documento (CPF/CNPJ)",
+                placeholder = "12345678910",
+                keyboardType = KeyboardType.Number,
+                maxChar = 11,
+                value = document,
+                changeValue = { newDocument : String ->
+                    document = newDocument
+                }
+            )
+
+            DefaultTextInput(
+                label = "Data de Nascimento",
+                placeholder = "23/06/1991",
+                keyboardType = KeyboardType.Number,
+                mask = CustomMaskTranformation(mask = "##/##/####"),
+                maxChar = 8,
+                value = birthDate,
+                changeValue = { newBirthDate : String ->
+                    birthDate = newBirthDate
+                },
+            )
+
+            DefaultDropdownMenu(
+                label = "Gênero",
+                placeholder = "Selecione um Gênero",
+                options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
+                value = gender,
+                changeValue = { newGender : String ->
+                    gender = newGender
+                }
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            NextButton(label = "Avançar")
         }
-
-        DefaultTextInput(
-            label = "Nome Completo",
-            value = fullName,
-            changeValue = { newFullName : String ->
-                fullName = newFullName
-            }
-        )
-
-        DefaultTextInput(
-            label = "Email",
-            placeholder = "seuemail@gmail.com",
-            keyboardType = KeyboardType.Email,
-            value = email,
-            changeValue = { newEmail : String ->
-                email = newEmail
-            }
-        )
-
-        DefaultTextInput(
-            label = "Documento (CPF/CNPJ)",
-            placeholder = "12345678910",
-            keyboardType = KeyboardType.Number,
-            maxChar = 11,
-            value = document,
-            changeValue = { newDocument : String ->
-                document = newDocument
-            }
-        )
-
-        DefaultTextInput(
-            label = "Data de Nascimento",
-            placeholder = "23/06/1991",
-            keyboardType = KeyboardType.Number,
-            mask = CustomMaskTranformation(mask = "##/##/####"),
-            maxChar = 8,
-            value = birthDate,
-            changeValue = { newBirthDate : String ->
-                birthDate = newBirthDate
-            },
-        )
-
-        DefaultDropdownMenu(
-            label = "Gênero",
-            placeholder = "Selecione um Gênero",
-            options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
-            value = gender,
-            changeValue = { newGender : String ->
-                gender = newGender
-            }
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        NextButton(label = "Avançar")
     }
 }
 
