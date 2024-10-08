@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.screens.profile.DrawCircle
@@ -47,7 +48,8 @@ import elder.ly.mobile.ui.theme.primaryLight
 fun ProfileDetailsScreen(
     modifier: Modifier = Modifier
         .fillMaxSize(),
-    showBottomBar: Boolean = true
+    showBottomBar: Boolean = true,
+    navController: NavController
 ) {
     val lista = List(3) { "Medicação" }
 

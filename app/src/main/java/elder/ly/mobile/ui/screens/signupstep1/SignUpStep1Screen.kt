@@ -21,6 +21,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
 import elder.ly.mobile.ui.components.NextButton
@@ -29,7 +30,7 @@ import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun SignUpStep1Screen(showTopBar: Boolean = true) {
+fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) {
     var fullName by remember {
         mutableStateOf("")
     }

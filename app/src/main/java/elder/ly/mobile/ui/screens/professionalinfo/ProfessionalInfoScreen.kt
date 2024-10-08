@@ -31,6 +31,7 @@ import elder.ly.mobile.ui.theme.MobileTheme
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.navigation.NavController
 import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
@@ -41,7 +42,7 @@ import elder.ly.mobile.ui.theme.customBlueColor
 
 
 @Composable
-fun ProfessionalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
+fun ProfessionalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 

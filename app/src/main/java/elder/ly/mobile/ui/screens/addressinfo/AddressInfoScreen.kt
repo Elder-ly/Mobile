@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
@@ -24,7 +25,7 @@ import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
+fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
     Scaffold (
         topBar = {
             if(showTopBar){

@@ -26,6 +26,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
@@ -36,7 +37,7 @@ import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
+fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
     var fullName by remember {
         mutableStateOf("")
     }
