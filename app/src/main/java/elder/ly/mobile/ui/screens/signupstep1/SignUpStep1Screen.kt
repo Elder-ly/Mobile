@@ -22,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.SignUpStep2
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
 import elder.ly.mobile.ui.components.NextButton
@@ -57,7 +59,8 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 TopBar(
                     title = "Cadastro",
                     modifier = Modifier.padding(top = 44.dp, bottom = 16.dp),
-                    showBackButton = false
+                    showBackButton = false,
+                    navController = navController
                     )
             }
         }
@@ -121,7 +124,12 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
 
             Spacer(modifier = Modifier.weight(1f))
 
-            NextButton(label = "Avançar")
+            NextButton(
+                label = "Avançar",
+                onclick = {
+                    navController.navigate(SignUpStep2)
+                }
+            )
         }
     }
 }
@@ -130,6 +138,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
 @Composable
 private fun SignUpStep1ScreenPreview() {
     MobileTheme {
-        SignUpStep1Screen()
+        val navController = rememberNavController()
+        SignUpStep1Screen(navController = navController)
     }
 }

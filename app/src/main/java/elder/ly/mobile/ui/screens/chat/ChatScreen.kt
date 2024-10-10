@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun ChatScreen(navController: NavController) {
@@ -159,6 +160,7 @@ fun MessageInputField() {
 @Preview(showBackground = true)
 @Composable
 fun ChatScreenPreview(modifier: Modifier = Modifier) {
-    ChatScreen()
+    val navController = rememberNavController()
+    ChatScreen(navController = navController)
 }
 

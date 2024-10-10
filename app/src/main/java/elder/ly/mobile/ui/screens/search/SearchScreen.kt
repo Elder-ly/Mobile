@@ -22,6 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.SearchResult
+import elder.ly.mobile.SignUpStep2
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DataTextButton
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
@@ -43,7 +46,8 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
                 TopBar(
                     title = "O Que Precisa?",
                     showBackButton = false,
-                    modifier = Modifier.padding(top = 44.dp)
+                    modifier = Modifier.padding(top = 44.dp),
+                    navController = navController
                 )
             }
         },
@@ -51,6 +55,7 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
             if (showBottomBar){
                 BottomBar(
                     //modifier = Modifier.padding(bottom = 44.dp)
+                    navController = navController
                 )
             }
         }
@@ -103,7 +108,13 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                NextButton(label = "Pesquisar", icon = Icons.Filled.Search)
+                NextButton(
+                    label = "Pesquisar",
+                    icon = Icons.Filled.Search,
+                    onclick = {
+                        navController.navigate(SearchResult)
+                    }
+                )
             }
         }
     }
@@ -113,6 +124,7 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
 @Composable
 fun SearchScreenPreview() {
     MobileTheme {
-        SearchScreen()
+        val navController = rememberNavController()
+        SearchScreen(navController = navController)
     }
 }

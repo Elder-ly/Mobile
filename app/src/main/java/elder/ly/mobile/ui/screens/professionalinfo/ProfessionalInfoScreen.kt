@@ -32,6 +32,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.ProfessionalInfo
+import elder.ly.mobile.Profile
 import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
@@ -52,13 +55,14 @@ fun ProfessionalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = 
             if (showTopBar){
                 TopBar(
                     title = "Profissional",
-                    modifier = Modifier.padding(top = 44.dp)
+                    modifier = Modifier.padding(top = 44.dp),
+                    navController = navController
                 )
             }
         },
         bottomBar = {
             if (showBottomBar){
-                BottomBar()
+                BottomBar(navController = navController)
             }
         }
     ){ paddingValues ->
@@ -97,7 +101,12 @@ fun ProfessionalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = 
 
             Spacer(modifier = Modifier.weight(1f))
 
-            NextButton(label = "Salvar")
+            NextButton(
+                label = "Salvar",
+                onclick = {
+                    navController.navigate(Profile)
+                }
+            )
         }
     }
 }
@@ -133,7 +142,8 @@ fun Biografia(
 @Preview(showBackground = true)
 @Composable
 fun ProfessionalInfoScreenPreview() {
+    val navController = rememberNavController()
     MobileTheme {
-        ProfessionalInfoScreen()
+        ProfessionalInfoScreen(navController = navController)
     }
 }

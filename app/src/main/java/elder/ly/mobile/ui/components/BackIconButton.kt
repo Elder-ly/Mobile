@@ -8,11 +8,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun BackIconButton() {
+fun BackIconButton(onclick: () -> Unit) {
     IconButton(
-        onClick = { /*TODO*/ },
+        onClick = onclick,
         modifier = Modifier
             .size(56.dp)
     ) {

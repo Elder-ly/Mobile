@@ -27,6 +27,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Profile
 import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
@@ -63,7 +65,8 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
             if(showTopBar){
                 TopBar(
                     title = "Informações Adicionais",
-                    modifier = Modifier.padding(top = 44.dp, bottom = 16.dp)
+                    modifier = Modifier.padding(top = 44.dp, bottom = 16.dp),
+                    navController = navController
                 )
             }
         },
@@ -71,6 +74,7 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
             if (showBottomBar){
                 BottomBar(
                     //modifier = Modifier.padding(bottom = 44.dp)
+                    navController = navController
                 )
             }
         }
@@ -134,7 +138,12 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
 
             Spacer(modifier = Modifier.weight(1f))
 
-            NextButton(label = "Avançar")
+            NextButton(
+                label = "Avançar",
+                onclick = {
+                    navController.navigate(Profile)
+                }
+            )
         }
     }
 }
@@ -143,6 +152,7 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
 @Composable
 private fun PersonalInfoScreenPreview() {
     MobileTheme {
-        PersonalInfoScreen()
+        val navController = rememberNavController()
+        PersonalInfoScreen(navController = navController)
     }
 }
