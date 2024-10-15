@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Chat
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.Contacts
@@ -72,7 +73,7 @@ fun ChatListScreen(showBottomBar: Boolean = true, navController: NavController) 
                     .weight(1f)
             ) {
                 items(10) {
-                    Contacts()
+                    Contacts(navController = navController)
                 }
             }
         }

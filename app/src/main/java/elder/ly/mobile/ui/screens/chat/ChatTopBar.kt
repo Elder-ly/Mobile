@@ -22,43 +22,45 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Profile
+import elder.ly.mobile.ui.components.BackIconButton
+import elder.ly.mobile.ui.components.ImageCuidador
 import elder.ly.mobile.ui.theme.primaryLight
 
 
 @Composable
-fun ChatTopBar() {
+fun ChatTopBar(navController: NavController) {
     Column(
         modifier = Modifier
-            .padding(10.dp)
+            .padding(12.dp)
     ) {
         Row(
             modifier = Modifier
-
                 .align(Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = "Seta para a esquerda",
-                modifier = Modifier.size(50.dp),
-                tint = Color.Black
-            )
-            Spacer(modifier = Modifier.weight(2f))
-            Row(
+            BackIconButton (modifier = Modifier.size(50.dp), onclick = {navController.popBackStack()})
+            Row (
                 modifier = Modifier
-                    .align(Alignment.CenterVertically),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(35.dp)
-            ) {
-                DrawMiniCircle()
-                Column {
-                    Text(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        text = "Maria Antonieta")
-                    Text(
-                        color = primaryLight,
-                        text = "Online")
+                    .clickable { navController.navigate(Profile) }
+            ){
+                Row(
+                    modifier = Modifier,
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    ImageCuidador(Modifier.size(48.dp).clickable { navController.navigate(Profile) })
+                    Column {
+                        Text(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            text = "Maria Antonieta")
+                        Text(
+                            color = primaryLight,
+                            text = "Online")
+                    }
                 }
             }
             Spacer(modifier = Modifier.weight(10f))
@@ -72,21 +74,9 @@ fun ChatTopBar() {
     }
 }
 
-@Composable
-fun DrawMiniCircle() {
-    Canvas(modifier = Modifier
-        .height(1.dp)) {
-        drawCircle(
-            color = Color.Gray,
-            radius = 60f,
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun ChatTopBarPreview(modifier: Modifier = Modifier) {
-    ChatTopBar()
+    val navController = rememberNavController()
+    ChatTopBar(navController = navController)
 }
-
-

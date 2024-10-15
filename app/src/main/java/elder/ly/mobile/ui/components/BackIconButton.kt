@@ -11,16 +11,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun BackIconButton(onclick: () -> Unit) {
+fun BackIconButton(modifier: Modifier = Modifier, onclick: () -> Unit) {
     IconButton(
         onClick = onclick,
-        modifier = Modifier
+        modifier = modifier
             .size(56.dp)
     ) {
         Icon(
             imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
             contentDescription = "Voltar",
-            modifier = Modifier
+            modifier = modifier
                 .size(56.dp)
         )
     }
