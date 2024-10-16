@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -14,6 +17,23 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        val localProperties = project.rootProject.file("local.properties")
+        val properties = Properties().apply {
+            load(FileInputStream(localProperties))
+        }
+
+        buildConfigField(
+            type = "String",
+            name = "GOOGLE_CLIENT_ID",
+            value = properties.getProperty("GOOGLE_CLIENT_ID")
+        )
+
+        buildConfigField(
+            type = "String",
+            name = "API_BASE_URL",
+            value = properties.getProperty("API_BASE_URL")
+        )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -39,6 +59,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -73,4 +94,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
+
+    //RetroFit
+    implementation(libs.retrofit)
+
+    //Gson
+    implementation(libs.gson)
+    implementation(libs.converter.gson)
+
+    //Google SSO
+    implementation(libs.googleid)
+    implementation(libs.androidx.credentials.v122)
+    implementation(libs.androidx.credentials.play.services.auth.v122)
 }
