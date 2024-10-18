@@ -3,6 +3,7 @@ package elder.ly.mobile.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -27,14 +28,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.R
 import elder.ly.mobile.R.drawable.ic_launcher_background
+import elder.ly.mobile.Search
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CardCuidador(modifier: Modifier = Modifier){
+fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
     Column (
         modifier = modifier
             .border(
@@ -42,6 +46,7 @@ fun CardCuidador(modifier: Modifier = Modifier){
                 color = tertiaryContainerLight,
                 shape = RoundedCornerShape(4.dp)
             )
+            .clickable { navController.navigate(ProfileDetails) }
             .padding(16.dp)
     ){
         Row(

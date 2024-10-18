@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,7 +36,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.ImageCuidador
-import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.theme.tertiaryLight
 
 @Composable
@@ -68,22 +68,33 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     color = Color.Black,
                     text = "Maria Antonieta"
                 )
-                MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle)
-                MenuButton(label = "Endereço", icon = Icons.Filled.Home)
-                MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List)
-                MenuButton(label = "Sair", icon = Icons.Filled.ExitToApp)
+                MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle,
+                    navController = navController, destination = "PersonalInfo")
+
+                MenuButton(label = "Endereço", icon = Icons.Filled.Home,
+                    navController = navController, destination = "AddressInfo")
+
+                MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List,
+                    navController = navController, destination = "ProfessionalInfo")
+
+                MenuButton(label = "Sair", icon = Icons.AutoMirrored.Filled.ExitToApp,
+                    navController = navController, destination = "Welcome")
             }
         }
     }
 }
 
+
 @Composable
-fun MenuButton(label: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
+fun MenuButton(label: String, icon: ImageVector, navController: NavController, destination: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { }
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable {
+                navController.navigate(destination)
+                 },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

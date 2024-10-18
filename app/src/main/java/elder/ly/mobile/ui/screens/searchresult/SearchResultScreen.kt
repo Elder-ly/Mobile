@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.Search
 import elder.ly.mobile.ui.components.BottomBar
@@ -59,7 +60,7 @@ fun SearchResultScreen(showBottomBar: Boolean = true, navController: NavControll
                         .weight(1f)
                 ) {
                     items(10) {
-                        CardCuidador()
+                        CardCuidador(navController = navController)
                     }
                 }
             }
@@ -103,7 +104,6 @@ fun Search(navController: NavController){
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
