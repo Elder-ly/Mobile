@@ -34,6 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.AddressInfo
+import elder.ly.mobile.PersonalInfo
+import elder.ly.mobile.ProfessionalInfo
+import elder.ly.mobile.Welcome
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.ImageCuidador
 import elder.ly.mobile.ui.theme.tertiaryLight
@@ -69,16 +73,16 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     text = "Maria Antonieta"
                 )
                 MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle,
-                    navController = navController, destination = "PersonalInfo")
+                    onclick = { navController.navigate(PersonalInfo) })
 
                 MenuButton(label = "Endereço", icon = Icons.Filled.Home,
-                    navController = navController, destination = "AddressInfo")
+                    onclick = { navController.navigate(AddressInfo) })
 
                 MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List,
-                    navController = navController, destination = "ProfessionalInfo")
+                    onclick = { navController.navigate(ProfessionalInfo) })
 
                 MenuButton(label = "Sair", icon = Icons.AutoMirrored.Filled.ExitToApp,
-                    navController = navController, destination = "Welcome")
+                    onclick = { navController.navigate(Welcome) })
             }
         }
     }
@@ -86,15 +90,15 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
 
 
 @Composable
-fun MenuButton(label: String, icon: ImageVector, navController: NavController, destination: String) {
+fun MenuButton(label: String, icon: ImageVector, onclick: () -> Any) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { }
             .padding(16.dp)
             .clickable {
-                navController.navigate(destination)
-                 },
+                onclick()
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
