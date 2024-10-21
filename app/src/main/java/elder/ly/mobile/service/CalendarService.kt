@@ -12,7 +12,7 @@ interface CalendarService {
     suspend fun insertEvent(@Body createEventInput : CreateEventInput) : Response<GetEventOutput>
 
     @GET("/eventos")
-    suspend fun insertEvent(@Body createEventInput : CreateEventInput) : Response<GetEventOutput>
+    suspend fun getListCaregiverEvents(@Body createEventInput : CreateEventInput) : Response<GetEventOutput>
 }
 
 data class CreateEventInput(

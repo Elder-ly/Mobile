@@ -1,0 +1,58 @@
+package elder.ly.mobile.service
+
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
+import java.math.BigDecimal
+import java.time.LocalDateTime
+
+interface MessageService {
+
+    @POST("/mensagens")
+    suspend fun createMessage(@Body createMessageInput : CreateMessageInput) : Response<GetMessageOutput>
+
+    @GET("/mensagens/{remetenteId}/{destinatarioId}")
+    suspend fun getMessageUser(@Path("remetenteId") senderId: Long, @Path("destinatarioId") recipientId: Long) : Response<List<MessageWithProposalOutput>>
+
+    @GET("/mensagens/conversas/{userId}")
+    suspend fun getMessageUser(@Path("userId") userId: Long) : Response<List<GetMessageOutput>>
+}
+
+data class CreateMessageInput(
+    val senderId: Long,
+    val recipientId: Long,
+    val content: String
+)
+
+data class GetMessageOutput(
+    val id: Long,
+    val content: String,
+    val dateTime: LocalDateTime,
+    val sender: UserMessageOutput,
+    val recipient: UserMessageOutput
+)
+
+data class UserMessageOutput(
+    val id: Long,
+    val name: String
+)
+
+data class MessageWithProposalOutput(
+    val id: Long,
+    val content: String,
+    val dateTime: LocalDateTime,
+    val sender: UserMessageOutput,
+    val recipient: UserMessageOutput,
+    val proposal: ProposalOutput
+)
+
+data class ProposalOutput(
+    val id: Long,
+    val description: String,
+    val startDateTime: LocalDateTime,
+    val endDateTime: LocalDateTime,
+    val price: BigDecimal,
+    val accepted: Boolean
+)

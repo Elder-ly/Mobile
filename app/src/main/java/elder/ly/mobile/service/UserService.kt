@@ -21,7 +21,7 @@ interface UserService {
     suspend fun createUserCollaborator(@Body createUserCollaboratorInput : CreateUserInput) : Response<GetUsersOutput>
 
     @POST("/usuarios/colaboradores-disponiveis")
-    suspend fun getUsers(accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
+    suspend fun getAvailableCollaborators(accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
 
     @GET("/usuarios/clientes")
     suspend fun getUsersClients() : Response<List<GetUsersClientsOutput>>
