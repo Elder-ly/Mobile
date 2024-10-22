@@ -1,9 +1,8 @@
 package elder.ly.mobile.service
 
-import android.adservices.adid.AdId
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -16,7 +15,7 @@ interface ProposalService {
     suspend fun createProposal(@Body messageWithProposalInput: MessageWithProposalInput) : Response<MessageWithProposalOutput>
 
     @PATCH("/propostas/aceitar/{idProposta}")
-    suspend fun acceptProposal(@Path("idProposta") proposalId: Long) : Response<ProposalOutput>
+    suspend fun acceptProposal(@Header("accessToken") accessToken : String , @Path("idProposta") proposalId: Long) : Response<ProposalOutput>
 }
 
 data class MessageWithProposalInput(

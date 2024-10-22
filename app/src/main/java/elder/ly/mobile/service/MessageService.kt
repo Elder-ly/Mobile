@@ -1,5 +1,7 @@
 package elder.ly.mobile.service
 
+import elder.ly.mobile.model.Residence
+import elder.ly.mobile.model.Resumes
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,7 +19,7 @@ interface MessageService {
     suspend fun getMessageUser(@Path("remetenteId") senderId: Long, @Path("destinatarioId") recipientId: Long) : Response<List<MessageWithProposalOutput>>
 
     @GET("/mensagens/conversas/{userId}")
-    suspend fun getMessageUser(@Path("userId") userId: Long) : Response<List<GetMessageOutput>>
+    suspend fun getConversations(@Path("userId") userId: Long) : Response<List<GetMessageOutput>>
 }
 
 data class CreateMessageInput(
@@ -55,4 +57,28 @@ data class ProposalOutput(
     val endDateTime: LocalDateTime,
     val price: BigDecimal,
     val accepted: Boolean
+)
+
+data class UserConversationOutput(
+    val id: Long,
+    val name: String,
+    val profilePicture: String?,
+    val residences: List<Residence> = emptyList(),
+    val resumes: List<Resumes> = emptyList()
+) {
+    // Obtém o endereço resumido a partir da primeira residência, se disponível
+    fun getAddress(): SimplifiedAddress? {
+        if (residences.isEmpty()) {
+            return null
+        }
+        return SimplifiedAddress(
+            residences[0].address.neighborhood ?: "",
+            residences[0].address.city ?: ""
+        )
+    }
+}
+
+data class SimplifiedAddress(
+    val neighborhood: String,
+    val city: String
 )

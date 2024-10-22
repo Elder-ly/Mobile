@@ -21,7 +21,7 @@ interface UserService {
     suspend fun createUserCollaborator(@Body createUserCollaboratorInput : CreateUserInput) : Response<GetUsersOutput>
 
     @POST("/usuarios/colaboradores-disponiveis")
-    suspend fun getAvailableCollaborators(accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
+    suspend fun getAvailableCollaborators(@Header("accessToken") accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
 
     @GET("/usuarios/clientes")
     suspend fun getUsersClients() : Response<List<GetUsersClientsOutput>>
@@ -33,7 +33,7 @@ interface UserService {
     suspend fun getUsers() : Response<List<GetUsersOutput>>
 
     @GET("/usuarios/{id}")
-    suspend fun getUsers(@Path("id") id : Long) : Response<List<GetUsersOutput>>
+    suspend fun getUser(@Path("id") id : Long) : Response<List<GetUsersOutput>>
 
     @PUT("/usuarios/{id}")
     suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>
