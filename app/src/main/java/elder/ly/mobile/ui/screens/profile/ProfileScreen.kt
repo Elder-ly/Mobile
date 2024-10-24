@@ -31,17 +31,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.ImageCuidador
 import elder.ly.mobile.ui.components.TopBar
 import elder.ly.mobile.ui.theme.tertiaryLight
 
 @Composable
-fun ProfileScreen(showBottomBar: Boolean = true) {
+fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
     Scaffold (
         bottomBar = {
             if (showBottomBar){
-                BottomBar()
+                BottomBar(navController = navController)
             }
         }
     ) { paddingValues ->
@@ -133,5 +135,6 @@ fun DrawCircle() {
 @Preview(showBackground = true)
 @Composable
 fun ProfileScreenPreview(modifier: Modifier = Modifier) {
-    ProfileScreen()
+    val navController = rememberNavController()
+    ProfileScreen(navController = navController)
 }

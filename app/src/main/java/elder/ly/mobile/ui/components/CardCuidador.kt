@@ -3,7 +3,10 @@ package elder.ly.mobile.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -29,6 +32,7 @@ import elder.ly.mobile.R.drawable.ic_launcher_background
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CardCuidador(modifier: Modifier = Modifier){
     Column (
@@ -65,9 +69,11 @@ fun CardCuidador(modifier: Modifier = Modifier){
 
         Spacer(modifier = modifier.size(8.dp))
 
-        Row {
+        FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Feature(text = "Fraldas")
             Feature(text = "Bingo")
+            Feature(text = "Medicação")
+            Feature(text = "Medicação")
             Feature(text = "Medicação")
         }
     }

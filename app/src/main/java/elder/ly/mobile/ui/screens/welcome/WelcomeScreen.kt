@@ -24,10 +24,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.R
+import elder.ly.mobile.SignUpStep1
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController) {
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
@@ -69,7 +72,7 @@ fun WelcomeScreen() {
                 shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
                 onClick = {
-                    //aguardando função de login com google
+                    navController.navigate(SignUpStep1)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
@@ -101,7 +104,8 @@ fun WelcomeScreen() {
 @Preview(showBackground = true)
 @Composable
 fun WelcomeScreenPreview() {
+    val navController = rememberNavController()
     MaterialTheme {
-        WelcomeScreen()
+        WelcomeScreen(navController = navController)
     }
 }

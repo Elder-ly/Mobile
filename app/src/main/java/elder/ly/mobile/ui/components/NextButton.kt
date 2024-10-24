@@ -35,7 +35,7 @@ import elder.ly.mobile.ui.theme.primaryContainerLight
 @Composable
 fun NextButton(
     label: String,
-    onclick: (Any) -> Any = {},
+    onclick: () -> Any,
     icon: ImageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
     modifier: Modifier = Modifier
 ) {
@@ -44,7 +44,7 @@ fun NextButton(
     Button(
         onClick = {
             isLoading = true
-            onclick({})
+            onclick()
         },
         colors = ButtonDefaults.buttonColors(
             containerColor = primaryContainerLight, // Cor de fundo azul

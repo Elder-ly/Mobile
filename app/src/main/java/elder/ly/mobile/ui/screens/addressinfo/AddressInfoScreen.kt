@@ -15,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Profile
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.components.DefaultTextInput
@@ -24,19 +27,20 @@ import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
-fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
+fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
     Scaffold (
         topBar = {
             if(showTopBar){
                 TopBar(
                     title = "Endereço",
-                    modifier = Modifier.padding(top = 44.dp)
+                    modifier = Modifier.padding(top = 44.dp),
+                    navController = navController
                 )
             }
         },
         bottomBar = {
             if(showBottomBar){
-                BottomBar()
+                BottomBar(navController = navController)
             }
         }
     ){ paddingValues ->
@@ -50,7 +54,7 @@ fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true)
                 modifier = Modifier.weight(1f)
             ){
                 items(1){
-                    InputsButton()
+                    InputsButton(navController = navController)
                 }
             }
         }
@@ -58,7 +62,7 @@ fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true)
 }
 
 @Composable
-fun InputsButton() {
+fun InputsButton(navController: NavController) {
     val brazilStates = listOf(
         "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
         "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
@@ -161,13 +165,20 @@ fun InputsButton() {
             district = newDistrict
         },
     )
-    NextButton(label = "Salvar", modifier = Modifier.padding(top = 12.dp))
+    NextButton(
+        label = "Salvar",
+        modifier = Modifier.padding(top = 12.dp),
+        onclick = {
+            navController.navigate(Profile)
+        }
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun AddressInfoScreenPreview() {
     MobileTheme {
-        AddressInfoScreen()
+        val navController = rememberNavController()
+        AddressInfoScreen(navController = navController)
     }
 }

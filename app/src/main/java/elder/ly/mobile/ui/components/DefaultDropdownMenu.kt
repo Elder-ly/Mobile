@@ -1,7 +1,9 @@
 package elder.ly.mobile.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import elder.ly.mobile.ui.theme.backgroundLight
 import elder.ly.mobile.ui.theme.outlineLight
 import elder.ly.mobile.ui.theme.primaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
@@ -74,7 +77,8 @@ fun DefaultDropdownMenu(
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
                     .width(320.dp)
-                    .height(200.dp)
+                    .heightIn(max = 185.dp)
+                    .background(color = backgroundLight)
             ) {
                 options.forEach { option ->
                     DropdownMenuItem(

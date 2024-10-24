@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,12 +23,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import elder.ly.mobile.ChatList
+import elder.ly.mobile.Profile
 import elder.ly.mobile.R
+import elder.ly.mobile.Search
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 
 @Composable
-fun TopBar(modifier: Modifier = Modifier, title: String, showBackButton: Boolean = true) {
+fun TopBar(modifier: Modifier = Modifier, title: String, showBackButton: Boolean = true, navController: NavController) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -36,7 +41,7 @@ fun TopBar(modifier: Modifier = Modifier, title: String, showBackButton: Boolean
             modifier = Modifier.align(Alignment.CenterStart)
         ){
             if (showBackButton){
-                BackIconButton()
+                BackIconButton(onclick = { navController.popBackStack() })
             }
         }
 
@@ -60,7 +65,7 @@ fun TopBar(modifier: Modifier = Modifier, title: String, showBackButton: Boolean
 
 
 @Composable
-fun BottomBar(modifier: Modifier = Modifier) {
+fun BottomBar(modifier: Modifier = Modifier, navController: NavController) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -77,19 +82,15 @@ fun BottomBar(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .align(Alignment.CenterVertically),
+                .align(Alignment.CenterVertically)
+                .clickable { navController.navigate(Search) },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(
-                onClick = { /*TODO*/ },
+            Icon(
+                painter = painterResource(id = R.drawable.ic_pesquisar),
+                contentDescription = "Pesquisar",
                 modifier = Modifier.size(28.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_pesquisar),
-                    contentDescription = "Pesquisar",
-                    modifier = Modifier.size(28.dp)
-                )
-            }
+            )
             Text(
                 text = "Pesquisar",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -99,19 +100,15 @@ fun BottomBar(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .align(Alignment.CenterVertically),
+                .align(Alignment.CenterVertically)
+                .clickable { navController.navigate(ChatList) },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(
-                onClick = { /*TODO*/ },
+            Icon(
+                painter = painterResource(id = R.drawable.ic_chat),
+                contentDescription = "Chat",
                 modifier = Modifier.size(28.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_chat),
-                    contentDescription = "Pesquisar",
-                    modifier = Modifier.size(28.dp)
-                )
-            }
+            )
             Text(
                 text = "Chat",
                 modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -121,19 +118,15 @@ fun BottomBar(modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .weight(1f)
-                .align(Alignment.CenterVertically),
+                .align(Alignment.CenterVertically)
+                .clickable { navController.navigate(Profile) },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            IconButton(
-                onClick = { /*TODO*/ },
+            Icon(
+                painter = painterResource(id = R.drawable.ic_perfil),
+                contentDescription = "Perfil",
                 modifier = Modifier.size(28.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_perfil),
-                    contentDescription = "Pesquisar",
-                    modifier = Modifier.size(28.dp)
-                )
-            }
+            )
             Text(
                 text = "Perfil",
                 modifier = Modifier.align(Alignment.CenterHorizontally)

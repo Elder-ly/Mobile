@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,15 +20,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import elder.ly.mobile.Chat
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
-fun Contacts() {
+fun Contacts(navController: NavController) {
         Row(
             modifier = Modifier
                 .padding(start = 12.dp, end = 12.dp, bottom = 8.dp, top = 8.dp)
-                .height(88.dp),
+                .height(88.dp)
+                .clickable { navController.navigate(Chat) },
             verticalAlignment = Alignment.CenterVertically
         ) {
             ImageCuidador(modifier = Modifier.size(56.dp))
