@@ -109,4 +109,8 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.androidx.credentials.v122)
     implementation(libs.androidx.credentials.play.services.auth.v122)
+
+    // Koin
+    implementation("io.insert-koin:koin-android:4.0.0")
+    implementation("io.insert-koin:koin-compose-viewmodel:4.0.0")
 }

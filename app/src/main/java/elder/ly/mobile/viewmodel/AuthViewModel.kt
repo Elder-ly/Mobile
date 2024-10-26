@@ -75,11 +75,14 @@ class AuthViewModel : ViewModel() {
                 return User(
                     id = response.body()!!.id,
                     type = response.body()!!.tipoUsuario,
+                    gender = null,
                     name = googleData.displayName,
                     email = googleData.id,
                     googleToken = googleData.idToken,
                     phoneNumber = googleData.phoneNumber,
-                    pictureURL = googleData.profilePictureUri.toString()
+                    pictureURL = googleData.profilePictureUri.toString(),
+                    residences = null,
+                    resumes = null
                 )
             }
         }catch (e: Exception){
