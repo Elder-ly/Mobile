@@ -3,6 +3,7 @@ package elder.ly.mobile.ui.screens.searchresult
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.R.drawable.ic_pesquisar
+import elder.ly.mobile.Search
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.CardCuidador
 import elder.ly.mobile.ui.theme.MobileTheme
@@ -34,7 +37,6 @@ import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
 fun SearchResultScreen(showBottomBar: Boolean = true, navController: NavController) {
-
     Scaffold (
         bottomBar = {
             if (showBottomBar){
@@ -51,28 +53,26 @@ fun SearchResultScreen(showBottomBar: Boolean = true, navController: NavControll
                     .weight(1f)
                     .padding(top = 16.dp, bottom = 0.dp, start = 16.dp, end = 16.dp)
             ) {
-                Search()
-
+                Search(navController)
                 Spacer(modifier = Modifier.size(16.dp))
-
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f)
                 ) {
                     items(10) {
-                        CardCuidador()
+                        CardCuidador(navController = navController)
                     }
                 }
-
             }
         }
     }
 }
 
 @Composable
-fun Search(){
+fun Search(navController: NavController){
     Row(
         modifier = Modifier
+            .clickable { navController.navigate(Search) }
             .fillMaxWidth()
             .border(
                 width = 1.dp,
@@ -80,9 +80,10 @@ fun Search(){
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
+            
             painter = painterResource(id = ic_pesquisar),
             contentDescription = "Ícone de pesquisa",
             modifier = Modifier
@@ -104,12 +105,11 @@ fun Search(){
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun SearchResultScreenPreview() {
-    val navController = rememberNavController()
     MobileTheme {
+        val navController = rememberNavController()
         SearchResultScreen(navController = navController)
     }
 }
