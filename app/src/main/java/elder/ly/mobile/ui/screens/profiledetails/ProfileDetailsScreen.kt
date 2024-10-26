@@ -36,6 +36,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Chat
+import elder.ly.mobile.SignUpStep2
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.screens.profile.DrawCircle
@@ -47,7 +51,8 @@ import elder.ly.mobile.ui.theme.primaryLight
 fun ProfileDetailsScreen(
     modifier: Modifier = Modifier
         .fillMaxSize(),
-    showBottomBar: Boolean = true
+    showBottomBar: Boolean = true,
+    navController: NavController
 ) {
     val lista = List(3) { "Medicação" }
 
@@ -59,7 +64,7 @@ fun ProfileDetailsScreen(
     Scaffold (
         bottomBar = {
             if (showBottomBar){
-                BottomBar()
+                BottomBar(navController = navController)
             }
         }
     ){ paddingValues ->
@@ -125,7 +130,12 @@ fun ProfileDetailsScreen(
 
             Spacer(modifier = Modifier.size(8.dp))
 
-            NextButton(label = "Conversar")
+            NextButton(
+                label = "Conversar",
+                onclick = {
+                    navController.navigate(Chat)
+                }
+            )
         }
     }
 
@@ -137,5 +147,6 @@ fun ProfileDetailsScreen(
 @Composable
 fun ProfileDetailsScreenPreview(
     modifier: Modifier = Modifier) {
-    ProfileDetailsScreen()
+    val navController = rememberNavController()
+    ProfileDetailsScreen(navController = navController)
 }

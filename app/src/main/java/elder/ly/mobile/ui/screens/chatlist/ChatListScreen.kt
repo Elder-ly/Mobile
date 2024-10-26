@@ -28,6 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Chat
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.Contacts
@@ -35,7 +38,7 @@ import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
-fun ChatListScreen(showBottomBar: Boolean = true) {
+fun ChatListScreen(showBottomBar: Boolean = true, navController: NavController) {
     var searchText by remember { mutableStateOf("") }
 
     Scaffold(
@@ -43,6 +46,7 @@ fun ChatListScreen(showBottomBar: Boolean = true) {
             if (showBottomBar){
                 BottomBar(
                     //modifier = Modifier.padding(bottom = 44.dp)
+                    navController = navController
                 )
             }
         }
@@ -69,7 +73,7 @@ fun ChatListScreen(showBottomBar: Boolean = true) {
                     .weight(1f)
             ) {
                 items(10) {
-                    Contacts()
+                    Contacts(navController = navController)
                 }
             }
         }
@@ -122,6 +126,7 @@ fun SearchChat(searchText: String, onSearchTextChange: (String) -> Unit) {
 @Composable
 fun ChatListScreenPreview() {
     MobileTheme {
-        ChatListScreen()
+        val navController = rememberNavController()
+        ChatListScreen(navController = navController)
     }
 }

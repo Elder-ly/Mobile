@@ -21,6 +21,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.SearchResult
+import elder.ly.mobile.SignUpStep2
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.components.DataTextButton
 import elder.ly.mobile.ui.components.DefaultDropdownMenu
@@ -32,7 +36,7 @@ import elder.ly.mobile.ui.theme.MobileTheme
 
 
 @Composable
-fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
+fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 
@@ -42,7 +46,8 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
                 TopBar(
                     title = "O Que Precisa?",
                     showBackButton = false,
-                    modifier = Modifier.padding(top = 44.dp)
+                    modifier = Modifier.padding(top = 44.dp),
+                    navController = navController
                 )
             }
         },
@@ -50,6 +55,7 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
             if (showBottomBar){
                 BottomBar(
                     //modifier = Modifier.padding(bottom = 44.dp)
+                    navController = navController
                 )
             }
         }
@@ -102,7 +108,13 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                NextButton(label = "Pesquisar", icon = Icons.Filled.Search)
+                NextButton(
+                    label = "Pesquisar",
+                    icon = Icons.Filled.Search,
+                    onclick = {
+                        navController.navigate(SearchResult)
+                    }
+                )
             }
         }
     }
@@ -112,6 +124,7 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true) {
 @Composable
 fun SearchScreenPreview() {
     MobileTheme {
-        SearchScreen()
+        val navController = rememberNavController()
+        SearchScreen(navController = navController)
     }
 }
