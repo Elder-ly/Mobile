@@ -40,7 +40,7 @@ fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true,
         },
         bottomBar = {
             if(showBottomBar){
-                BottomBar(navController = navController)
+                BottomBar(navController = navController, colorBlueProfile = true)
             }
         }
     ){ paddingValues ->

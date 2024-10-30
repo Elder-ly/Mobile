@@ -45,8 +45,8 @@ fun ChatListScreen(showBottomBar: Boolean = true, navController: NavController) 
         bottomBar = {
             if (showBottomBar){
                 BottomBar(
-                    //modifier = Modifier.padding(bottom = 44.dp)
-                    navController = navController
+                    navController = navController,
+                    colorBlueChat = true
                 )
             }
         }

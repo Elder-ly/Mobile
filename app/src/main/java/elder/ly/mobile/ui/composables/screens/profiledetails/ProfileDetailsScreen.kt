@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.profiledetails
 
+import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -29,9 +30,9 @@ import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.Chat
 import elder.ly.mobile.ui.components.BottomBar
 import elder.ly.mobile.ui.composables.components.Feature
+import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.screens.professionalinfo.Biografia
-import elder.ly.mobile.ui.composables.screens.profile.DrawCircle
 import elder.ly.mobile.ui.theme.primaryLight
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -67,7 +68,7 @@ fun ProfileDetailsScreen(
                     .padding(top = 30.dp, start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                DrawCircle()
+                ImageCuidador(modifier = Modifier.size(160.dp))
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -85,6 +86,8 @@ fun ProfileDetailsScreen(
                     color = primaryLight,
                     text = "Vila Matilde"
                 )
+
+                Spacer(modifier = Modifier.size(8.dp))
 
                 FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Feature(text = "Fraldas")

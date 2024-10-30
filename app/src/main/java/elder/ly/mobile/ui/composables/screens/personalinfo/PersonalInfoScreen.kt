@@ -72,8 +72,8 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
         bottomBar = {
             if (showBottomBar){
                 BottomBar(
-                    //modifier = Modifier.padding(bottom = 44.dp)
-                    navController = navController
+                    navController = navController,
+                    colorBlueProfile = true
                 )
             }
         }

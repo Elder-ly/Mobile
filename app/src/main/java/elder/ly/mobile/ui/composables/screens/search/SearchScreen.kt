@@ -54,8 +54,8 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
         bottomBar = {
             if (showBottomBar){
                 BottomBar(
-                    //modifier = Modifier.padding(bottom = 44.dp)
-                    navController = navController
+                    navController = navController,
+                    colorBlueSearch = true
                 )
             }
         }

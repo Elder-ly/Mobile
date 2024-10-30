@@ -61,7 +61,7 @@ fun ProfessionalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = 
         },
         bottomBar = {
             if (showBottomBar){
-                BottomBar(navController = navController)
+                BottomBar(navController = navController, colorBlueProfile = true)
             }
         }
     ){ paddingValues ->

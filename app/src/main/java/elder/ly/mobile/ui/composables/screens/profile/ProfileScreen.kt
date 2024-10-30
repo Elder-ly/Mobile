@@ -47,7 +47,7 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
     Scaffold (
         bottomBar = {
             if (showBottomBar){
-                BottomBar(navController = navController)
+                BottomBar(navController = navController, colorBlueProfile = true)
             }
         }
     ) { paddingValues ->
@@ -61,7 +61,7 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     .weight(1f)
                     .padding(top = 30.dp, start = 16.dp, end = 16.dp)
             ) {
-                ImageCuidador(modifier = Modifier.size(144.dp).align(Alignment.CenterHorizontally))
+                ImageCuidador(modifier = Modifier.size(160.dp).align(Alignment.CenterHorizontally))
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
