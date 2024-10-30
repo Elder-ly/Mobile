@@ -33,7 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.Chat
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.ui.components.BottomBar
-import elder.ly.mobile.ui.components.Contacts
+import elder.ly.mobile.ui.composables.components.Contacts
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 

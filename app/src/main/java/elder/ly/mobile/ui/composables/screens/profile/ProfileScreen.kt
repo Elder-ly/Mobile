@@ -39,7 +39,7 @@ import elder.ly.mobile.PersonalInfo
 import elder.ly.mobile.ProfessionalInfo
 import elder.ly.mobile.Welcome
 import elder.ly.mobile.ui.components.BottomBar
-import elder.ly.mobile.ui.components.ImageCuidador
+import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.theme.tertiaryLight
 
 @Composable

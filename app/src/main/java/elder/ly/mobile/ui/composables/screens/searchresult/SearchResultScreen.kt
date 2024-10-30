@@ -31,7 +31,7 @@ import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.Search
 import elder.ly.mobile.ui.components.BottomBar
-import elder.ly.mobile.ui.components.CardCuidador
+import elder.ly.mobile.ui.composables.components.CardCuidador
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 

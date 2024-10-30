@@ -35,12 +35,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.ProfessionalInfo
 import elder.ly.mobile.Profile
-import elder.ly.mobile.ui.components.BackIconButton
 import elder.ly.mobile.ui.components.BottomBar
-import elder.ly.mobile.ui.components.DefaultDropdownMenu
-import elder.ly.mobile.ui.components.NextButton
-import elder.ly.mobile.ui.components.SpecialtyList
 import elder.ly.mobile.ui.components.TopBar
+import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
+import elder.ly.mobile.ui.composables.components.NextButton
+import elder.ly.mobile.ui.composables.components.SpecialtyList
 import elder.ly.mobile.ui.theme.customBlueColor
 
 

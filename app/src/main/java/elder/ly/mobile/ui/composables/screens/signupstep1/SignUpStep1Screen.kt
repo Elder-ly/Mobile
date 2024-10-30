@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.SignUpStep2
-import elder.ly.mobile.ui.components.DefaultDropdownMenu
-import elder.ly.mobile.ui.components.DefaultTextInput
-import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.components.TopBar
+import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
+import elder.ly.mobile.ui.composables.components.DefaultTextInput
+import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.utils.CustomMaskTranformation
 

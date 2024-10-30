@@ -1,6 +1,6 @@
 package elder.ly.mobile.service
 
-import elder.ly.mobile.domain.model.Specialtie
+import elder.ly.mobile.model.Specialtie
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE

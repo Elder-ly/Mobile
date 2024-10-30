@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
@@ -32,6 +33,7 @@ import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import com.maxkeppeler.sheets.clock.ClockDialog
 import com.maxkeppeler.sheets.clock.models.ClockConfig
 import com.maxkeppeler.sheets.clock.models.ClockSelection
+import elder.ly.mobile.R
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryLight
 
@@ -118,7 +120,7 @@ fun HourTextButton(modifier: Modifier = Modifier, labelHora: String) {
             ) {
                 Text(text = hourEntered, fontSize = 16.sp)
                 Icon(
-                    imageVector = Icons.Filled.DateRange,
+                    painter = painterResource(id = R.drawable.ic_hour),
                     contentDescription = "Ícone de Relógio",
                     tint = Color.Gray
                 )

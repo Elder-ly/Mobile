@@ -1,42 +1,29 @@
 package elder.ly.mobile.ui.composables.screens.signupstep2
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.Search
-import elder.ly.mobile.SignUpStep2
-import elder.ly.mobile.ui.components.BackIconButton
-import elder.ly.mobile.ui.components.DefaultDropdownMenu
-import elder.ly.mobile.ui.components.DefaultTextInput
-import elder.ly.mobile.ui.components.NextButton
 import elder.ly.mobile.ui.components.TopBar
-import elder.ly.mobile.ui.screens.searchresult.Search
-import elder.ly.mobile.utils.CustomMaskTranformation
+import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
+import elder.ly.mobile.ui.composables.components.DefaultTextInput
+import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.theme.MobileTheme
+import elder.ly.mobile.utils.CustomMaskTranformation
 
 @Composable
 fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) {

@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.Profile
-import elder.ly.mobile.ui.components.BackIconButton
-import elder.ly.mobile.ui.components.ImageCuidador
+import elder.ly.mobile.ui.composables.components.BackIconButton
+import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.theme.primaryLight
 
 
