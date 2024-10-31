@@ -1,8 +1,8 @@
-package elder.ly.mobile.repository.proposal
+package elder.ly.mobile.data.repository.proposal
 
-import elder.ly.mobile.service.MessageWithProposalInput
-import elder.ly.mobile.service.MessageWithProposalOutput
-import elder.ly.mobile.service.ProposalOutput
+import elder.ly.mobile.domain.service.MessageWithProposalInput
+import elder.ly.mobile.domain.service.MessageWithProposalOutput
+import elder.ly.mobile.domain.service.ProposalOutput
 import retrofit2.Response
 
 interface IProposalRepository {

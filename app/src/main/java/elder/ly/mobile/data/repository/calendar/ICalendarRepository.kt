@@ -1,7 +1,7 @@
-package elder.ly.mobile.repository.calendar
+package elder.ly.mobile.data.repository.calendar
 
-import elder.ly.mobile.service.CreateEventInput
-import elder.ly.mobile.service.GetEventOutput
+import elder.ly.mobile.domain.service.CreateEventInput
+import elder.ly.mobile.domain.service.GetEventOutput
 import retrofit2.Response
 
 interface ICalendarRepository {

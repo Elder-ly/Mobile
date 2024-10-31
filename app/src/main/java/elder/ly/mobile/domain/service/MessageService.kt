@@ -1,7 +1,7 @@
-package elder.ly.mobile.service
+package elder.ly.mobile.domain.service
 
-import elder.ly.mobile.model.Residence
-import elder.ly.mobile.model.Resumes
+import elder.ly.mobile.domain.model.Residence
+import elder.ly.mobile.domain.model.Resumes
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

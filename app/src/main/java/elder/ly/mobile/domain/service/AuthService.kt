@@ -1,6 +1,6 @@
-package elder.ly.mobile.service
+package elder.ly.mobile.domain.service
 
-import elder.ly.mobile.model.enums.TypeUserEnum
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

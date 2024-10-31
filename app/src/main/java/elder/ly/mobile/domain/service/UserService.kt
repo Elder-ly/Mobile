@@ -1,6 +1,6 @@
-package elder.ly.mobile.service
+package elder.ly.mobile.domain.service
 
-import elder.ly.mobile.model.Specialtie
+import elder.ly.mobile.domain.model.Specialtie
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -33,7 +33,7 @@ interface UserService {
     suspend fun getUsers() : Response<List<GetUsersOutput>>
 
     @GET("/usuarios/{id}")
-    suspend fun getUser(@Path("id") id : Long) : Response<List<GetUsersOutput>>
+    suspend fun getUser(@Path("id") id : Long) : Response<GetUsersOutput>
 
     @PUT("/usuarios/{id}")
     suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>

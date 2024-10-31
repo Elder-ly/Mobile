@@ -1,7 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.welcome
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.R
-import elder.ly.mobile.viewmodel.AuthViewModel
+import elder.ly.mobile.ui.viewmodel.AuthViewModel
 
 @Composable
 fun WelcomeScreen(navController: NavController) {

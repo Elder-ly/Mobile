@@ -24,9 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.SearchResult
-import elder.ly.mobile.SignUpStep2
-import elder.ly.mobile.ui.components.BottomBar
-import elder.ly.mobile.ui.components.TopBar
+import elder.ly.mobile.ui.composables.components.BottomBar
+import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.components.DataTextButton
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.HourTextButton

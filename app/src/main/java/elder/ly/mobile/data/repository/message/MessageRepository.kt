@@ -1,9 +1,10 @@
-package elder.ly.mobile.repository.message
+package elder.ly.mobile.data.repository.message
 
-import elder.ly.mobile.service.CreateMessageInput
-import elder.ly.mobile.service.GetMessageOutput
-import elder.ly.mobile.service.MessageService
-import elder.ly.mobile.service.MessageWithProposalOutput
+import elder.ly.mobile.data.repository.message.IMessageRepository
+import elder.ly.mobile.domain.service.CreateMessageInput
+import elder.ly.mobile.domain.service.GetMessageOutput
+import elder.ly.mobile.domain.service.MessageService
+import elder.ly.mobile.domain.service.MessageWithProposalOutput
 import retrofit2.Response
 
 class MessageRepository(
