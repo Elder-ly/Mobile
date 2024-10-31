@@ -1,7 +1,9 @@
-package elder.ly.mobile.model
+package elder.ly.mobile.domain.model
 
-import elder.ly.mobile.model.enums.GenderEnum
-import elder.ly.mobile.model.enums.TypeUserEnum
+import elder.ly.mobile.domain.model.Residence
+import elder.ly.mobile.domain.model.Resumes
+import elder.ly.mobile.domain.model.enums.GenderEnum
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
 
 data class User(
     val id: Long,

@@ -1,11 +1,11 @@
-package elder.ly.mobile.repository.user
+package elder.ly.mobile.data.repository.user
 
-import elder.ly.mobile.service.CreateUserInput
-import elder.ly.mobile.service.GetUsersClientsOutput
-import elder.ly.mobile.service.GetUsersCollaboratorInput
-import elder.ly.mobile.service.GetUsersCollaboratorOutput
-import elder.ly.mobile.service.GetUsersOutput
-import elder.ly.mobile.service.UpdateUserInput
+import elder.ly.mobile.domain.service.CreateUserInput
+import elder.ly.mobile.domain.service.GetUsersClientsOutput
+import elder.ly.mobile.domain.service.GetUsersCollaboratorInput
+import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
+import elder.ly.mobile.domain.service.GetUsersOutput
+import elder.ly.mobile.domain.service.UpdateUserInput
 import retrofit2.Response
 
 interface IUserRepository {
@@ -21,7 +21,7 @@ interface IUserRepository {
 
     suspend fun getUsers() : Response<List<GetUsersOutput>>
 
-    suspend fun getUser(id : Long) : Response<List<GetUsersOutput>>
+    suspend fun getUser(id : Long) : Response<GetUsersOutput>
 
     suspend fun updateUsers(id : Long, updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>
 

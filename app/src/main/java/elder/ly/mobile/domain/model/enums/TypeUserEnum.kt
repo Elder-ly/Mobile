@@ -1,4 +1,4 @@
-package elder.ly.mobile.model.enums
+package elder.ly.mobile.domain.model.enums
 
 enum class TypeUserEnum(val id: Long, val description: String) {
 

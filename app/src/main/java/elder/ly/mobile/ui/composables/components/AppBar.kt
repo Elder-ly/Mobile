@@ -1,4 +1,4 @@
-package elder.ly.mobile.ui.components
+package elder.ly.mobile.ui.composables.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

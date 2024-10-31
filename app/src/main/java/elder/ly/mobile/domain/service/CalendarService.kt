@@ -1,4 +1,4 @@
-package elder.ly.mobile.service
+package elder.ly.mobile.domain.service
 
 import retrofit2.Response
 import retrofit2.http.Body

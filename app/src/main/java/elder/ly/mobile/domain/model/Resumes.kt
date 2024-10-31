@@ -1,4 +1,4 @@
-package elder.ly.mobile.model
+package elder.ly.mobile.domain.model
 
 data class Resumes(
     val id : Long,

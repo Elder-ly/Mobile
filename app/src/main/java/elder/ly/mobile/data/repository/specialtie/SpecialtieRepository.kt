@@ -1,10 +1,10 @@
-package elder.ly.mobile.repository.specialtie
+package elder.ly.mobile.data.repository.specialtie
 
-import elder.ly.mobile.service.CreateSpecialtie
-import elder.ly.mobile.service.GetUsersOutput
-import elder.ly.mobile.service.SpecialtieOutput
-import elder.ly.mobile.service.SpecialtieService
-import elder.ly.mobile.service.UpdateSpecialtieInput
+import elder.ly.mobile.domain.service.CreateSpecialtie
+import elder.ly.mobile.domain.service.GetUsersOutput
+import elder.ly.mobile.domain.service.SpecialtieOutput
+import elder.ly.mobile.domain.service.SpecialtieService
+import elder.ly.mobile.domain.service.UpdateSpecialtieInput
 import retrofit2.Response
 
 class SpecialtieRepository(

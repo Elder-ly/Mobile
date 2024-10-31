@@ -1,11 +1,11 @@
-package elder.ly.mobile.utils
+package elder.ly.mobile.data
 
 import elder.ly.mobile.BuildConfig
-import elder.ly.mobile.service.CalendarService
-import elder.ly.mobile.service.MessageService
-import elder.ly.mobile.service.ProposalService
-import elder.ly.mobile.service.SpecialtieService
-import elder.ly.mobile.service.UserService
+import elder.ly.mobile.domain.service.CalendarService
+import elder.ly.mobile.domain.service.MessageService
+import elder.ly.mobile.domain.service.ProposalService
+import elder.ly.mobile.domain.service.SpecialtieService
+import elder.ly.mobile.domain.service.UserService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

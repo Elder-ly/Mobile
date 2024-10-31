@@ -1,6 +1,5 @@
 package elder.ly.mobile.ui.composables.screens.profiledetails
 
-import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -28,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.Chat
-import elder.ly.mobile.ui.components.BottomBar
+import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.Feature
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.composables.components.NextButton

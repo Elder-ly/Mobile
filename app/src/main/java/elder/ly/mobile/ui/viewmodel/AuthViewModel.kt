@@ -1,4 +1,4 @@
-package elder.ly.mobile.viewmodel
+package elder.ly.mobile.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,9 +14,9 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import elder.ly.mobile.BuildConfig
 import elder.ly.mobile.SignUpStep1
-import elder.ly.mobile.model.User
-import elder.ly.mobile.service.AuthService
-import elder.ly.mobile.utils.Rest
+import elder.ly.mobile.domain.model.User
+import elder.ly.mobile.domain.service.AuthService
+import elder.ly.mobile.data.Rest
 import elder.ly.mobile.utils.saveUser
 import java.security.MessageDigest
 import java.util.*
