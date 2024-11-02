@@ -1,6 +1,7 @@
 package elder.ly.mobile.data.repository.user
 
 import elder.ly.mobile.domain.service.CreateUserInput
+import elder.ly.mobile.domain.service.GetProfileDetails
 import elder.ly.mobile.domain.service.GetProfileUse
 import elder.ly.mobile.domain.service.GetUsersClientsOutput
 import elder.ly.mobile.domain.service.GetUsersCollaboratorInput
@@ -47,6 +48,10 @@ class UserRepository(
 
     override suspend fun getUserProfile(id: Long): Response<GetProfileUse> {
         return service.getUserProfile(id)
+    }
+
+    override suspend fun getUserProfileDetails(id: Long): Response<GetProfileDetails> {
+        return service.getUserProfileDetails(id)
     }
 
     override suspend fun updateUsers(

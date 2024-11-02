@@ -14,6 +14,7 @@ import elder.ly.mobile.ui.viewmodel.ProfileViewModel
 import elder.ly.mobile.data.Rest
 import elder.ly.mobile.data.repository.user.IUserRepository
 import elder.ly.mobile.data.repository.user.UserRepositoryLocalImpl
+import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -62,5 +63,6 @@ val appModule = module {
 
     viewModel{
         ProfileViewModel(get())
+        ProfileDetailsViewModel(get())
     }
 }

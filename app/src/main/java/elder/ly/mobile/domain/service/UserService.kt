@@ -40,6 +40,9 @@ interface UserService {
     @GET("/usuarios/{id}")
     suspend fun getUserProfile(@Path("id") id : Long) : Response<GetProfileUse>
 
+    @GET("/usuarios/{id}")
+    suspend fun getUserProfileDetails(@Path("id") id : Long) : Response<GetProfileDetails>
+
     @PUT("/usuarios/{id}")
     suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>
 
@@ -102,6 +105,15 @@ data class GetProfileUse(
     val profilePicture: String?
 )
 
+data class GetProfileDetails(
+    val name: String,
+    val profilePicture: String?,
+    val address: AddressBairro,
+    val biography: String?,
+    val specialties: List<Specialtie>?,
+    val price: String
+)
+
 data class GetUsersClientsOutput(
     val id: Long,
     val name: String,
@@ -131,6 +143,10 @@ data class AddressOutput(
     val number: String?,
     val city: String,
     val state: String
+)
+
+data class AddressBairro (
+    val neighborhood: String
 )
 
 data class GetUsersCollaboratorInput(

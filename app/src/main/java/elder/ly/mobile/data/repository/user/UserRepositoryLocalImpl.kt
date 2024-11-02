@@ -1,10 +1,13 @@
 package elder.ly.mobile.data.repository.user
 
+import elder.ly.mobile.domain.model.Specialtie
 import elder.ly.mobile.domain.model.User
 import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.model.enums.TypeUserEnum
+import elder.ly.mobile.domain.service.AddressBairro
 import elder.ly.mobile.domain.service.AddressOutput
 import elder.ly.mobile.domain.service.CreateUserInput
+import elder.ly.mobile.domain.service.GetProfileDetails
 import elder.ly.mobile.domain.service.GetProfileUse
 import elder.ly.mobile.domain.service.GetUsersClientsOutput
 import elder.ly.mobile.domain.service.GetUsersCollaboratorInput
@@ -53,7 +56,26 @@ class UserRepositoryLocalImpl(
         return Response.success(
             GetProfileUse (
                 name = "Gerson",
-                profilePicture = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                profilePicture = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+            )
+        )
+    }
+
+    override suspend fun getUserProfileDetails(id: Long): Response<GetProfileDetails> {
+        val specialtyList = listOf(
+            Specialtie(id = 1, name = "Enfermagem"),
+            Specialtie(id = 2, name = "Fisioterapia"),
+            Specialtie(id = 3, name = "Cuidados Paliativos")
+        )
+
+        return Response.success(
+            GetProfileDetails (
+                name = "Gerson",
+                profilePicture = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+                address = AddressBairro("Santana"),
+                biography = "Sou cuidadora de idosos com mais de 10 anos de experiência, apaixonada por oferecer um atendimento acolhedor e respeitoso. Meu objetivo é garantir conforto e segurança aos meus pacientes, promovendo sua autonomia. Já trabalhei com idosos de diferentes perfis, incluindo aqueles com doenças crônicas. Gosto de criar momentos de alegria através de conversas e atividades recreativas. Acredito que cada dia é uma nova chance de fazer a diferença na vida de alguém.",
+                specialties = specialtyList,
+                price = ""
             )
         )
     }

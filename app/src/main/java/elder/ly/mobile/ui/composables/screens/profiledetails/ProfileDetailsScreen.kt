@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,8 +30,9 @@ import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.Feature
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.composables.components.NextButton
-import elder.ly.mobile.ui.composables.screens.professionalinfo.Biografia
 import elder.ly.mobile.ui.theme.primaryLight
+import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -42,9 +42,8 @@ fun ProfileDetailsScreen(
     showBottomBar: Boolean = true,
     navController: NavController
 ) {
-    var biografia by remember {
-        mutableStateOf("")
-    }
+
+    val viewModel = koinViewModel<ProfileDetailsViewModel>()
 
 
     Scaffold (
@@ -67,7 +66,7 @@ fun ProfileDetailsScreen(
                     .padding(top = 30.dp, start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageCuidador(modifier = Modifier.size(160.dp))
+                ImageCuidador(modifier = Modifier.size(160.dp), viewModel.url)
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -75,7 +74,7 @@ fun ProfileDetailsScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 36.sp,
                     color = Color.Black,
-                    text = "Maria Antonieta"
+                    text = viewModel.nome
                 )
                 Text(
                     modifier = Modifier
@@ -83,19 +82,28 @@ fun ProfileDetailsScreen(
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp,
                     color = primaryLight,
-                    text = "Vila Matilde"
+                    text = viewModel.bairro
                 )
 
                 Spacer(modifier = Modifier.size(8.dp))
 
                 FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Feature(text = "Fraldas")
-                    Feature(text = "Medicação")
-                    Feature(text = "Acompanhamento")
+                    viewModel.especialidades.forEach { especialidade ->
+                        Feature(text = especialidade.name, fontSize = 14.sp)
+                    }
                 }
 
-                Biografia(valorCampo = biografia){
-                    novaBiografia -> biografia = novaBiografia
+                val scrollState = rememberScrollState()
+                Column (
+                    modifier = Modifier.verticalScroll(scrollState)
+                ){
+                    Text(
+                        text = viewModel.biografia,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        textAlign = TextAlign.Start
+                    )
                 }
             }
 
@@ -103,7 +111,7 @@ fun ProfileDetailsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
-                text = "R$150/hora"
+                text = "R$${viewModel.preco}/hora"
             )
 
             Spacer(modifier = Modifier.size(8.dp))
