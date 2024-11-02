@@ -1,6 +1,8 @@
 package elder.ly.mobile.domain.service
 
 import elder.ly.mobile.domain.model.Specialtie
+import elder.ly.mobile.domain.model.enums.GenderEnum
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -50,8 +52,8 @@ data class CreateUserInput(
     val birthDate: LocalDate?,
     val biography: String?,
     val profilePicture: String?,
-    val userType: Long,
-    val gender: Long,
+    val userType: TypeUserEnum,
+    val gender: GenderEnum,
     val address: CreateAddressInput,
     val specialties: List<Long>
 )

@@ -1,16 +1,19 @@
 package elder.ly.mobile.di
 
+import elder.ly.mobile.data.Rest
 import elder.ly.mobile.data.repository.calendar.CalendarRepository
 import elder.ly.mobile.data.repository.message.MessageRepository
 import elder.ly.mobile.data.repository.proposal.ProposalRepository
 import elder.ly.mobile.data.repository.specialtie.SpecialtieRepository
+import elder.ly.mobile.data.repository.user.IUserRepository
 import elder.ly.mobile.data.repository.user.UserRepository
 import elder.ly.mobile.domain.service.CalendarService
 import elder.ly.mobile.domain.service.MessageService
 import elder.ly.mobile.domain.service.ProposalService
 import elder.ly.mobile.domain.service.SpecialtieService
 import elder.ly.mobile.domain.service.UserService
-import elder.ly.mobile.data.Rest
+import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
@@ -51,11 +54,11 @@ val appModule = module {
         Rest.userService
     }
 
-    single<UserRepository> {
+    single<IUserRepository> {
         UserRepository(get())
     }
 
-//    viewModel {
-//        SignUpStepViewModel(get())
-//    }
+    viewModel {
+        SignUpStepViewModel(get())
+    }
 }

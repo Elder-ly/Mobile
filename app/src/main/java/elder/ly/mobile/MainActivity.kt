@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.di.appModule
 import elder.ly.mobile.ui.composables.screens.addressinfo.AddressInfoScreen
 import elder.ly.mobile.ui.composables.screens.chat.ChatScreen
 import elder.ly.mobile.ui.composables.screens.chatlist.ChatListScreen
@@ -29,11 +30,20 @@ import elder.ly.mobile.ui.composables.screens.signupstep2.SignUpStep2Screen
 import elder.ly.mobile.ui.composables.screens.welcome.WelcomeScreen
 import elder.ly.mobile.ui.theme.MobileTheme
 import kotlinx.serialization.Serializable
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        startKoin {
+            androidLogger()
+            androidContext(this@MainActivity) // this@MainActivity
+//            androidContext(applicationContext) serve para a aplicação que o module vai servir pra
+            modules(appModule)
+        }
         setContent {
             MaterialTheme {
                 Scaffold(modifier = Modifier
