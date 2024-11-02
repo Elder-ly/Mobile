@@ -12,6 +12,8 @@ import elder.ly.mobile.domain.service.SpecialtieService
 import elder.ly.mobile.domain.service.UserService
 import elder.ly.mobile.ui.viewmodel.ProfileViewModel
 import elder.ly.mobile.data.Rest
+import elder.ly.mobile.data.repository.user.IUserRepository
+import elder.ly.mobile.data.repository.user.UserRepositoryLocalImpl
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -53,8 +55,9 @@ val appModule = module {
         Rest.userService
     }
 
-    single<UserRepository> {
-        UserRepository(get())
+    single<IUserRepository> {
+//        UserRepository(get())
+        UserRepositoryLocalImpl(get())
     }
 
     viewModel{

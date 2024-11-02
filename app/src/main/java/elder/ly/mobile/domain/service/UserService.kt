@@ -1,6 +1,8 @@
 package elder.ly.mobile.domain.service
 
 import elder.ly.mobile.domain.model.Specialtie
+import elder.ly.mobile.domain.model.enums.GenderEnum
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -34,6 +36,9 @@ interface UserService {
 
     @GET("/usuarios/{id}")
     suspend fun getUser(@Path("id") id : Long) : Response<GetUsersOutput>
+
+    @GET("/usuarios/{id}")
+    suspend fun getUserProfile(@Path("id") id : Long) : Response<GetProfileUse>
 
     @PUT("/usuarios/{id}")
     suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>
@@ -86,10 +91,15 @@ data class GetUsersOutput(
     val birthDate: LocalDate?,
     val biography: String?,
     val profilePicture: String?,
-    val userType: Long,
-    val gender: Long,
+    val userType: TypeUserEnum,
+    val gender: GenderEnum,
     val address: AddressOutput,
     val specialties: List<Specialtie>
+)
+
+data class GetProfileUse(
+    val name: String,
+    val profilePicture: String?
 )
 
 data class GetUsersClientsOutput(

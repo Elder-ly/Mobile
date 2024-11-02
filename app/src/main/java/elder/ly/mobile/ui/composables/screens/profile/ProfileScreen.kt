@@ -32,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.AddressInfo
@@ -41,9 +42,13 @@ import elder.ly.mobile.Welcome
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.theme.tertiaryLight
+import elder.ly.mobile.ui.viewmodel.ProfileViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
+    val viewModel = koinViewModel<ProfileViewModel>()
+
     Scaffold (
         bottomBar = {
             if (showBottomBar){
@@ -61,7 +66,11 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     .weight(1f)
                     .padding(top = 30.dp, start = 16.dp, end = 16.dp)
             ) {
-                ImageCuidador(modifier = Modifier.size(160.dp).align(Alignment.CenterHorizontally))
+                ImageCuidador(modifier = Modifier
+                    .size(160.dp)
+                    .align(Alignment.CenterHorizontally),
+                    url = viewModel.url
+                )
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -70,7 +79,7 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 36.sp,
                     color = Color.Black,
-                    text = "Maria Antonieta"
+                    text = viewModel.nome
                 )
                 MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle,
                     onclick = { navController.navigate(PersonalInfo) })

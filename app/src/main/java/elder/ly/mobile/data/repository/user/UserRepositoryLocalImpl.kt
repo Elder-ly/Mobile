@@ -1,5 +1,9 @@
 package elder.ly.mobile.data.repository.user
 
+import elder.ly.mobile.domain.model.User
+import elder.ly.mobile.domain.model.enums.GenderEnum
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
+import elder.ly.mobile.domain.service.AddressOutput
 import elder.ly.mobile.domain.service.CreateUserInput
 import elder.ly.mobile.domain.service.GetProfileUse
 import elder.ly.mobile.domain.service.GetUsersClientsOutput
@@ -10,7 +14,7 @@ import elder.ly.mobile.domain.service.UpdateUserInput
 import elder.ly.mobile.domain.service.UserService
 import retrofit2.Response
 
-class UserRepository(
+class UserRepositoryLocalImpl(
     private val service : UserService
 ) : IUserRepository {
 
@@ -42,11 +46,16 @@ class UserRepository(
     }
 
     override suspend fun getUser(id: Long): Response<GetUsersOutput> {
-        return service.getUser(id);
+        return service.getUser(id)
     }
 
     override suspend fun getUserProfile(id: Long): Response<GetProfileUse> {
-        return service.getUserProfile(id)
+        return Response.success(
+            GetProfileUse (
+                name = "Gerson",
+                profilePicture = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            )
+        )
     }
 
     override suspend fun updateUsers(
