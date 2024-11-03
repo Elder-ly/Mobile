@@ -1,135 +1,56 @@
 package elder.ly.mobile.ui.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.user.IUserRepository
-import elder.ly.mobile.domain.model.enums.GenderEnum
-import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import elder.ly.mobile.domain.service.CreateAddressInput
+import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.domain.service.CreateUserInput
-import elder.ly.mobile.domain.service.GetUsersOutput
+import elder.ly.mobile.ui.composables.stateholders.MainStateHolder
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Response
-import java.time.LocalDate
 
 class SignUpStepViewModel(
     private val userRepository : IUserRepository
 ) : ViewModel() {
+    private val _userCreationStatus = MutableStateFlow<MainStateHolder>(MainStateHolder.Loading)
+    val userCreationStatus: StateFlow<MainStateHolder> = _userCreationStatus
 
-    val userInput : MutableLiveData<CreateUserInput> by lazy {
-        MutableLiveData<CreateUserInput>(CreateUserInput(
-            name = "",
-            email = "",
-            document = "",
-            birthDate = null,
-            biography = null,
-            profilePicture = null,
-            userType = TypeUserEnum.CLIENT,
-            gender = GenderEnum.PREFER_NOT_TO_SAY,
-            address = CreateAddressInput(
-                cep = "",
-                street = "",
-                complement = null,
-                neighborhood = "",
-                number = null,
-                city = "",
-                state = ""
-            ),
-            specialties = emptyList()
-        ))
-    }
-
-    fun updatePersonalData(
-        name: String,
-        email: String,
-        document: String,
-        birthDate: LocalDate?,
-        biography: String?,
-        profilePicture: String?,
-        userType: TypeUserEnum,
-        gender: GenderEnum,
-        specialties: List<Long>
-    ) {
-        val currentAddress = userInput.value?.address ?: CreateAddressInput(
-            cep = "",
-            street = "",
-            complement = null,
-            neighborhood = "",
-            number = null,
-            city = "",
-            state = ""
-        )
-        userInput.value = CreateUserInput(
-            name = name,
-            email = email,
-            document = document,
-            birthDate = birthDate,
-            biography = biography,
-            profilePicture = profilePicture,
-            userType = userType,  // Usando o TypeUserEnum
-            gender = gender,      // Usando o GenderEnum
-            address = currentAddress,
-            specialties = specialties
-        )
-    }
-
-    fun updateAddressData(
-        cep: String,
-        street: String,
-        complement: String?,
-        neighborhood: String,
-        number: String?,
-        city: String,
-        state: String
-    ) {
-        val currentUser = userInput.value ?: CreateUserInput(
-            name = "",
-            email = "",
-            document = "",
-            birthDate = null,
-            biography = null,
-            profilePicture = null,
-            userType = TypeUserEnum.CLIENT,
-            gender = GenderEnum.PREFER_NOT_TO_SAY,
-            address = CreateAddressInput(
-                cep = cep,
-                street = street,
-                complement = complement,
-                neighborhood = neighborhood,
-                number = number,
-                city = city,
-                state = state
-            ),
-            specialties = emptyList()
-        )
-        userInput.value = currentUser.copy(
-            address = CreateAddressInput(
-                cep = cep,
-                street = street,
-                complement = complement,
-                neighborhood = neighborhood,
-                number = number,
-                city = city,
-                state = state
-            )
-        )
-    }
-
-    // Função para enviar os dados do usuário ao servidor
-    fun createUser() {
-        val userData = userInput.value ?: return
-
+    // Função para enviar os dados ao servidor
+    fun createUser(createClientInput: CreateClientInput, createAddressInput: CreateAddressInput) {
         viewModelScope.launch {
+            _userCreationStatus.value = MainStateHolder.Loading
             try {
-                val response: Response<GetUsersOutput> = userRepository.createUserClient(userData)
+                // Criação do `CreateUserInput` com os dados de `CreateClientInput` e `CreateAddressInput`
+                val completeUserInput = CreateUserInput(
+                    nome = createClientInput.nome,
+                    email = createClientInput.email,
+                    documento = createClientInput.documento,
+                    dataNascimento = createClientInput.dataNascimento,
+                    biografia = createClientInput.biografia,
+                    fotoPerfil = createClientInput.fotoPerfil,
+                    tipoUsuario = createClientInput.tipoUsuario,
+                    genero = createClientInput.genero,
+                    endereco = createAddressInput, // Passa o endereço completo usando `createAddressInput`
+                    especialidades = createClientInput.especialidades
+                )
+
+                // Enviar o objeto completo para a API
+                val response = userRepository.createUserClient(completeUserInput)
+
+                // Verificar a resposta da API
                 if (response.isSuccessful) {
-                    response.body()!!
+                    response.body()?.let { user ->
+                        _userCreationStatus.value = MainStateHolder.Content(user) // Atualiza o status com os dados do usuário criado
+                    } ?: run {
+                        _userCreationStatus.value = MainStateHolder.Error("Resposta vazia do servidor")
+                    }
                 } else {
-                    ("Erro: ${response.code()}")
+                    _userCreationStatus.value = MainStateHolder.Error("Erro: ${response.code()}")
                 }
             } catch (e: Exception) {
-                (e.message ?: "Erro desconhecido")
+                _userCreationStatus.value = MainStateHolder.Error("Erro: ${e.message}")
             }
         }
     }

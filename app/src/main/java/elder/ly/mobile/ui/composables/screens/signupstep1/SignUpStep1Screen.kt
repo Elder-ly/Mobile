@@ -19,9 +19,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import elder.ly.mobile.SignUpStep2
 import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.model.enums.TypeUserEnum
+import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
@@ -35,11 +37,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 
+
 @Composable
 fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) {
 
     val context = LocalContext.current
-    val signUpStepViewModel = koinViewModel<SignUpStepViewModel>()
+    val signUpStepViewModel: SignUpStepViewModel = koinViewModel()
     val coroutineScope = rememberCoroutineScope()
 
     var profilePicture by remember { mutableStateOf<String?>(null) }
@@ -154,24 +157,37 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
             NextButton(
                 label = "Avançar",
                 onclick = {
-                    val birthDateLocalDate = ConvertStringToLocalDate.convert(birthDate);
+                    // Verifique se todos os campos obrigatórios foram preenchidos
+                    if (fullName.isBlank() || email.isBlank() || document.isBlank() || gender.isBlank()) {
+                        Toast.makeText(context, "Por favor, preencha todos os campos obrigatórios.", Toast.LENGTH_LONG).show()
+                    }
 
-                    signUpStepViewModel.updatePersonalData(
-                        name = fullName,
+                    val formattedDate = ConvertStringToLocalDate.convertDate(birthDate)
+                    if (formattedDate.isBlank()){
+                        Toast.makeText(context, "Data está como: $birthDate.", Toast.LENGTH_LONG).show()
+                    }
+
+                    val createClientInput = CreateClientInput(
+                        nome = fullName,
                         email = email,
-                        document = document,
-                        birthDate = birthDateLocalDate,
-                        biography = null,
-                        profilePicture = profilePicture, // Passando a URL do profile picture
-                        userType = TypeUserEnum.CLIENT,
-                        gender = when (gender) {
-                            "Masculino" -> GenderEnum.MALE
-                            "Feminino" -> GenderEnum.FEMALE
-                            else -> GenderEnum.PREFER_NOT_TO_SAY
+                        documento = document,
+                        dataNascimento = formattedDate,
+                        biografia = null,
+                        fotoPerfil = null,
+                        tipoUsuario = TypeUserEnum.CLIENT.id,
+                        genero = when (gender) {
+                            "Masculino" -> GenderEnum.MALE.id
+                            "Feminino" -> GenderEnum.FEMALE.id
+                            else -> GenderEnum.PREFER_NOT_TO_SAY.id
                         },
-                        specialties = listOf()
+                        especialidades = listOf()
                     )
 
+                    val gson = Gson()
+                    val createClientInputJson = gson.toJson(createClientInput)
+
+                    // Navegue para a segunda tela passando `CreateUserInput` como argumento
+                    navController.currentBackStackEntry?.savedStateHandle?.set("createClientInputJson", createClientInputJson)
                     navController.navigate(SignUpStep2)
                 }
             )

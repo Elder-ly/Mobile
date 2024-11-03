@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.di.appModule
+import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.ui.composables.screens.addressinfo.AddressInfoScreen
 import elder.ly.mobile.ui.composables.screens.chat.ChatScreen
 import elder.ly.mobile.ui.composables.screens.chatlist.ChatListScreen
@@ -39,9 +40,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         startKoin {
-            androidLogger()
+//            androidLogger()
             androidContext(this@MainActivity) // this@MainActivity
-//            androidContext(applicationContext) serve para a aplicação que o module vai servir pra
+//            androidContext(applicationContext) // serve para a aplicação que o module vai servir pra
             modules(appModule)
         }
         setContent {

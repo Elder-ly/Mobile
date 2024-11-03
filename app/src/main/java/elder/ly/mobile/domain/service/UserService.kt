@@ -1,8 +1,6 @@
 package elder.ly.mobile.domain.service
 
 import elder.ly.mobile.domain.model.Specialtie
-import elder.ly.mobile.domain.model.enums.GenderEnum
-import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -46,16 +44,28 @@ interface UserService {
 }
 
 data class CreateUserInput(
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate?,
-    val biography: String?,
-    val profilePicture: String?,
-    val userType: TypeUserEnum,
-    val gender: GenderEnum,
-    val address: CreateAddressInput,
-    val specialties: List<Long>
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val tipoUsuario: Long,
+    val genero: Long,
+    val endereco: CreateAddressInput,
+    val especialidades: List<Long>
+)
+
+data class CreateClientInput(
+    val nome: String,
+    val email: String,
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val tipoUsuario: Long,
+    val genero: Long,
+    val especialidades: List<Long>
 )
 
 data class UpdateUserInput(
@@ -72,12 +82,12 @@ data class UpdateUserInput(
 
 data class CreateAddressInput(
     val cep: String,
-    val street: String,
-    val complement: String?,
-    val neighborhood: String,
-    val number: String?,
-    val city: String,
-    val state: String
+    val logradouro: String,
+    val complemento: String?,
+    val bairro: String,
+    val numero: String?,
+    val cidade: String,
+    val uf: String
 )
 
 data class GetUsersOutput(

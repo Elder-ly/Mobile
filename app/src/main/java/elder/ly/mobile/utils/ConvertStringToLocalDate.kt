@@ -1,8 +1,10 @@
 package elder.ly.mobile.utils
 
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.util.Locale
 
 object ConvertStringToLocalDate {
 
@@ -26,6 +28,22 @@ object ConvertStringToLocalDate {
             birthDate?.let { LocalDate.parse(it, formatter) }
         } catch (e: DateTimeParseException) {
             null
+        }
+    }
+
+    fun convertDate(input: String): String {
+        // Define o formato de entrada e saída
+        val inputFormat = SimpleDateFormat("ddMMyyyy", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        return try {
+            // Converte a string de entrada para um objeto Date
+            val date = inputFormat.parse(input)
+            // Formata a data no novo formato
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            // Em caso de erro, retorna uma string vazia ou trate o erro conforme necessário
+            ""
         }
     }
 }

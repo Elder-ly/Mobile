@@ -1,5 +1,6 @@
 package elder.ly.mobile.data.repository.user
 
+import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.domain.service.CreateUserInput
 import elder.ly.mobile.domain.service.GetUsersClientsOutput
 import elder.ly.mobile.domain.service.GetUsersCollaboratorInput

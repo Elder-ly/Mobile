@@ -1,6 +1,6 @@
 package elder.ly.mobile.domain.model
 
-data class Adresses(
+data class Addresses(
     val id : Long,
     val zipCode : String,
     var street : String,

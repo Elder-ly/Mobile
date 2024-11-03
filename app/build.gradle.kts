@@ -100,6 +100,7 @@ dependencies {
 
     //RetroFit
     implementation(libs.retrofit)
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
     //Gson
     implementation(libs.gson)
