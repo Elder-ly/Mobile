@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,8 +58,31 @@ fun ChatScreen(navController: NavController) {
                 .padding(paddingValues)
         ) {
             ChatTopBar(navController, conversation!!)
-            ChatScreen()
-            MessageInputField()
+
+            Divider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+                    item {
+                        ChatMessage(message = "Olá! Como você está?", isSender = false)
+                        ChatMessage(message = "Estou bem, e você?", isSender = true)
+                        ChatMessage(message = "Estou ótimo, obrigado por perguntar!", isSender = false)
+                    }
+                }
+                MessageInputField()
+            }
         }
     }
 }
