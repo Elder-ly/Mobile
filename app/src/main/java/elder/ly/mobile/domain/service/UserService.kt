@@ -1,6 +1,7 @@
 package elder.ly.mobile.domain.service
 
 import elder.ly.mobile.domain.model.Specialtie
+import elder.ly.mobile.domain.model.User
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -89,7 +90,7 @@ data class GetUsersOutput(
     val userType: Long,
     val gender: Long,
     val address: AddressOutput,
-    val specialties: List<Specialtie>
+    val specialties: List<SpecialtieOutput>
 )
 
 data class GetUsersClientsOutput(
@@ -127,4 +128,16 @@ data class GetUsersCollaboratorInput(
     val specialties: List<String>,
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime
+)
+
+data class ResidenceOutput(
+    val id : Long,
+    val address : AddressOutput,
+    val user: GetUsersOutput
+)
+
+data class ResumeOutput(
+    val id: Long,
+    val user : GetUsersOutput,
+    val specialtie : SpecialtieOutput
 )

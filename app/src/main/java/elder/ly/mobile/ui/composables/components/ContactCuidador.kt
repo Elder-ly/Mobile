@@ -21,20 +21,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import elder.ly.mobile.Chat
+import elder.ly.mobile.domain.service.UserConversationOutput
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @Composable
-fun Contacts(navController: NavController) {
+fun Contacts(navController: NavController, conversation: UserConversationOutput) {
         Row(
             modifier = Modifier
                 .padding(start = 12.dp, end = 12.dp, bottom = 8.dp, top = 8.dp)
                 .height(88.dp)
-                .clickable { navController.navigate(Chat) },
+                .clickable {
+                    val gson = Gson()
+                    val createConversationJson = gson.toJson(conversation)
+
+                    navController.currentBackStackEntry?.savedStateHandle?.set("conversationJson", createConversationJson)
+                    navController.navigate(Chat)
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ImageCuidador(modifier = Modifier.size(56.dp))
+            ImageCuidador(modifier = Modifier.size(56.dp), url = conversation.profilePicture ?: "")
 
             Column(
                 modifier = Modifier
@@ -42,11 +50,11 @@ fun Contacts(navController: NavController) {
                     .align(Alignment.CenterVertically)
 
             ) {
-                Text(text = "Vila Matilde", color = secondaryContainerLight)
-                Text(text = "Maria Antonieta", fontSize = 18.sp)
+                Text(text = conversation.residences[0].address.neighborhood, color = secondaryContainerLight)
+                Text(text = conversation.name, fontSize = 18.sp)
                 LazyRow {
-                    items(listOf("Fraldas", "Bingo", "Medicação")) { featureText ->
-                        Feature(text = featureText)
+                    items(conversation.resumes) { featureText ->
+                        Feature(text = featureText.specialtie.name)
                     }
                 }
             }

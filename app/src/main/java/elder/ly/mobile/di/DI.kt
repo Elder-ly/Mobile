@@ -11,6 +11,10 @@ import elder.ly.mobile.domain.service.ProposalService
 import elder.ly.mobile.domain.service.SpecialtieService
 import elder.ly.mobile.domain.service.UserService
 import elder.ly.mobile.data.Rest
+import elder.ly.mobile.data.repository.message.IMessageRepository
+import elder.ly.mobile.data.repository.message.MessageRepositoryLocal
+import elder.ly.mobile.ui.viewmodel.ChatListViewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
@@ -27,8 +31,9 @@ val appModule = module {
         Rest.messageService
     }
 
-    single<MessageRepository> {
-        MessageRepository(get())
+    single<IMessageRepository> {
+        // MessageRepository(get())
+        MessageRepositoryLocal(get())
     }
 
     single<ProposalService> {
@@ -55,7 +60,7 @@ val appModule = module {
         UserRepository(get())
     }
 
-//    viewModel {
-//        SignUpStepViewModel(get())
-//    }
+    viewModel {
+        ChatListViewModel(get())
+    }
 }

@@ -19,7 +19,7 @@ interface MessageService {
     suspend fun getMessageUser(@Path("remetenteId") senderId: Long, @Path("destinatarioId") recipientId: Long) : Response<List<MessageWithProposalOutput>>
 
     @GET("/mensagens/conversas/{userId}")
-    suspend fun getConversations(@Path("userId") userId: Long) : Response<List<GetMessageOutput>>
+    suspend fun getConversations(@Path("userId") userId: Long) : Response<List<UserConversationOutput>>
 }
 
 data class CreateMessageInput(
@@ -63,8 +63,8 @@ data class UserConversationOutput(
     val id: Long,
     val name: String,
     val profilePicture: String?,
-    val residences: List<Residence> = emptyList(),
-    val resumes: List<Resumes> = emptyList()
+    val residences: List<ResidenceOutput> = emptyList(),
+    val resumes: List<ResumeOutput> = emptyList()
 ) {
     // Obtém o endereço resumido a partir da primeira residência, se disponível
     fun getAddress(): SimplifiedAddress? {

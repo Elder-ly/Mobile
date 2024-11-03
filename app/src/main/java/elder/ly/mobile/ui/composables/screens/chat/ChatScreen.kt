@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -38,16 +37,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
+import elder.ly.mobile.domain.service.UserConversationOutput
 
 @Composable
 fun ChatScreen(navController: NavController) {
+
+    val gson = Gson()
+    val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
+    val conversationJson = savedStateHandle?.get<String>("conversationJson")
+
+    val conversation = conversationJson?.let { gson.fromJson(it, UserConversationOutput::class.java) }
+
     Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            ChatTopBar(navController)
+            ChatTopBar(navController, conversation!!)
             ChatScreen()
             MessageInputField()
         }
