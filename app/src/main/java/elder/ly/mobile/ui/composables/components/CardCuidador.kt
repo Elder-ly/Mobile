@@ -22,10 +22,15 @@ import androidx.navigation.NavController
 import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
+import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
+fun CardCuidador(modifier: Modifier = Modifier, navController: NavController) {
+
+    val viewModel: SearchResultViewModel = koinViewModel()
+
     Column (
         modifier = modifier
             .border(
@@ -41,7 +46,7 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
                 .padding(bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
-            ImageCuidador(modifier = modifier.size(48.dp))
+            ImageCuidador(modifier = modifier.size(48.dp), viewModel.url)
 
             Spacer(modifier = modifier.size(8.dp))
 
@@ -49,22 +54,22 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
                 modifier = modifier
                     .weight(1f)
             ){
-                Text(text = "Vila Matilde", color = secondaryContainerLight)
-                Text(text = "Maria Antonieta", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(text = viewModel.nome, color = secondaryContainerLight)
+                Text(text = viewModel.bairro, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
             Column {
-                Text(text = "R$150/hora")
+                Text(text = "R$${viewModel.preco}/hora")
             }
         }
 
-        Text(text = "Sou uma pessoa dedicada e experiente, comprometida em proporcionar cuidados compassivos e de qualidade para seus entes queridos. Com habilidades abrangentes em assistência diária, incluindo higiene.")
+        Text(text = viewModel.biografia)
 
         Spacer(modifier = modifier.size(8.dp))
 
         FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Feature(text = "Fraldas")
-            Feature(text = "Bingo")
-            Feature(text = "Medicação")
+            viewModel.especialidades.forEach { especialidade ->
+                Feature(text = especialidade.name)
+            }
         }
     }
     Spacer(modifier = Modifier.padding(bottom = 8.dp))

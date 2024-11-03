@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentManager.BackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import elder.ly.mobile.di.appModule
 import elder.ly.mobile.ui.composables.screens.addressinfo.AddressInfoScreen
 import elder.ly.mobile.ui.composables.screens.chat.ChatScreen
@@ -30,6 +33,7 @@ import elder.ly.mobile.ui.composables.screens.signupstep2.SignUpStep2Screen
 import elder.ly.mobile.ui.composables.screens.welcome.WelcomeScreen
 import elder.ly.mobile.ui.theme.MobileTheme
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -67,7 +71,18 @@ object SignUpStep2
 object Search
 
 @Serializable
-object SearchResult
+data class SearchCriteria(
+    val startDate: String,
+    val endDate: String,
+    val startTime: String,
+    val endTime: String,
+    val specialties: List<String>
+)
+
+@Serializable
+data class SearchResult(
+    val searchCriteria: SearchCriteria
+)
 
 @Serializable
 object ProfileDetails
@@ -112,7 +127,9 @@ fun App(modifier: Modifier = Modifier) {
         }
 
         composable<SearchResult> {
-            SearchResultScreen(navController = navController)
+            val searchCriteriaJson = it.arguments?.getString("searchCriteriaJson")
+            val searchCriteria = searchCriteriaJson?.let { Json.decodeFromString<SearchCriteria>(it) }
+            SearchResultScreen(navController = navController, criteria = searchCriteria)
         }
 
         composable<Profile> {
