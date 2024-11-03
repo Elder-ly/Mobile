@@ -104,6 +104,7 @@ dependencies {
     //Gson
     implementation(libs.gson)
     implementation(libs.converter.gson)
+    implementation("com.google.code.gson:gson:2.8.8")
 
     //Google SSO
     implementation(libs.googleid)

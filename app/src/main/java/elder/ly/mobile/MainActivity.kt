@@ -71,18 +71,7 @@ object SignUpStep2
 object Search
 
 @Serializable
-data class SearchCriteria(
-    val startDate: String,
-    val endDate: String,
-    val startTime: String,
-    val endTime: String,
-    val specialties: List<String>
-)
-
-@Serializable
-data class SearchResult(
-    val searchCriteria: SearchCriteria
-)
+object SearchResult
 
 @Serializable
 object ProfileDetails
@@ -127,9 +116,7 @@ fun App(modifier: Modifier = Modifier) {
         }
 
         composable<SearchResult> {
-            val searchCriteriaJson = it.arguments?.getString("searchCriteriaJson")
-            val searchCriteria = searchCriteriaJson?.let { Json.decodeFromString<SearchCriteria>(it) }
-            SearchResultScreen(navController = navController, criteria = searchCriteria)
+            SearchResultScreen(navController = navController)
         }
 
         composable<Profile> {

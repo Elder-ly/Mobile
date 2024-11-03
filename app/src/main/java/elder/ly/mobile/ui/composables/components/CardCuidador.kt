@@ -54,8 +54,8 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController) {
                 modifier = modifier
                     .weight(1f)
             ){
-                Text(text = viewModel.nome, color = secondaryContainerLight)
-                Text(text = viewModel.bairro, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(text = viewModel.bairro, color = secondaryContainerLight)
+                Text(text = viewModel.nome, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
             Column {
                 Text(text = "R$${viewModel.preco}/hora")

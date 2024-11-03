@@ -49,7 +49,7 @@ fun ProfileDetailsScreen(
     Scaffold (
         bottomBar = {
             if (showBottomBar){
-                BottomBar(navController = navController)
+                BottomBar(navController = navController, colorBlueSearch = true)
             }
         }
     ){ paddingValues ->

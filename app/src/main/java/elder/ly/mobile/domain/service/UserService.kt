@@ -154,3 +154,12 @@ data class GetUsersCollaboratorInput(
     val startDateTime: LocalDateTime,
     val endDateTime: LocalDateTime
 )
+
+
+data class GetDataSearchScreen(
+    val startDate: String,
+    val endDate: String,
+    val startTime: String,
+    val endTime: String,
+    val specialties: List<String>
+)

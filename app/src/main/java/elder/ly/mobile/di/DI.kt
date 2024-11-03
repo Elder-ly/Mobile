@@ -64,7 +64,13 @@ val appModule = module {
 
     viewModel{
         ProfileViewModel(get())
+    }
+
+    viewModel {
         ProfileDetailsViewModel(get())
+    }
+
+    viewModel {
         SearchResultViewModel(get())
     }
 }

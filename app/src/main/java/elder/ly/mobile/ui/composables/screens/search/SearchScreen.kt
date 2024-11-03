@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,28 +17,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import elder.ly.mobile.SearchCriteria
+import com.google.gson.Gson
 import elder.ly.mobile.SearchResult
+import elder.ly.mobile.domain.service.GetDataSearchScreen
 import elder.ly.mobile.ui.composables.components.BottomBar
-import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.components.DataTextButton
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.HourTextButton
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.SpecialtyList
+import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.theme.MobileTheme
-import elder.ly.mobile.utils.dataStore
-import elder.ly.mobile.utils.saveCriteria
-import elder.ly.mobile.utils.saveUser
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 
 @Composable
@@ -48,8 +42,6 @@ fun SearchScreen(
     showBottomBar: Boolean = true,
     navController: NavController
 ) {
-    val context = LocalContext.current
-
     var startDate by remember { mutableStateOf("") }
     var endDate by remember { mutableStateOf("") }
     var startTime by remember { mutableStateOf("") }
@@ -141,28 +133,24 @@ fun SearchScreen(
 
                 Spacer(modifier = Modifier.weight(1f))
 
+                val sampleSearchResult = GetDataSearchScreen(
+                    startDate = startDate,
+                    startTime = startTime,
+                    endDate = endDate,
+                    endTime = endTime,
+                    specialties = selectedSpecialties
+                )
+
+                val gson = Gson()
+                val sampleSearchResultInputJson = gson.toJson(sampleSearchResult)
+
+
                 NextButton(
                     label = "Pesquisar",
                     icon = Icons.Filled.Search,
                     onclick = {
-                        saveCriteria(context, searchCriteria = SearchCriteria(
-                            startDate = startDate,
-                            startTime = startTime,
-                            endDate = endDate,
-                            endTime = endTime,
-                            specialties = selectedSpecialties
-                        ))
-                        navController.navigate(
-                            Json.encodeToString(
-                                SearchCriteria(
-                                    startDate = startDate,
-                                    startTime = startTime,
-                                    endDate = endDate,
-                                    endTime = endTime,
-                                    specialties = selectedSpecialties
-                                )
-                            )
-                        )
+                        navController.currentBackStackEntry?.savedStateHandle?.set("sampleSearchResultInputJson", sampleSearchResultInputJson)
+                        navController.navigate(SearchResult)
                     }
                 )
             }
