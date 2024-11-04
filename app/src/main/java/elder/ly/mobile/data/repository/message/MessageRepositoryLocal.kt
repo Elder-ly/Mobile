@@ -1,13 +1,5 @@
 package elder.ly.mobile.data.repository.message
 
-import androidx.compose.ui.unit.dp
-import elder.ly.mobile.domain.model.Adresses
-import elder.ly.mobile.domain.model.Residence
-import elder.ly.mobile.domain.model.Resumes
-import elder.ly.mobile.domain.model.Specialtie
-import elder.ly.mobile.domain.model.User
-import elder.ly.mobile.domain.model.enums.GenderEnum
-import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import elder.ly.mobile.domain.service.AddressOutput
 import elder.ly.mobile.domain.service.CreateMessageInput
 import elder.ly.mobile.domain.service.GetMessageOutput
@@ -19,7 +11,6 @@ import elder.ly.mobile.domain.service.ResumeOutput
 import elder.ly.mobile.domain.service.SpecialtieOutput
 import elder.ly.mobile.domain.service.UserConversationOutput
 import retrofit2.Response
-import java.time.LocalDate
 
 class MessageRepositoryLocal(
     private val service : MessageService
@@ -59,7 +50,7 @@ class MessageRepositoryLocal(
             specialties = List(2) {
                 SpecialtieOutput(
                     id = 1.toLong(),
-                    name = "A $it"
+                    nome = "A $it"
                 )
             }
         )
@@ -67,32 +58,16 @@ class MessageRepositoryLocal(
         return Response.success(List(10) {
             UserConversationOutput(
                 id = it.toLong(),
-                name = "Shadow Fan #$it",
-                profilePicture = "https://static.wikia.nocookie.net/sonic/images/c/c2/PSN_Avatar_Shadow.png",
-                residences = List(1) { a ->
-                    ResidenceOutput(
-                        id = a.toLong(),
-                        address = AddressOutput(
-                            id = a.toLong(),
-                            cep = "01001000",
-                            street = "Teste",
-                            complement = "Teste",
-                            neighborhood = "Artur Alvim",
-                            number = "1",
-                            city = "São Paulo",
-                            state = "SP"
-                        ),
-                        user = user
-                    )
-                },
-                resumes = List(1) {
-                    ResumeOutput(
+                nome = "Shadow Fan #$it",
+                fotoPerfil = "https://static.wikia.nocookie.net/sonic/images/c/c2/PSN_Avatar_Shadow.png",
+                endereco = ResidenceOutput(
+                    bairro = "Artur Alvim",
+                    cidade = "São Paulo"
+                ),
+                especialidades = List(1) {
+                    SpecialtieOutput(
                         id = it.toLong(),
-                        user = user,
-                        specialtie = SpecialtieOutput(
-                            id = 1.toLong(),
-                            name = "A $it"
-                        )
+                        nome = "A $it"
                     )
                 }
             )

@@ -48,12 +48,12 @@ fun ChatTopBar(navController: NavController, conversation: UserConversationOutpu
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    ImageCuidador(Modifier.size(48.dp).clickable { navController.navigate(ProfileDetails) }, url = conversation.profilePicture!!)
+                    ImageCuidador(Modifier.size(48.dp).clickable { navController.navigate(ProfileDetails) }, url = conversation.fotoPerfil ?: "")
                     Column {
                         Text(
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
-                            text = conversation.name)
+                            text = conversation.nome)
                         Text(
                             color = primaryLight,
                             text = "Cuidador(a)")

@@ -131,9 +131,8 @@ data class GetUsersCollaboratorInput(
 )
 
 data class ResidenceOutput(
-    val id : Long,
-    val address : AddressOutput,
-    val user: GetUsersOutput
+    val bairro : String,
+    val cidade: String
 )
 
 data class ResumeOutput(

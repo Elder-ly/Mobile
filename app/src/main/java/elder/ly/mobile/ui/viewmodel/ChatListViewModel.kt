@@ -1,8 +1,11 @@
 package elder.ly.mobile.ui.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.message.IMessageRepository
@@ -14,7 +17,7 @@ class ChatListViewModel(
     private val messageRepository: IMessageRepository
 ) : ViewModel() {
 
-    var conversations = mutableListOf<UserConversationOutput>();
+    var conversations = mutableStateListOf<UserConversationOutput>();
 
     var message by mutableStateOf("")
 
@@ -28,10 +31,12 @@ class ChatListViewModel(
         isLoading = true
 
         viewModelScope.launch {
-            val response = messageRepository.getConversations(1)
+            val response = messageRepository.getConversations(3)
 
             if (response.isSuccessful) {
-                conversations = response.body() as MutableList<UserConversationOutput>
+                conversations.clear()
+                response.body()?.let { conversations.addAll(it) }
+                Log.d("ChatListViewModel", "Conversas carregadas: $conversations")
             } else {
                 message = "Ocorreu um erro ao buscar as conversas.\nVerifique sua conexão\n(${response.code()})"
             }

@@ -7,6 +7,7 @@ import elder.ly.mobile.domain.service.ProposalService
 import elder.ly.mobile.domain.service.SpecialtieService
 import elder.ly.mobile.domain.service.UserService
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -14,6 +15,7 @@ object Rest {
 
     val client by lazy{
         OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor())
             .build()
     }
 
@@ -44,5 +46,11 @@ object Rest {
 
     val userService by lazy {
         api.create(UserService::class.java)
+    }
+
+    fun loggingInterceptor() : HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
     }
 }

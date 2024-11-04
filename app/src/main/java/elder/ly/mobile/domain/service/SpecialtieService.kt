@@ -29,7 +29,7 @@ data class CreateSpecialtie(
 
 data class SpecialtieOutput(
     val id: Long,
-    val name: String
+    val nome: String
 )
 
 data class UpdateSpecialtieInput(

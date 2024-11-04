@@ -42,7 +42,7 @@ fun Contacts(navController: NavController, conversation: UserConversationOutput)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ImageCuidador(modifier = Modifier.size(56.dp), url = conversation.profilePicture ?: "")
+            ImageCuidador(modifier = Modifier.size(56.dp), url = conversation.fotoPerfil ?: "")
 
             Column(
                 modifier = Modifier
@@ -50,11 +50,11 @@ fun Contacts(navController: NavController, conversation: UserConversationOutput)
                     .align(Alignment.CenterVertically)
 
             ) {
-                Text(text = conversation.residences[0].address.neighborhood, color = secondaryContainerLight)
-                Text(text = conversation.name, fontSize = 18.sp)
+                Text(text = conversation.endereco.bairro, color = secondaryContainerLight)
+                Text(text = conversation.nome, fontSize = 18.sp)
                 LazyRow {
-                    items(conversation.resumes) { featureText ->
-                        Feature(text = featureText.specialtie.name)
+                    items(conversation.especialidades) { featureText ->
+                        Feature(text = featureText.nome)
                     }
                 }
             }
