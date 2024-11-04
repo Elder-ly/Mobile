@@ -36,7 +36,7 @@ interface UserService {
     suspend fun getUser(@Path("id") id : Long) : Response<GetUsersOutput>
 
     @PUT("/usuarios/{id}")
-    suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>
+    suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<GetUsersOutput>
 
     @DELETE("/usuarios/{id}")
     suspend fun deleteUsers(@Path("id") id : Long) : Void
@@ -69,18 +69,39 @@ data class CreateClientInput(
 )
 
 data class UpdateUserInput(
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate?,
-    val biography: String?,
-    val profilePicture: String?,
-    val gender: Long,
-    val address: CreateAddressInput,
-    val specialties: List<Long>
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val genero: Long,
+    val updateAddressInput: UpdateAddressInput,
+    val especialidades: List<Long>
+)
+
+data class UpdateClientInput(
+    val nome: String,
+    val email: String,
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val genero: Long,
+    val endereco: UpdateAddressInput,
+    val especialidades: List<Long>
 )
 
 data class CreateAddressInput(
+    val cep: String,
+    val logradouro: String,
+    val complemento: String,
+    val bairro: String,
+    val numero: String,
+    val cidade: String,
+    val uf: String
+)
+
+data class UpdateAddressInput(
     val cep: String,
     val logradouro: String,
     val complemento: String?,
@@ -92,16 +113,16 @@ data class CreateAddressInput(
 
 data class GetUsersOutput(
     val id: Long,
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate?,
-    val biography: String?,
-    val profilePicture: String?,
-    val userType: Long,
-    val gender: Long,
-    val address: AddressOutput,
-    val specialties: List<Specialtie>
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val tipoUsuario: Long,
+    val genero: Long,
+    val endereco: AddressOutput,
+    val especialidades: List<Specialtie>
 )
 
 data class GetUsersClientsOutput(
@@ -127,12 +148,12 @@ data class GetUsersCollaboratorOutput(
 data class AddressOutput(
     val id : Long,
     val cep: String,
-    val street: String,
-    val complement: String?,
-    val neighborhood: String,
-    val number: String?,
-    val city: String,
-    val state: String
+    val logradouro: String,
+    val complemento: String,
+    val bairro: String,
+    val numero: String,
+    val cidade: String,
+    val uf: String
 )
 
 data class GetUsersCollaboratorInput(

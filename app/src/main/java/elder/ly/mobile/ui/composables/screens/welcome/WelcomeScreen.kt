@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.PersonalInfo
 import elder.ly.mobile.R
-import elder.ly.mobile.SignUpStep1
 import elder.ly.mobile.ui.viewmodel.AuthViewModel
 
 @Composable
@@ -72,12 +72,14 @@ fun WelcomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(40.dp))
 
             Button(
-                modifier = Modifier.padding(horizontal = 44.dp).height(72.dp),
+                modifier = Modifier
+                    .padding(horizontal = 44.dp)
+                    .height(72.dp),
                 shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
                 onClick = {
 //                    authViewModel.googleSignIn(context = context, navController = navController)
-                    navController.navigate(SignUpStep1)
+                    navController.navigate(PersonalInfo)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,14 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.gson.Gson
 import elder.ly.mobile.PersonalInfo
-import elder.ly.mobile.Search
 import elder.ly.mobile.domain.service.CreateAddressInput
 import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.TopBar
-import elder.ly.mobile.ui.composables.stateholders.MainStateHolder
+import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
 import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
 import elder.ly.mobile.utils.CustomMaskTranformation
 import org.koin.compose.viewmodel.koinViewModel
@@ -200,23 +198,23 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 }
             )
 
-            // Observação do status da criação do usuário
-            when (userCreationStatus) {
-                is MainStateHolder.Loading -> {
-                    CircularProgressIndicator()
-                }
-
-                is MainStateHolder.Content -> {
-                    LaunchedEffect(Unit) {
-                        Toast.makeText(context, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG)
-                            .show()
+            LaunchedEffect(userCreationStatus) {
+                when (userCreationStatus) {
+                    is CreateStateHolder.Loading -> {
+                        // Exibir indicador de carregamento
+//                        CircularProgressIndicator()
                     }
 
-                    navController.navigate(PersonalInfo)
-                }
+                    is CreateStateHolder.Content -> {
+                        // Exibir Toast e navegar apenas uma vez
+                        Toast.makeText(context, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show()
+                        navController.navigate(PersonalInfo)
+                    }
 
-                is MainStateHolder.Error -> {
-                    Toast.makeText(context, "Erro ao cadastrar usuário.", Toast.LENGTH_LONG).show()
+                    is CreateStateHolder.Error -> {
+                        // Exibir Toast de erro
+                        Toast.makeText(context, "Erro ao cadastrar usuário.", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

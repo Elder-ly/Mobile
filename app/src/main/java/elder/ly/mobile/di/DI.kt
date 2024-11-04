@@ -12,6 +12,7 @@ import elder.ly.mobile.domain.service.MessageService
 import elder.ly.mobile.domain.service.ProposalService
 import elder.ly.mobile.domain.service.SpecialtieService
 import elder.ly.mobile.domain.service.UserService
+import elder.ly.mobile.ui.viewmodel.PersonalInfoViewModel
 import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -60,5 +61,9 @@ val appModule = module {
 
     viewModel {
         SignUpStepViewModel(get())
+    }
+
+    viewModel {
+        PersonalInfoViewModel(get())
     }
 }

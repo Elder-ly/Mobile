@@ -28,33 +28,31 @@ import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.TopBar
-import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
-import elder.ly.mobile.utils.ConvertStringToLocalDate
+import elder.ly.mobile.utils.ConvertDate
 import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.utils.UserNotFoundException
 import elder.ly.mobile.utils.getUser
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
 fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) {
 
     val context = LocalContext.current
-    val signUpStepViewModel: SignUpStepViewModel = koinViewModel()
     val coroutineScope = rememberCoroutineScope()
 
     var profilePicture by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-                getUser(context)
+            getUser(context)
                 .catch { e ->
                     if (e is UserNotFoundException) {
                         Toast.makeText(context, "Usuário não encontrado!", Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(context, "Erro ao carregar usuário.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Erro ao carregar usuário.", Toast.LENGTH_LONG)
+                            .show()
                     }
                 }
                 .collect { user ->
@@ -83,18 +81,18 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
         mutableStateOf("")
     }
 
-    Scaffold (
+    Scaffold(
         topBar = {
-            if (showTopBar){
+            if (showTopBar) {
                 TopBar(
                     title = "Cadastro",
                     modifier = Modifier.padding(top = 44.dp, bottom = 16.dp),
                     showBackButton = false,
                     navController = navController
-                    )
+                )
             }
         }
-    ){ paddingValues ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,7 +102,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
             DefaultTextInput(
                 label = "Nome Completo",
                 value = fullName,
-                changeValue = { newFullName : String ->
+                changeValue = { newFullName: String ->
                     fullName = newFullName
                 }
             )
@@ -114,7 +112,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 placeholder = "seuemail@gmail.com",
                 keyboardType = KeyboardType.Email,
                 value = email,
-                changeValue = { newEmail : String ->
+                changeValue = { newEmail: String ->
                     email = newEmail
                 }
             )
@@ -125,7 +123,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 keyboardType = KeyboardType.Number,
                 maxChar = 11,
                 value = document,
-                changeValue = { newDocument : String ->
+                changeValue = { newDocument: String ->
                     document = newDocument
                 }
             )
@@ -137,7 +135,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 mask = CustomMaskTranformation(mask = "##/##/####"),
                 maxChar = 8,
                 value = birthDate,
-                changeValue = { newBirthDate : String ->
+                changeValue = { newBirthDate: String ->
                     birthDate = newBirthDate
                 },
             )
@@ -147,7 +145,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 placeholder = "Selecione um Gênero",
                 options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
                 value = gender,
-                changeValue = { newGender : String ->
+                changeValue = { newGender: String ->
                     gender = newGender
                 }
             )
@@ -159,12 +157,17 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 onclick = {
                     // Verifique se todos os campos obrigatórios foram preenchidos
                     if (fullName.isBlank() || email.isBlank() || document.isBlank() || gender.isBlank()) {
-                        Toast.makeText(context, "Por favor, preencha todos os campos obrigatórios.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            context,
+                            "Por favor, preencha todos os campos obrigatórios.",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
 
-                    val formattedDate = ConvertStringToLocalDate.convertDate(birthDate)
-                    if (formattedDate.isBlank()){
-                        Toast.makeText(context, "Data está como: $birthDate.", Toast.LENGTH_LONG).show()
+                    val formattedDate = ConvertDate.convertDate(birthDate)
+                    if (formattedDate.isBlank()) {
+                        Toast.makeText(context, "Data está como: $birthDate.", Toast.LENGTH_LONG)
+                            .show()
                     }
 
                     val createClientInput = CreateClientInput(
@@ -173,7 +176,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                         documento = document,
                         dataNascimento = formattedDate,
                         biografia = null,
-                        fotoPerfil = null,
+                        fotoPerfil = profilePicture,
                         tipoUsuario = TypeUserEnum.CLIENT.id,
                         genero = when (gender) {
                             "Masculino" -> GenderEnum.MALE.id
@@ -187,7 +190,10 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                     val createClientInputJson = gson.toJson(createClientInput)
 
                     // Navegue para a segunda tela passando `CreateUserInput` como argumento
-                    navController.currentBackStackEntry?.savedStateHandle?.set("createClientInputJson", createClientInputJson)
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        "createClientInputJson",
+                        createClientInputJson
+                    )
                     navController.navigate(SignUpStep2)
                 }
             )

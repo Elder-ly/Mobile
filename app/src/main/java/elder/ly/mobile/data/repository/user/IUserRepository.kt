@@ -24,7 +24,7 @@ interface IUserRepository {
 
     suspend fun getUser(id : Long) : Response<GetUsersOutput>
 
-    suspend fun updateUsers(id : Long, updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>
+    suspend fun updateUsers(id : Long, updateUserInput: UpdateUserInput) : Response<GetUsersOutput>
 
     suspend fun deleteUsers(id : Long) : Void
 }

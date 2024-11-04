@@ -47,7 +47,7 @@ class UserRepository(
     override suspend fun updateUsers(
         id: Long,
         updateUserInput: UpdateUserInput
-    ): Response<List<GetUsersOutput>> {
+    ): Response<GetUsersOutput> {
         return service.updateUsers(id, updateUserInput);
     }
 

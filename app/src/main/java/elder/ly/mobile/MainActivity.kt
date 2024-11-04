@@ -16,7 +16,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.di.appModule
-import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.ui.composables.screens.addressinfo.AddressInfoScreen
 import elder.ly.mobile.ui.composables.screens.chat.ChatScreen
 import elder.ly.mobile.ui.composables.screens.chatlist.ChatListScreen
@@ -32,7 +31,6 @@ import elder.ly.mobile.ui.composables.screens.welcome.WelcomeScreen
 import elder.ly.mobile.ui.theme.MobileTheme
 import kotlinx.serialization.Serializable
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
@@ -47,9 +45,11 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             MaterialTheme {
-                Scaffold(modifier = Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .navigationBarsPadding()
+                ) { innerPadding ->
                     App(modifier = Modifier.padding(innerPadding))
                 }
             }
