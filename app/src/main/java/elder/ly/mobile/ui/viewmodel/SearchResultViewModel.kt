@@ -1,40 +1,38 @@
 package elder.ly.mobile.ui.viewmodel
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.user.IUserRepository
 import elder.ly.mobile.domain.model.Specialtie
+import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import kotlinx.coroutines.launch
 
 class SearchResultViewModel(
     private val userRepository: IUserRepository
 ) : ViewModel() {
 
-    var url by mutableStateOf("")
-    var nome by mutableStateOf("")
-    var bairro by mutableStateOf("")
-    var biografia by mutableStateOf("")
-    var especialidades by mutableStateOf<List<Specialtie>>(emptyList())
-    var preco by mutableStateOf("")
+    val cuidadores = mutableStateListOf<GetUsersCollaboratorOutput>()
+
 
     init {
-        getUserProfileDetails()
+        getUsersCollaborator()
     }
 
-    private fun getUserProfileDetails(){
+    private fun getUsersCollaborator() {
         viewModelScope.launch {
-            val response = userRepository.getUserProfileDetails(1)
+            val response = userRepository.getUsersCollaborator()
 
-            if(response.isSuccessful){
-                nome = response.body()?.name!!
-                url = response.body()?.profilePicture!!
-                bairro = response.body()?.address?.neighborhood ?: ""
-                biografia = response.body()?.biography ?: ""
-                especialidades = response.body()?.specialties ?: emptyList()
-                preco = response.body()?.price ?: ""
+            if (response.isSuccessful) {
+                response.body()?.let { colaboradores ->
+                    cuidadores.clear()
+                    cuidadores.addAll(colaboradores)
+                }
+            } else {
+                // Lidar com erro na resposta (ex: mostrar mensagem de erro)
             }
         }
     }

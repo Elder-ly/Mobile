@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,16 +25,19 @@ import com.google.gson.Gson
 import elder.ly.mobile.R.drawable.ic_pesquisar
 import elder.ly.mobile.Search
 import elder.ly.mobile.domain.service.GetDataSearchScreen
+import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.CardCuidador
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
+import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SearchResultScreen(
     showBottomBar: Boolean = true,
     navController: NavController
 ) {
-    // val viewModel = koinViewModel<SearchResultViewModel>()
+    val viewModel: SearchResultViewModel = koinViewModel()
 
     val gson = Gson()
     val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
@@ -95,8 +99,11 @@ fun SearchResultScreen(
                     modifier = Modifier
                         .weight(1f)
                 ) {
-                    items(10) {
-                        CardCuidador(navController = navController)
+                    items(viewModel.cuidadores) { cuidador -> // Aqui, use a lista de cuidadores do ViewModel
+                        CardCuidador(
+                            navController = navController,
+                            cuidador = cuidador // Passando o cuidador atual
+                        )
                     }
                 }
             }

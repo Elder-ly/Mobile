@@ -34,6 +34,8 @@ import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.SpecialtyList
 import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.theme.MobileTheme
+import elder.ly.mobile.ui.viewmodel.SearchViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
@@ -49,6 +51,8 @@ fun SearchScreen(
 
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
+
+    val viewModel = koinViewModel<SearchViewModel>()
 
     Scaffold(
         topBar = {
@@ -114,7 +118,7 @@ fun SearchScreen(
                 DefaultDropdownMenu(
                     label = "Especialidades",
                     placeholder = "Selecione Especialidade(s)",
-                    options = listOf("Fraldas", "Bingo", "Medicação"),
+                    options = viewModel.specialties.value ?: emptyList(),
                     value = especialidades,
                     changeValue = { newEspecialidades ->
                         especialidades = newEspecialidades

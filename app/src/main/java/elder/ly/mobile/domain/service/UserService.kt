@@ -106,6 +106,7 @@ data class GetProfileUse(
 )
 
 data class GetProfileDetails(
+    val id: Long,
     val name: String,
     val profilePicture: String?,
     val address: AddressBairro,
@@ -127,7 +128,7 @@ data class GetUsersCollaboratorOutput(
     val name: String,
     val email: String,
     val document: String,
-    val birthDate: LocalDate,
+    val birthDate: String,
     val profilePicture: String?,
     val biography: String?,
     val address: AddressOutput,

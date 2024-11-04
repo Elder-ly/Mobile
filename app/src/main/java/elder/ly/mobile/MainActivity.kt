@@ -43,7 +43,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         startKoin{
             androidContext(this@MainActivity)
-            androidContext(applicationContext)
             modules(appModule)
         }
         setContent {

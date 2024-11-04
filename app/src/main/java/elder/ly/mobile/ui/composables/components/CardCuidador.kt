@@ -20,14 +20,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import elder.ly.mobile.ProfileDetails
+import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
 import org.koin.compose.viewmodel.koinViewModel
+import androidx.compose.runtime.collectAsState
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CardCuidador(modifier: Modifier = Modifier, navController: NavController) {
+fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cuidador: GetUsersCollaboratorOutput) {
 
     val viewModel: SearchResultViewModel = koinViewModel()
 
@@ -46,7 +49,7 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController) {
                 .padding(bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
-            ImageCuidador(modifier = modifier.size(48.dp), viewModel.url)
+            ImageCuidador(modifier = modifier.size(48.dp), cuidador.profilePicture ?: "")
 
             Spacer(modifier = modifier.size(8.dp))
 
@@ -54,20 +57,20 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController) {
                 modifier = modifier
                     .weight(1f)
             ){
-                Text(text = viewModel.bairro, color = secondaryContainerLight)
-                Text(text = viewModel.nome, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(text = cuidador.address.neighborhood, color = secondaryContainerLight)
+                Text(text = cuidador.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
-            Column {
-                Text(text = "R$${viewModel.preco}/hora")
-            }
+//            Column {
+//                Text(text = "R$${cuidador.}/hora")
+//            }
         }
 
-        Text(text = viewModel.biografia)
+        Text(text = cuidador.biography ?: "")
 
         Spacer(modifier = modifier.size(8.dp))
 
         FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            viewModel.especialidades.forEach { especialidade ->
+            cuidador.specialties.forEach { especialidade ->
                 Feature(text = especialidade.name)
             }
         }
