@@ -39,9 +39,9 @@ class UserRepositoryLocalImpl(
 
     override suspend fun getUsersCollaborator(): Response<List<GetUsersCollaboratorOutput>> {
         val specialtyList = listOf(
-            Specialtie(id = 1, name = "Enfermagem"),
-            Specialtie(id = 2, name = "Fisioterapia"),
-            Specialtie(id = 3, name = "Cuidados Paliativos")
+            Specialtie(id = 1, nome = "Enfermagem"),
+            Specialtie(id = 2, nome = "Fisioterapia"),
+            Specialtie(id = 3, nome = "Cuidados Paliativos")
         )
 
         return Response.success(
@@ -78,8 +78,8 @@ class UserRepositoryLocalImpl(
                         uf = "SP"
                     ),
                     especialidades = listOf(
-                        Specialtie(id = 4, name = "Psicologia"),
-                        Specialtie(id = 5, name = "Terapia Ocupacional")
+                        Specialtie(id = 4, nome = "Psicologia"),
+                        Specialtie(id = 5, nome = "Terapia Ocupacional")
                     )
                 ),
                 GetUsersCollaboratorOutput(
@@ -101,8 +101,8 @@ class UserRepositoryLocalImpl(
                         uf = "RJ"
                     ),
                     especialidades = listOf(
-                        Specialtie(id = 6, name = "Cuidador de Idosos"),
-                        Specialtie(id = 7, name = "Nutrição")
+                        Specialtie(id = 6, nome = "Cuidador de Idosos"),
+                        Specialtie(id = 7, nome = "Nutrição")
                     )
                 )
             )
@@ -128,9 +128,9 @@ class UserRepositoryLocalImpl(
 
     override suspend fun getUserProfileDetails(id: Long): Response<GetProfileDetails> {
         val specialtyList = listOf(
-            Specialtie(id = 1, name = "Enfermagem"),
-            Specialtie(id = 2, name = "Fisioterapia"),
-            Specialtie(id = 3, name = "Cuidados Paliativos")
+            Specialtie(id = 1, nome = "Enfermagem"),
+            Specialtie(id = 2, nome = "Fisioterapia"),
+            Specialtie(id = 3, nome = "Cuidados Paliativos")
         )
 
         return Response.success(

@@ -61,21 +61,21 @@ data class ProposalOutput(
 
 data class UserConversationOutput(
     val id: Long,
-    val name: String,
-    val profilePicture: String?,
-    val residences: List<Residence> = emptyList(),
-    val resumes: List<Resumes> = emptyList()
+    val nome: String,
+    val fotoPerfil: String?,
+    val endereco: ResidenceOutput,
+    val especialidades: List<SpecialtieOutput> = emptyList()
 ) {
     // Obtém o endereço resumido a partir da primeira residência, se disponível
-    fun getAddress(): SimplifiedAddress? {
-        if (residences.isEmpty()) {
-            return null
-        }
-        return SimplifiedAddress(
-            residences[0].address.neighborhood ?: "",
-            residences[0].address.city ?: ""
-        )
-    }
+//    fun getAddress(): SimplifiedAddress? {
+//        if (endereco.isEmpty()) {
+//            return null
+//        }
+//        return SimplifiedAddress(
+//            endereco[0].address.neighborhood ?: "",
+//            endereco[0].address.city ?: ""
+//        )
+//    }
 }
 
 data class SimplifiedAddress(

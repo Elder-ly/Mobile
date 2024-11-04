@@ -2,6 +2,7 @@ package elder.ly.mobile.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ class ProfileDetailsViewModel(
 
     private val _user = MutableStateFlow<GetUsersOutput?>(null)
     val user: StateFlow<GetUsersOutput?> = _user
+    var userId by mutableLongStateOf((-1).toLong())
 
     init {
         getUserProfileDetails()

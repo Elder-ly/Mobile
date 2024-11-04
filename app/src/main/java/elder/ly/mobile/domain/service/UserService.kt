@@ -165,3 +165,8 @@ data class GetDataSearchScreen(
     val endTime: String,
     val specialties: List<String>
 )
+
+data class ResidenceOutput(
+    val bairro : String,
+    val cidade: String
+)

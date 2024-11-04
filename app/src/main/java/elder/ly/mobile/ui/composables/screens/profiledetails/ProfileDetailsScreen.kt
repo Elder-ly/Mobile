@@ -15,11 +15,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,13 +29,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import elder.ly.mobile.Chat
+import elder.ly.mobile.domain.service.ResidenceOutput
+import elder.ly.mobile.domain.service.SpecialtieOutput
+import elder.ly.mobile.domain.service.UserConversationOutput
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.Feature
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.theme.primaryLight
 import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
+import elder.ly.mobile.utils.getUser
+import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -47,6 +55,14 @@ fun ProfileDetailsScreen(
 
     val viewModel = koinViewModel<ProfileDetailsViewModel>()
     val user by viewModel.user.collectAsState()
+    val context = LocalContext.current
+
+    // USUARIO GOOGLE
+    LaunchedEffect(key1 = viewModel.user) {
+        getUser(context).collect {
+            viewModel.userId = it.id
+        }
+    }
 
     Scaffold (
         bottomBar = {
@@ -89,11 +105,11 @@ fun ProfileDetailsScreen(
 
                 Spacer(modifier = Modifier.size(8.dp))
 
-//                FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-//                    user?.especialidades?.forEach { especialidade ->
-//                        Feature(text = especialidade.name ?: "especialidade", fontSize = 14.sp)
-//                    } ?: ""
-//                }
+                FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    user?.especialidades?.forEach { especialidade ->
+                        Feature(text = especialidade.nome ?: "especialidade", fontSize = 14.sp)
+                    } ?: ""
+                }
 
                 val scrollState = rememberScrollState()
                 Column (
@@ -121,6 +137,26 @@ fun ProfileDetailsScreen(
             NextButton(
                 label = "Conversar",
                 onclick = {
+                    val gson = Gson()
+                    val createConversationJson = gson.toJson(user?.especialidades?.let {
+                        UserConversationOutput(
+                            id = user?.id ?: 0,
+                            nome = user?.nome ?: "Offline",
+                            especialidades = it.map { f ->
+                                SpecialtieOutput(
+                                    id = f.id,
+                                    nome = f.nome
+                                )
+                            },
+                            endereco = ResidenceOutput(
+                                bairro = user?.endereco?.bairro ?: "Centro",
+                                cidade = user?.endereco?.cidade ?: "São Paulo"
+                            ),
+                            fotoPerfil = user?.fotoPerfil ?: ""
+                        )
+                    })
+
+                    navController.currentBackStackEntry?.savedStateHandle?.set("conversationJson", createConversationJson)
                     navController.navigate(Chat)
                 }
             )
