@@ -30,7 +30,7 @@ class SearchViewModel(
                 val response = specialtieRepository.getSpecialties()
                 if (response.isSuccessful) {
                     // Mapeia as especialidades para uma lista de nomes
-                    val specialtyNames = response.body()?.map { it.name } ?: emptyList()
+                    val specialtyNames = response.body()?.map { it.nome } ?: emptyList()
                     _specialties.value = specialtyNames
                 } else {
                     // Trate a resposta de erro se necessário

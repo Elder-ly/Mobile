@@ -28,7 +28,6 @@ class SearchResultViewModel(
 
             if (response.isSuccessful) {
                 response.body()?.let { colaboradores ->
-                    cuidadores.clear()
                     cuidadores.addAll(colaboradores)
                 }
             } else {

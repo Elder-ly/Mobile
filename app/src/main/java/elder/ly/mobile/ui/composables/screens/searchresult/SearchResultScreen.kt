@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.searchresult
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,6 +16,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -94,16 +99,18 @@ fun SearchResultScreen(
 
                     }
                 }
+                var searchText by remember { mutableStateOf("") }
+
                 Spacer(modifier = Modifier.size(16.dp))
                 LazyColumn(
                     modifier = Modifier
                         .weight(1f)
                 ) {
-                    items(viewModel.cuidadores) { cuidador -> // Aqui, use a lista de cuidadores do ViewModel
-                        CardCuidador(
-                            navController = navController,
-                            cuidador = cuidador // Passando o cuidador atual
-                        )
+                    items(viewModel.cuidadores.filter {
+                        it.nome.contains(searchText, ignoreCase = true)
+                    }) {
+                        Log.d("SearchResult", "especialidades: $it")
+                        CardCuidador(navController = navController, cuidador = it)
                     }
                 }
             }

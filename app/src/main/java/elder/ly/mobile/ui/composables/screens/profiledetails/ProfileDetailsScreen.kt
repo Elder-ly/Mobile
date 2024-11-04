@@ -78,34 +78,34 @@ fun ProfileDetailsScreen(
                     color = Color.Black,
                     text = user?.nome ?: ""
                 )
-//                Text(
-//                    modifier = Modifier
-//                        .fillMaxWidth(),
-//                    textAlign = TextAlign.Center,
-//                    fontSize = 16.sp,
-//                    color = primaryLight,
-//                    text = user?.endereco?.bairro ?: ""
-//                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
+                    color = primaryLight,
+                    text = user?.endereco?.bairro ?: ""
+                )
 
                 Spacer(modifier = Modifier.size(8.dp))
 
 //                FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
 //                    user?.especialidades?.forEach { especialidade ->
-//                        Feature(text = especialidade.name, fontSize = 14.sp)
-//                    }
+//                        Feature(text = especialidade.name ?: "especialidade", fontSize = 14.sp)
+//                    } ?: ""
 //                }
 
                 val scrollState = rememberScrollState()
                 Column (
                     modifier = Modifier.verticalScroll(scrollState)
                 ){
-//                    Text(
-//                        text = user?.biografia ?: "",
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(16.dp),
-//                        textAlign = TextAlign.Start
-//                    )
+                    Text(
+                        text = user?.biografia ?: "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        textAlign = TextAlign.Start
+                    )
                 }
             }
 

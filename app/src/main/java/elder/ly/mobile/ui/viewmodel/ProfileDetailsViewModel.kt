@@ -34,6 +34,7 @@ class ProfileDetailsViewModel(
                     _user.value = userResponse
                     // Adicione um log para verificar os dados recebidos
                     Log.d("ProfileDetailsViewModel", "Usuário recebido: $userResponse")
+                    Log.d("ProfileDetailsViewModel", "Especialidades recebidas: ${userResponse.especialidades}")
                 } else {
                     Log.e("ProfileDetailsViewModel", "A resposta da API é nula.")
                 }

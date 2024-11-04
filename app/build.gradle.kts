@@ -105,6 +105,8 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.converter.gson)
     implementation("com.google.code.gson:gson:2.8.8")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
 
     //Google SSO
     implementation(libs.googleid)

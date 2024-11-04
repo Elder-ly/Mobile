@@ -23,11 +23,11 @@ class SpecialtieRepositoryLocalImpl (
     override suspend fun getSpecialties(): Response<List<SpecialtieOutput>> {
         return Response.success(
             listOf(
-                SpecialtieOutput(id = 1, name = "Fraldas"),
-                SpecialtieOutput(id = 2, name = "Bingo"),
-                SpecialtieOutput(id = 3, name = "Medicação"),
-                SpecialtieOutput(id = 4, name = "Banho"),
-                SpecialtieOutput(id = 5, name = "Acompanhamento")
+                SpecialtieOutput(id = 1, nome = "Fraldas"),
+                SpecialtieOutput(id = 2, nome = "Bingo"),
+                SpecialtieOutput(id = 3, nome = "Medicação"),
+                SpecialtieOutput(id = 4, nome = "Banho"),
+                SpecialtieOutput(id = 5, nome = "Acompanhamento")
             )
         )
     }

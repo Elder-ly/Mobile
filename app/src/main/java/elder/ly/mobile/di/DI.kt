@@ -53,7 +53,8 @@ val appModule = module {
     }
 
     single<ISpecialtieRepository> {
-        SpecialtieRepositoryLocalImpl(get())
+//        SpecialtieRepositoryLocalImpl(get())
+        SpecialtieRepository(get())
     }
 
     single<UserService> {
