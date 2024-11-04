@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Profile
+import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.R
 import elder.ly.mobile.Search
 import elder.ly.mobile.SearchResult
@@ -74,7 +76,7 @@ fun WelcomeScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 44.dp).height(72.dp),
                 shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
-                onClick = { navController.navigate(SearchResult) },
+                onClick = { navController.navigate(ProfileDetails) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Row(

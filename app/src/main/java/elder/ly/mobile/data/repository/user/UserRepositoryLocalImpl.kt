@@ -1,9 +1,6 @@
 package elder.ly.mobile.data.repository.user
 
 import elder.ly.mobile.domain.model.Specialtie
-import elder.ly.mobile.domain.model.User
-import elder.ly.mobile.domain.model.enums.GenderEnum
-import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import elder.ly.mobile.domain.service.AddressBairro
 import elder.ly.mobile.domain.service.AddressOutput
 import elder.ly.mobile.domain.service.CreateUserInput
@@ -51,59 +48,59 @@ class UserRepositoryLocalImpl(
             listOf(
                 GetUsersCollaboratorOutput(
                     id = 1,
-                    name = "Bruno",
+                    nome = "Bruno",
                     email = "bruno@gmail.com",
-                    document = "403.980.471-02",
-                    birthDate = "21/02/2001",
-                    profilePicture = "https://w7.pngwing.com/pngs/426/286/png-transparent-goku-ultra-instinct-thumbnail.png",
-                    biography = "",
-                    address = AddressOutput(
-                        id = 1, cep = "12345-678", street = "Rua das Flores", complement = "Apto 101", neighborhood = "Centro", number = "100", city = "São Paulo", state = "SP"
+                    documento = "403.980.471-02",
+                    dataNascimento = "21/02/2001",
+                    fotoPerfil = "https://w7.pngwing.com/pngs/426/286/png-transparent-goku-ultra-instinct-thumbnail.png",
+                    biografia = "",
+                    endereco = AddressOutput(
+                        id = 1, cep = "12345-678", logradouro = "Rua das Flores", complemento = "Apto 101", bairro = "Centro", numero = "100", cidade = "São Paulo", uf = "SP"
                     ),
-                    specialties = specialtyList
+                    especialidades = specialtyList
                 ),
                 GetUsersCollaboratorOutput(
                     id = 2,
-                    name = "Maria",
+                    nome = "Maria",
                     email = "maria@gmail.com",
-                    document = "123.456.789-01",
-                    birthDate = "15/05/1998",
-                    profilePicture = "https://w7.pngwing.com/pngs/422/965/png-transparent-dragonball-z-son-goku-goku-dragon-ball-z-dokkan-battle-trunks-dragon-ball-xenoverse-2-vegeta-goku-cartoon-fictional-character-anime-thumbnail.png",
-                    biography = "Experiência em atendimento domiciliar para idosos e reabilitação física.",
-                    address = AddressOutput(
+                    documento = "123.456.789-01",
+                    dataNascimento = "15/05/1998",
+                    fotoPerfil = "https://w7.pngwing.com/pngs/422/965/png-transparent-dragonball-z-son-goku-goku-dragon-ball-z-dokkan-battle-trunks-dragon-ball-xenoverse-2-vegeta-goku-cartoon-fictional-character-anime-thumbnail.png",
+                    biografia = "Experiência em atendimento domiciliar para idosos e reabilitação física.",
+                    endereco = AddressOutput(
                         id = 2,
                         cep = "87654-321",
-                        street = "Avenida Paulista",
-                        complement = "Sala 12",
-                        neighborhood = "Bela Vista",
-                        number = "1200",
-                        city = "São Paulo",
-                        state = "SP"
+                        logradouro = "Avenida Paulista",
+                        complemento = "Sala 12",
+                        bairro = "Bela Vista",
+                        numero = "1200",
+                        cidade = "São Paulo",
+                        uf = "SP"
                     ),
-                    specialties = listOf(
+                    especialidades = listOf(
                         Specialtie(id = 4, name = "Psicologia"),
                         Specialtie(id = 5, name = "Terapia Ocupacional")
                     )
                 ),
                 GetUsersCollaboratorOutput(
                     id = 3,
-                    name = "Carlos",
+                    nome = "Carlos",
                     email = "carlos@gmail.com",
-                    document = "789.456.123-98",
-                    birthDate = "10/09/1985",
-                    profilePicture = "https://w7.pngwing.com/pngs/767/162/png-transparent-goku-face-dragon-ball-cartoon-goku-thumbnail.png",
-                    biography = "Profissional com vasta experiência em cuidados para pacientes acamados.",
-                    address = AddressOutput(
+                    documento = "789.456.123-98",
+                    dataNascimento = "10/09/1985",
+                    fotoPerfil = "https://w7.pngwing.com/pngs/767/162/png-transparent-goku-face-dragon-ball-cartoon-goku-thumbnail.png",
+                    biografia = "Profissional com vasta experiência em cuidados para pacientes acamados.",
+                    endereco = AddressOutput(
                         id = 3,
                         cep = "54321-987",
-                        street = "Rua do Comércio",
-                        complement = "Casa",
-                        neighborhood = "Jardins",
-                        number = "250",
-                        city = "Rio de Janeiro",
-                        state = "RJ"
+                        logradouro = "Rua do Comércio",
+                        complemento = "Casa",
+                        bairro = "Jardins",
+                        numero = "250",
+                        cidade = "Rio de Janeiro",
+                        uf = "RJ"
                     ),
-                    specialties = listOf(
+                    especialidades = listOf(
                         Specialtie(id = 6, name = "Cuidador de Idosos"),
                         Specialtie(id = 7, name = "Nutrição")
                     )

@@ -25,8 +25,6 @@ import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
 import org.koin.compose.viewmodel.koinViewModel
-import androidx.compose.runtime.collectAsState
-import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -49,7 +47,7 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cu
                 .padding(bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
-            ImageCuidador(modifier = modifier.size(48.dp), cuidador.profilePicture ?: "")
+            ImageCuidador(modifier = modifier.size(48.dp), cuidador.fotoPerfil ?: "")
 
             Spacer(modifier = modifier.size(8.dp))
 
@@ -57,20 +55,20 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cu
                 modifier = modifier
                     .weight(1f)
             ){
-                Text(text = cuidador.address.neighborhood, color = secondaryContainerLight)
-                Text(text = cuidador.name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(text = cuidador.endereco.bairro ?: "", color = secondaryContainerLight)
+                Text(text = cuidador.nome, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
 //            Column {
 //                Text(text = "R$${cuidador.}/hora")
 //            }
         }
 
-        Text(text = cuidador.biography ?: "")
+        Text(text = cuidador.biografia ?: "")
 
         Spacer(modifier = modifier.size(8.dp))
 
         FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            cuidador.specialties.forEach { especialidade ->
+            cuidador.especialidades.forEach { especialidade ->
                 Feature(text = especialidade.name)
             }
         }

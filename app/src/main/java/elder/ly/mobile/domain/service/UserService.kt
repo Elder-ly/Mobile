@@ -88,16 +88,16 @@ data class CreateAddressInput(
 
 data class GetUsersOutput(
     val id: Long,
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate?,
-    val biography: String?,
-    val profilePicture: String?,
-    val userType: TypeUserEnum,
-    val gender: GenderEnum,
-    val address: AddressOutput,
-    val specialties: List<Specialtie>
+    val documento: String,
+    val dataNascimento: String,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val tipoUsuario: Long,
+    val genero: Long,
+    val endereco: AddressOutput,
+    val especialidades: List<Specialtie>
 )
 
 data class GetProfileUse(
@@ -125,25 +125,25 @@ data class GetUsersClientsOutput(
 
 data class GetUsersCollaboratorOutput(
     val id: Long,
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: String,
-    val profilePicture: String?,
-    val biography: String?,
-    val address: AddressOutput,
-    val specialties: List<Specialtie>
+    val documento: String,
+    val dataNascimento: String,
+    val fotoPerfil: String?,
+    val biografia: String?,
+    val endereco: AddressOutput,
+    val especialidades: List<Specialtie>
 )
 
 data class AddressOutput(
     val id : Long,
     val cep: String,
-    val street: String,
-    val complement: String?,
-    val neighborhood: String,
-    val number: String?,
-    val city: String,
-    val state: String
+    val logradouro: String,
+    val complemento: String?,
+    val bairro: String?,
+    val numero: String?,
+    val cidade: String,
+    val uf: String
 )
 
 data class AddressBairro (

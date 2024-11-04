@@ -23,6 +23,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,6 +50,8 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
     val viewModel = koinViewModel<ProfileViewModel>()
+    val user by viewModel.user.collectAsState()
+
 
     Scaffold (
         bottomBar = {
@@ -69,7 +73,7 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                 ImageCuidador(modifier = Modifier
                     .size(160.dp)
                     .align(Alignment.CenterHorizontally),
-                    url = viewModel.url
+                    url = user?.fotoPerfil ?: ""
                 )
                 Text(
                     modifier = Modifier
@@ -79,7 +83,7 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 36.sp,
                     color = Color.Black,
-                    text = viewModel.nome
+                    text = user?.nome ?: ""
                 )
                 MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle,
                     onclick = { navController.navigate(PersonalInfo) })
@@ -142,18 +146,6 @@ fun Divisor() {
         thickness = 1.2.dp,
         modifier = Modifier.fillMaxWidth()
     )
-}
-
-@Composable
-fun DrawCircle() {
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(170.dp)) {
-        drawCircle(
-            color = tertiaryLight,
-            radius = 180f,
-        )
-    }
 }
 
 @Preview(showBackground = true)

@@ -15,6 +15,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,7 +46,7 @@ fun ProfileDetailsScreen(
 ) {
 
     val viewModel = koinViewModel<ProfileDetailsViewModel>()
-
+    val user by viewModel.user.collectAsState()
 
     Scaffold (
         bottomBar = {
@@ -66,7 +68,7 @@ fun ProfileDetailsScreen(
                     .padding(top = 30.dp, start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageCuidador(modifier = Modifier.size(160.dp), viewModel.url)
+                ImageCuidador(modifier = Modifier.size(160.dp), user?.fotoPerfil ?: "")
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -74,45 +76,45 @@ fun ProfileDetailsScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 36.sp,
                     color = Color.Black,
-                    text = viewModel.nome
+                    text = user?.nome ?: ""
                 )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 16.sp,
-                    color = primaryLight,
-                    text = viewModel.bairro
-                )
+//                Text(
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                    textAlign = TextAlign.Center,
+//                    fontSize = 16.sp,
+//                    color = primaryLight,
+//                    text = user?.endereco?.bairro ?: ""
+//                )
 
                 Spacer(modifier = Modifier.size(8.dp))
 
-                FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    viewModel.especialidades.forEach { especialidade ->
-                        Feature(text = especialidade.name, fontSize = 14.sp)
-                    }
-                }
+//                FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+//                    user?.especialidades?.forEach { especialidade ->
+//                        Feature(text = especialidade.name, fontSize = 14.sp)
+//                    }
+//                }
 
                 val scrollState = rememberScrollState()
                 Column (
                     modifier = Modifier.verticalScroll(scrollState)
                 ){
-                    Text(
-                        text = viewModel.biografia,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        textAlign = TextAlign.Start
-                    )
+//                    Text(
+//                        text = user?.biografia ?: "",
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(16.dp),
+//                        textAlign = TextAlign.Start
+//                    )
                 }
             }
 
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                text = "R$${viewModel.preco}/hora"
-            )
+//            Text(
+//                modifier = Modifier.fillMaxWidth(),
+//                fontWeight = FontWeight.Bold,
+//                textAlign = TextAlign.Center,
+//                text = "R$${viewModel.preco}/hora"
+//            )
 
             Spacer(modifier = Modifier.size(8.dp))
 

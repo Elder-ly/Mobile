@@ -56,22 +56,14 @@ val appModule = module {
         SpecialtieRepositoryLocalImpl(get())
     }
 
-//    single<ISpecialtieRepository> {
-//        SpecialtieRepository(get())
-//    }
-
     single<UserService> {
         Rest.userService
     }
 
     single<IUserRepository> {
-//        UserRepository(get())
-        UserRepositoryLocalImpl(get())
+        UserRepository(get())
+//        UserRepositoryLocalImpl(get())
     }
-
-//    single<IUserRepository> {
-//        UserRepository(get())
-//    }
 
     viewModel{
         ProfileViewModel(get())
