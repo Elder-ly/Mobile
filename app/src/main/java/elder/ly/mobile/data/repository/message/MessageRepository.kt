@@ -4,6 +4,7 @@ import elder.ly.mobile.domain.service.CreateMessageInput
 import elder.ly.mobile.domain.service.GetMessageOutput
 import elder.ly.mobile.domain.service.MessageService
 import elder.ly.mobile.domain.service.MessageWithProposalOutput
+import elder.ly.mobile.domain.service.UserConversationOutput
 import retrofit2.Response
 
 class MessageRepository(
@@ -20,7 +21,7 @@ class MessageRepository(
         return service.getMessageUser(senderId, recipientId);
     }
 
-    override suspend fun getConversations(userId: Long): Response<List<GetMessageOutput>> {
+    override suspend fun getConversations(userId: Long): Response<List<UserConversationOutput>> {
         return service.getConversations(userId);
     }
 

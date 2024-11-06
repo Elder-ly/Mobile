@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.chatlist
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -35,10 +38,17 @@ import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.Contacts
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
+import elder.ly.mobile.ui.viewmodel.ChatListViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ChatListScreen(showBottomBar: Boolean = true, navController: NavController) {
     var searchText by remember { mutableStateOf("") }
+    val viewModel = koinViewModel<ChatListViewModel>()
+
+    val filteredConversations = viewModel.conversations.filter {
+        it.nome.contains(searchText, ignoreCase = true)
+    }
 
     Scaffold(
         bottomBar = {
@@ -67,12 +77,24 @@ fun ChatListScreen(showBottomBar: Boolean = true, navController: NavController) 
                 )
             }
 
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-            ) {
-                items(10) {
-                    Contacts(navController = navController)
+            if (viewModel.isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(color = Color.Gray)
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    items(filteredConversations) {
+                        Log.d("ChatListScreen", "Conversas: $it")
+                        Contacts(navController = navController, conversation = it)
+                    }
                 }
             }
         }

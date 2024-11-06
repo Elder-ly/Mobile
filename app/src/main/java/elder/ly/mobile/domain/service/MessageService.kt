@@ -1,7 +1,5 @@
 package elder.ly.mobile.domain.service
 
-import elder.ly.mobile.domain.model.Residence
-import elder.ly.mobile.domain.model.Resumes
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,63 +17,63 @@ interface MessageService {
     suspend fun getMessageUser(@Path("remetenteId") senderId: Long, @Path("destinatarioId") recipientId: Long) : Response<List<MessageWithProposalOutput>>
 
     @GET("/mensagens/conversas/{userId}")
-    suspend fun getConversations(@Path("userId") userId: Long) : Response<List<GetMessageOutput>>
+    suspend fun getConversations(@Path("userId") userId: Long) : Response<List<UserConversationOutput>>
 }
 
 data class CreateMessageInput(
-    val senderId: Long,
-    val recipientId: Long,
-    val content: String
+    val remetenteId: Long,
+    val destinatarioId: Long,
+    val conteudo: String
 )
 
 data class GetMessageOutput(
     val id: Long,
-    val content: String,
-    val dateTime: LocalDateTime,
-    val sender: UserMessageOutput,
-    val recipient: UserMessageOutput
+    val conteudo: String,
+    val dataHora: String,
+    val remetente: UserMessageOutput,
+    val destinatario: UserMessageOutput
 )
 
 data class UserMessageOutput(
     val id: Long,
-    val name: String
+    val nome: String
 )
 
 data class MessageWithProposalOutput(
     val id: Long,
-    val content: String,
-    val dateTime: LocalDateTime,
-    val sender: UserMessageOutput,
-    val recipient: UserMessageOutput,
-    val proposal: ProposalOutput
+    val conteudo: String,
+    val dataHora: String,
+    val remetente: UserMessageOutput,
+    val destinatario: UserMessageOutput,
+    val proposta: ProposalOutput
 )
 
 data class ProposalOutput(
     val id: Long,
-    val description: String,
-    val startDateTime: LocalDateTime,
-    val endDateTime: LocalDateTime,
-    val price: BigDecimal,
-    val accepted: Boolean
+    val descricao: String,
+    val dataHoraInicio: LocalDateTime,
+    val dataHoraFim: LocalDateTime,
+    val preco: BigDecimal,
+    val aceita: Boolean
 )
 
 data class UserConversationOutput(
     val id: Long,
-    val name: String,
-    val profilePicture: String?,
-    val residences: List<Residence> = emptyList(),
-    val resumes: List<Resumes> = emptyList()
+    val nome: String,
+    val fotoPerfil: String?,
+    val endereco: ResidenceOutput,
+    val especialidades: List<SpecialtieOutput> = emptyList()
 ) {
     // Obtém o endereço resumido a partir da primeira residência, se disponível
-    fun getAddress(): SimplifiedAddress? {
-        if (residences.isEmpty()) {
-            return null
-        }
-        return SimplifiedAddress(
-            residences[0].address.neighborhood ?: "",
-            residences[0].address.city ?: ""
-        )
-    }
+//    fun getAddress(): SimplifiedAddress? {
+//        if (endereco.isEmpty()) {
+//            return null
+//        }
+//        return SimplifiedAddress(
+//            endereco[0].address.neighborhood ?: "",
+//            endereco[0].address.city ?: ""
+//        )
+//    }
 }
 
 data class SimplifiedAddress(
