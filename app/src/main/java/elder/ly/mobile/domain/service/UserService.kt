@@ -1,7 +1,6 @@
 package elder.ly.mobile.domain.service
 
 import elder.ly.mobile.domain.model.Specialtie
-import elder.ly.mobile.domain.model.User
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -35,6 +34,12 @@ interface UserService {
 
     @GET("/usuarios/{id}")
     suspend fun getUser(@Path("id") id : Long) : Response<GetUsersOutput>
+
+    @GET("/usuarios/{id}")
+    suspend fun getUserProfile(@Path("id") id : Long) : Response<GetProfileUse>
+
+    @GET("/usuarios/{id}")
+    suspend fun getUserProfileDetails(@Path("id") id : Long) : Response<GetProfileDetails>
 
     @PUT("/usuarios/{id}")
     suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<GetUsersOutput>
@@ -126,6 +131,21 @@ data class GetUsersOutput(
     val especialidades: List<Specialtie>
 )
 
+data class GetProfileUse(
+    val name: String,
+    val profilePicture: String?
+)
+
+data class GetProfileDetails(
+    val id: Long,
+    val name: String,
+    val profilePicture: String?,
+    val address: AddressBairro,
+    val biography: String?,
+    val specialties: List<Specialtie>?,
+    val price: String
+)
+
 data class GetUsersClientsOutput(
     val id: Long,
     val name: String,
@@ -136,25 +156,29 @@ data class GetUsersClientsOutput(
 
 data class GetUsersCollaboratorOutput(
     val id: Long,
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate,
-    val profilePicture: String?,
-    val biography: String?,
-    val address: AddressOutput,
-    val specialties: List<Specialtie>
+    val documento: String,
+    val dataNascimento: String,
+    val fotoPerfil: String?,
+    val biografia: String?,
+    val endereco: AddressOutput,
+    val especialidades: List<Specialtie>
 )
 
 data class AddressOutput(
     val id : Long,
     val cep: String,
     val logradouro: String,
-    val complemento: String,
-    val bairro: String,
-    val numero: String,
+    val complemento: String?,
+    val bairro: String?,
+    val numero: String?,
     val cidade: String,
     val uf: String
+)
+
+data class AddressBairro (
+    val neighborhood: String
 )
 
 data class GetUsersCollaboratorInput(
@@ -172,4 +196,12 @@ data class ResumeOutput(
     val id: Long,
     val user : GetUsersOutput,
     val specialtie : SpecialtieOutput
+)
+
+data class GetDataSearchScreen(
+    val startDate: String,
+    val endDate: String,
+    val startTime: String,
+    val endTime: String,
+    val specialties: List<String>
 )

@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +28,10 @@ import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.domain.service.UpdateClientInput
 import elder.ly.mobile.ui.composables.components.BottomBar
+import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Profile
+import elder.ly.mobile.ui.composables.components.BottomBar
+import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton

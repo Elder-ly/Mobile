@@ -44,7 +44,7 @@ object Rest {
         api.create(SpecialtieService::class.java);
     }
 
-    val userService by lazy {
+    val userService: UserService by lazy {
         api.create(UserService::class.java)
     }
 

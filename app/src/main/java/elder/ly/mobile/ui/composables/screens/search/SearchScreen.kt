@@ -23,25 +23,40 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import elder.ly.mobile.SearchResult
+import elder.ly.mobile.domain.service.GetDataSearchScreen
 import elder.ly.mobile.ui.composables.components.BottomBar
-import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.components.DataTextButton
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.HourTextButton
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.SpecialtyList
+import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.theme.MobileTheme
+import elder.ly.mobile.ui.viewmodel.SearchViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
-fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
+fun SearchScreen(
+    showTopBar: Boolean = true,
+    showBottomBar: Boolean = true,
+    navController: NavController
+) {
+    var startDate by remember { mutableStateOf("") }
+    var endDate by remember { mutableStateOf("") }
+    var startTime by remember { mutableStateOf("") }
+    var endTime by remember { mutableStateOf("") }
+
     var especialidades by remember { mutableStateOf("") }
     var selectedSpecialties by remember { mutableStateOf<List<String>>(emptyList()) }
 
+    val viewModel = koinViewModel<SearchViewModel>()
+
     Scaffold(
         topBar = {
-            if(showTopBar){
+            if (showTopBar) {
                 TopBar(
                     title = "O Que Precisa?",
                     showBackButton = false,
@@ -51,7 +66,7 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
             }
         },
         bottomBar = {
-            if (showBottomBar){
+            if (showBottomBar) {
                 BottomBar(
                     navController = navController,
                     colorBlueSearch = true
@@ -79,16 +94,31 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
                     color = Color.Gray
                 )
 
-                DataTextButton(modifier = Modifier.padding(top = 16.dp), labelData = "Data Início")
-                HourTextButton(modifier = Modifier.padding(top = 8.dp), labelHora = "Hora Início")
-                DataTextButton(modifier = Modifier.padding(top = 8.dp), labelData = "Data Fim")
-                HourTextButton(modifier = Modifier.padding(top = 8.dp), labelHora = "Hora Fim")
-
+                DataTextButton(
+                    modifier = Modifier.padding(top = 16.dp),
+                    labelData = "Data Início",
+                    onDateSelected = { date -> startDate = date } // Atualiza a data de início
+                )
+                HourTextButton(
+                    modifier = Modifier.padding(top = 8.dp),
+                    labelHora = "Hora Início",
+                    onHourSelected = { time -> startTime = time } // Atualiza a hora de início
+                )
+                DataTextButton(
+                    modifier = Modifier.padding(top = 8.dp),
+                    labelData = "Data Fim",
+                    onDateSelected = { date -> endDate = date } // Atualiza a data de fim
+                )
+                HourTextButton(
+                    modifier = Modifier.padding(top = 8.dp),
+                    labelHora = "Hora Fim",
+                    onHourSelected = { time -> endTime = time } // Atualiza a hora de fim
+                )
 
                 DefaultDropdownMenu(
                     label = "Especialidades",
                     placeholder = "Selecione Especialidade(s)",
-                    options = listOf("Fraldas", "Bingo", "Medicação"),
+                    options = viewModel.specialties.value ?: emptyList(),
                     value = especialidades,
                     changeValue = { newEspecialidades ->
                         especialidades = newEspecialidades
@@ -107,10 +137,23 @@ fun SearchScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navC
 
                 Spacer(modifier = Modifier.weight(1f))
 
+                val sampleSearchResult = GetDataSearchScreen(
+                    startDate = startDate,
+                    startTime = startTime,
+                    endDate = endDate,
+                    endTime = endTime,
+                    specialties = selectedSpecialties
+                )
+
+                val gson = Gson()
+                val sampleSearchResultInputJson = gson.toJson(sampleSearchResult)
+
+
                 NextButton(
                     label = "Pesquisar",
                     icon = Icons.Filled.Search,
                     onclick = {
+                        navController.currentBackStackEntry?.savedStateHandle?.set("sampleSearchResultInputJson", sampleSearchResultInputJson)
                         navController.navigate(SearchResult)
                     }
                 )

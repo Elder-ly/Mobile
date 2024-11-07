@@ -28,10 +28,10 @@ import elder.ly.mobile.domain.service.GetUsersOutput
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.domain.service.UpdateClientInput
 import elder.ly.mobile.ui.composables.components.BottomBar
+import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
-import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.viewmodel.PersonalInfoViewModel

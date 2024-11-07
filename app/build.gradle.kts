@@ -116,5 +116,4 @@ dependencies {
     implementation("io.insert-koin:koin-compose-viewmodel:4.0.0")
 
     implementation(libs.coil.compose)
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 }

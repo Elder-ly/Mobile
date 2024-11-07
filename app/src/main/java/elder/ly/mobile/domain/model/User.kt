@@ -1,7 +1,5 @@
 package elder.ly.mobile.domain.model
 
-import elder.ly.mobile.domain.model.Residence
-import elder.ly.mobile.domain.model.Resumes
 import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.model.enums.TypeUserEnum
 

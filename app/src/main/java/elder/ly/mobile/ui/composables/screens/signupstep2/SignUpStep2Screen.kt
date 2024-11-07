@@ -173,8 +173,6 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
 
             Spacer(modifier = Modifier.weight(1f))
 
-
-
             NextButton(
                 label = "Enviar",
                 onclick = {

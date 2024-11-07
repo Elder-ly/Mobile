@@ -10,11 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import elder.ly.mobile.ui.theme.customBlueColor
 
 @Composable
-fun Feature(text: String, modifier: Modifier = Modifier) {
+fun Feature(text: String, fontSize: TextUnit = 16.sp, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .background(customBlueColor, RoundedCornerShape(4.dp))
@@ -22,6 +24,7 @@ fun Feature(text: String, modifier: Modifier = Modifier) {
     ) {
         Text(
             text = text,
+            fontSize = fontSize,
             modifier = Modifier.align(Alignment.Center)
         )
     }

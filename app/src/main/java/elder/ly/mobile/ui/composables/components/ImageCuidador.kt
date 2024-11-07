@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import elder.ly.mobile.ui.viewmodel.ProfileViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable

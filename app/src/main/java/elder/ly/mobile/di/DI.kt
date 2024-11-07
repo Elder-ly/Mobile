@@ -13,13 +13,16 @@ import elder.ly.mobile.domain.service.SpecialtieService
 import elder.ly.mobile.domain.service.UserService
 import elder.ly.mobile.data.Rest
 import elder.ly.mobile.data.repository.message.IMessageRepository
-import elder.ly.mobile.data.repository.message.MessageRepositoryLocal
 import elder.ly.mobile.ui.viewmodel.ChatListViewModel
 import elder.ly.mobile.ui.viewmodel.ChatViewModel
 import org.koin.core.module.dsl.viewModel
 import elder.ly.mobile.ui.viewmodel.PersonalInfoViewModel
 import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
-import org.koin.core.module.dsl.viewModel
+import elder.ly.mobile.ui.viewmodel.ProfileViewModel
+import elder.ly.mobile.data.repository.specialtie.ISpecialtieRepository
+import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
+import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
+import elder.ly.mobile.ui.viewmodel.SearchViewModel
 import org.koin.dsl.module
 
 val appModule = module {
@@ -53,7 +56,8 @@ val appModule = module {
         Rest.specialtieService
     }
 
-    single<SpecialtieRepository> {
+    single<ISpecialtieRepository> {
+//        SpecialtieRepositoryLocalImpl(get())
         SpecialtieRepository(get())
     }
 
@@ -63,6 +67,23 @@ val appModule = module {
 
     single<IUserRepository> {
         UserRepository(get())
+//        UserRepositoryLocalImpl(get())
+    }
+
+    viewModel{
+        ProfileViewModel(get())
+    }
+
+    viewModel {
+        ProfileDetailsViewModel(get())
+    }
+
+    viewModel {
+        SearchResultViewModel(get())
+    }
+
+    viewModel {
+        SearchViewModel(get())
     }
 
     viewModel {
