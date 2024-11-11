@@ -128,7 +128,7 @@ data class GetUsersOutput(
     val tipoUsuario: Long,
     val genero: Long,
     val endereco: AddressOutput,
-    val especialidades: List<Specialtie>
+    val especialidades: List<SpecialtieOutput>
 )
 
 data class GetProfileUse(

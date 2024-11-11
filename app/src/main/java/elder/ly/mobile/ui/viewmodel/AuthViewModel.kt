@@ -13,6 +13,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import elder.ly.mobile.BuildConfig
+import elder.ly.mobile.Search
 import elder.ly.mobile.SignUpStep1
 import elder.ly.mobile.domain.model.User
 import elder.ly.mobile.domain.service.AuthService
@@ -43,8 +44,10 @@ class AuthViewModel : ViewModel() {
                     context = context
                 )
                 val credential = result.credential
+                println(credential)
 
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                println(googleIdTokenCredential)
 
                 val user = apiAuth(context, googleIdTokenCredential)
 
@@ -53,6 +56,7 @@ class AuthViewModel : ViewModel() {
                     navController.navigate(SignUpStep1)
                 }else{
                     saveUser(context, user)
+                    navController.navigate(Search)
                 }
             }catch (e: GetCredentialException){
                 Toast.makeText(context, "Erro ao logar com o Google, tente novamente mais tarde", Toast.LENGTH_LONG).show()
@@ -69,6 +73,7 @@ class AuthViewModel : ViewModel() {
             val service = Rest.api.create(AuthService::class.java)
 
             val response = service.login(googleData.id)
+            println(response)
             if(response.isSuccessful){
                 if(response.body()?.id == null || response.body()?.tipoUsuario == null){
                     return null

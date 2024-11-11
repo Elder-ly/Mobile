@@ -44,7 +44,7 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
             _error.value = null
 
             try {
-                val response = userRepository.getUser(3)
+                val response = userRepository.getUser(10)
                 if (response.isSuccessful) {
                     response.body()?.let { userData ->
                         _user.value = userData

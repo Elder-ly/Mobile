@@ -52,6 +52,7 @@ import com.google.gson.Gson
 import elder.ly.mobile.domain.service.UserConversationOutput
 import elder.ly.mobile.ui.viewmodel.ChatViewModel
 import elder.ly.mobile.utils.DateTimeUtils
+import elder.ly.mobile.utils.getUser
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import java.time.LocalDateTime
@@ -80,11 +81,11 @@ fun ChatScreen(navController: NavController) {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");
 
     LaunchedEffect(key1 = viewModel.recipientId) {
-//        getUser(context).collect {
-//            senderId = it.id
-//        }
+        getUser(context).collect {
+            viewModel.senderId = it.id
+        }
         viewModel.isLoading = true
-        viewModel.senderId = 3
+//        viewModel.senderId = 3
         while (true) {
             viewModel.loadMessages()
             kotlinx.coroutines.delay(2000)

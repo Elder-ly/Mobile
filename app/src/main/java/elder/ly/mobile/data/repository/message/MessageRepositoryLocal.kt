@@ -29,25 +29,25 @@ class MessageRepositoryLocal(
     override suspend fun getConversations(userId: Long): Response<List<UserConversationOutput>> {
         val user = GetUsersOutput(
             id = 100.toLong(),
-            name = "TesteName",
+            nome = "TesteName",
             email = "a@a.com",
-            document = "0",
-            birthDate = null,
-            biography = null,
-            profilePicture = "https://static.wikia.nocookie.net/sonic/images/c/c2/PSN_Avatar_Shadow.png",
-            userType = 2.toLong(),
-            gender = 2.toLong(),
-            address = AddressOutput(
+            documento = "0",
+            dataNascimento = null,
+            biografia = null,
+            fotoPerfil = "https://static.wikia.nocookie.net/sonic/images/c/c2/PSN_Avatar_Shadow.png",
+            tipoUsuario = 2.toLong(),
+            genero = 2.toLong(),
+            endereco = AddressOutput(
                 id = 200.toLong(),
                 cep = "01001000",
-                street = "Teste",
-                complement = "Teste",
-                neighborhood = "Artur Alvim",
-                number = "1",
-                city = "São Paulo",
-                state = "SP"
+                logradouro = "Teste",
+                complemento = "Teste",
+                bairro = "Artur Alvim",
+                numero = "1",
+                cidade = "São Paulo",
+                uf = "SP"
             ),
-            specialties = List(2) {
+            especialidades = List(2) {
                 SpecialtieOutput(
                     id = 1.toLong(),
                     nome = "A $it"
