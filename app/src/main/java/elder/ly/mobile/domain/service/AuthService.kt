@@ -12,5 +12,5 @@ interface AuthService {
 
 data class UserLoginResponse(
     val id: Long,
-    val tipoUsuario: TypeUserEnum
+    val tipoUsuario: Long
 )

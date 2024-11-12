@@ -44,6 +44,16 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
 
     var profilePicture by remember { mutableStateOf<String?>(null) }
 
+    var fullName by remember { mutableStateOf("") }
+
+    var email by remember { mutableStateOf("") }
+
+    var document by remember { mutableStateOf("") }
+
+    var birthDate by remember { mutableStateOf("") }
+
+    var gender by remember { mutableStateOf("") }
+
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             getUser(context)
@@ -56,29 +66,10 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                     }
                 }
                 .collect { user ->
+                    email = user.email
                     profilePicture = user.pictureURL // Atualiza a URL do profile
                 }
         }
-    }
-
-    var fullName by remember {
-        mutableStateOf("")
-    }
-
-    var email by remember {
-        mutableStateOf("")
-    }
-
-    var document by remember {
-        mutableStateOf("")
-    }
-
-    var birthDate by remember {
-        mutableStateOf("")
-    }
-
-    var gender by remember {
-        mutableStateOf("")
     }
 
     Scaffold(

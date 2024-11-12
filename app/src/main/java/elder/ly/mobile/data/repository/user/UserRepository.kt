@@ -19,10 +19,6 @@ class UserRepository(
         return service.createUserClient(createUserClientInput);
     }
 
-    override suspend fun createUserCollaborator(createUserCollaboratorInput: CreateUserInput): Response<GetUsersOutput> {
-        return service.createUserCollaborator(createUserCollaboratorInput);
-    }
-
     override suspend fun getAvailableCollaborators(
         accessToken: String,
         getUsersCollaboratorInput: GetUsersCollaboratorInput

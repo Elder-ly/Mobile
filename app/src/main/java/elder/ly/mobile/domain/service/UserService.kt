@@ -17,9 +17,6 @@ interface UserService {
     @POST("/usuarios/cliente")
     suspend fun createUserClient(@Body createUserClientInput : CreateUserInput) : Response<GetUsersOutput>
 
-    @POST("/usuarios/colaborador")
-    suspend fun createUserCollaborator(@Body createUserCollaboratorInput : CreateUserInput) : Response<GetUsersOutput>
-
     @POST("/usuarios/colaboradores-disponiveis")
     suspend fun getAvailableCollaborators(@Header("accessToken") accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
 

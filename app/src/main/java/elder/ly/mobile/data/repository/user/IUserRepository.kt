@@ -13,8 +13,6 @@ import retrofit2.Response
 interface IUserRepository {
     suspend fun createUserClient(createUserClientInput : CreateUserInput) : Response<GetUsersOutput>
 
-    suspend fun createUserCollaborator(createUserCollaboratorInput : CreateUserInput) : Response<GetUsersOutput>
-
     suspend fun getAvailableCollaborators(accessToken : String, getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
 
     suspend fun getUsersClients() : Response<List<GetUsersClientsOutput>>

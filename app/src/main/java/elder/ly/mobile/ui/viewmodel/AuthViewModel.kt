@@ -44,13 +44,10 @@ class AuthViewModel : ViewModel() {
                     context = context
                 )
                 val credential = result.credential
-                println(credential)
 
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                println(googleIdTokenCredential)
 
                 val user = apiAuth(context, googleIdTokenCredential)
-
 
                 if(user == null){
                     navController.navigate(SignUpStep1)
@@ -73,7 +70,6 @@ class AuthViewModel : ViewModel() {
             val service = Rest.api.create(AuthService::class.java)
 
             val response = service.login(googleData.id)
-            println(response)
             if(response.isSuccessful){
                 if(response.body()?.id == null || response.body()?.tipoUsuario == null){
                     return null
