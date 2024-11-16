@@ -2,6 +2,7 @@ package elder.ly.mobile.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -19,16 +20,14 @@ class ProfileViewModel(
     private val userRepository: IUserRepository
 ) : ViewModel() {
 
+    var userId by mutableLongStateOf(-1L)
+
     private val _user = MutableStateFlow<GetUsersOutput?>(null)
     val user: StateFlow<GetUsersOutput?> = _user
 
-    init {
-        getUserProfile()
-    }
-
-    private fun getUserProfile() {
+    fun getUserProfile() {
         viewModelScope.launch {
-            val response = userRepository.getUser(6)
+            val response = userRepository.getUser(userId)
 
             if (response.isSuccessful) {
                 val userResponse = response.body()
@@ -40,7 +39,10 @@ class ProfileViewModel(
                     Log.e("ProfileViewModel", "A resposta da API é nula.")
                 }
             } else {
-                Log.e("ProfileViewModel", "Erro na resposta da API: ${response.errorBody()?.string()}")
+                Log.e(
+                    "ProfileViewModel",
+                    "Erro na resposta da API: ${response.errorBody()?.string()}"
+                )
             }
         }
     }

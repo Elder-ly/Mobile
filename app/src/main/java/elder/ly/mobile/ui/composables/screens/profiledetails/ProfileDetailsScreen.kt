@@ -1,6 +1,5 @@
 package elder.ly.mobile.ui.composables.screens.profiledetails
 
-import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
@@ -32,6 +30,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import elder.ly.mobile.Chat
+import elder.ly.mobile.domain.service.GetDataSearchScreen
+import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.domain.service.ResidenceOutput
 import elder.ly.mobile.domain.service.SpecialtieOutput
 import elder.ly.mobile.domain.service.UserConversationOutput
@@ -42,7 +42,6 @@ import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.theme.primaryLight
 import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
 import elder.ly.mobile.utils.getUser
-import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -58,11 +57,15 @@ fun ProfileDetailsScreen(
     val user by viewModel.user.collectAsState()
     val context = LocalContext.current
 
+    val gson = Gson()
+    val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
+    val colaboradorJson = savedStateHandle?.get<String>("colaboradorJson")
+    val colaboradorInput = colaboradorJson?.let { gson.fromJson(it, GetUsersCollaboratorOutput::class.java) }
+
     // USUARIO GOOGLE
     LaunchedEffect(key1 = viewModel.user) {
-        getUser(context).collect {
-            viewModel.userId = it.id
-        }
+        viewModel.userId = colaboradorInput?.id ?: -1
+        viewModel.getUserProfileDetails()
     }
 
     Scaffold (
@@ -138,7 +141,6 @@ fun ProfileDetailsScreen(
             NextButton(
                 label = "Conversar",
                 onclick = {
-                    val gson = Gson()
                     val createConversationJson = gson.toJson(user?.especialidades?.let {
                         UserConversationOutput(
                             id = user?.id ?: 0,

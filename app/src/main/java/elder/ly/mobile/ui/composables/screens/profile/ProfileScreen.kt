@@ -23,12 +23,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,13 +47,21 @@ import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.theme.tertiaryLight
 import elder.ly.mobile.ui.viewmodel.ProfileViewModel
+import elder.ly.mobile.utils.getUser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
     val viewModel = koinViewModel<ProfileViewModel>()
     val user by viewModel.user.collectAsState()
+    val context = LocalContext.current
 
+    LaunchedEffect(key1 = Unit) {
+        getUser(context).collect { userId ->
+            viewModel.userId = userId.id ?: -1
+            viewModel.getUserProfile()
+        }
+    }
 
     Scaffold (
         bottomBar = {

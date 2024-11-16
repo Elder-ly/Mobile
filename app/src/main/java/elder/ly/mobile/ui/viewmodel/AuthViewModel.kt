@@ -49,7 +49,7 @@ class AuthViewModel : ViewModel() {
 
                 val user = apiAuth(context, googleIdTokenCredential)
 
-                if(user == null){
+                if(user?.id == null){
                     navController.navigate(SignUpStep1)
                 }else{
                     saveUser(context, user)
@@ -91,7 +91,19 @@ class AuthViewModel : ViewModel() {
             Toast.makeText(context, "Erro na comunicação com API", Toast.LENGTH_SHORT).show()
             println(e.message)
         }
-        return null
+
+        return User(
+            id = null,
+            type = null,
+            gender = null,
+            name = googleData.displayName,
+            email = googleData.id,
+            googleToken = googleData.idToken,
+            phoneNumber = googleData.phoneNumber,
+            pictureURL = googleData.profilePictureUri.toString(),
+            residences = null,
+            resumes = null
+        )
     }
 
     private fun getNonce(): String {

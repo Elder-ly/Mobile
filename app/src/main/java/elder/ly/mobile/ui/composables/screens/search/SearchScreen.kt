@@ -148,7 +148,6 @@ fun SearchScreen(
                 val gson = Gson()
                 val sampleSearchResultInputJson = gson.toJson(sampleSearchResult)
 
-
                 NextButton(
                     label = "Pesquisar",
                     icon = Icons.Filled.Search,

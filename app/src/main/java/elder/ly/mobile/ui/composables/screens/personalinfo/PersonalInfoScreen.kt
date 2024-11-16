@@ -4,7 +4,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -28,17 +27,14 @@ import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.domain.service.UpdateClientInput
 import elder.ly.mobile.ui.composables.components.BottomBar
-import androidx.navigation.compose.rememberNavController
-import elder.ly.mobile.Profile
-import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
-import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.viewmodel.PersonalInfoViewModel
 import elder.ly.mobile.utils.ConvertDate
 import elder.ly.mobile.utils.CustomMaskTranformation
+import elder.ly.mobile.utils.getUser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -48,17 +44,17 @@ fun PersonalInfoScreen(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val personalInfoViewModel: PersonalInfoViewModel = koinViewModel()
+    val viewModel: PersonalInfoViewModel = koinViewModel()
 
-    val user by personalInfoViewModel.user.collectAsState()
-    val isLoading by personalInfoViewModel.isLoading.collectAsState()
-    val error by personalInfoViewModel.error.collectAsState()
+    val user by viewModel.user.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val error by viewModel.error.collectAsState()
 
-    var hasFetchedUser by remember { mutableStateOf(false) }
-    LaunchedEffect(Unit) {
-        if (!hasFetchedUser) {
-            personalInfoViewModel.getUser()
-            hasFetchedUser = true
+    LaunchedEffect(key1 = Unit) {
+        getUser(context).collect { userId ->
+            viewModel.userId = userId.id ?: -1
+            println("ID do launcher:${viewModel.userId}")
+            viewModel.getUser()
         }
     }
 

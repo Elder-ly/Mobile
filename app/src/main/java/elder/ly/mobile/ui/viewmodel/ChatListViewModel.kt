@@ -2,6 +2,7 @@ package elder.ly.mobile.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,21 +18,19 @@ class ChatListViewModel(
     private val messageRepository: IMessageRepository
 ) : ViewModel() {
 
+    var userId by mutableLongStateOf(-1L)
+
     var conversations = mutableStateListOf<UserConversationOutput>();
 
     var message by mutableStateOf("")
 
     var isLoading by mutableStateOf(false)
 
-    init {
-        loadConversations()
-    }
-
     fun loadConversations() {
         isLoading = true
 
         viewModelScope.launch {
-            val response = messageRepository.getConversations(3)
+            val response = messageRepository.getConversations(userId)
 
             if (response.isSuccessful) {
                 conversations.clear()

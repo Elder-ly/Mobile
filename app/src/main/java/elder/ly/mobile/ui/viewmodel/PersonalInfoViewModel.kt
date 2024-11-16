@@ -1,5 +1,8 @@
 package elder.ly.mobile.ui.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.user.IUserRepository
@@ -14,6 +17,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewModel() {
+    var userId by mutableLongStateOf(-1L)
+
     // Armazena os dados do usuário
     private val _user = MutableStateFlow<GetUsersOutput?>(null)
     val user: StateFlow<GetUsersOutput?> = _user
@@ -33,10 +38,6 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
 
-    init {
-        getUser()
-    }
-
     // Função para buscar dados do usuário
     fun getUser() {
         viewModelScope.launch {
@@ -44,7 +45,7 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
             _error.value = null
 
             try {
-                val response = userRepository.getUser(10)
+                val response = userRepository.getUser(userId)
                 if (response.isSuccessful) {
                     response.body()?.let { userData ->
                         _user.value = userData

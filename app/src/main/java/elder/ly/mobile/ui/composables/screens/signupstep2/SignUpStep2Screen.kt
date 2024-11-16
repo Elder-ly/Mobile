@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.gson.Gson
 import elder.ly.mobile.PersonalInfo
+import elder.ly.mobile.Search
 import elder.ly.mobile.domain.service.CreateAddressInput
 import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
@@ -206,7 +207,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                     is CreateStateHolder.Content -> {
                         // Exibir Toast e navegar apenas uma vez
                         Toast.makeText(context, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show()
-                        navController.navigate(PersonalInfo)
+                        navController.navigate(Search)
                     }
 
                     is CreateStateHolder.Error -> {

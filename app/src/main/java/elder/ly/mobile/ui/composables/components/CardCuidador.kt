@@ -2,10 +2,8 @@ package elder.ly.mobile.ui.composables.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -21,17 +19,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.ui.theme.secondaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
-import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
-import elder.ly.mobile.utils.getUser
-import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cuidador: GetUsersCollaboratorOutput) {
+    val gson = Gson()
+    val colaboradorJson = gson.toJson(cuidador)
 
     Column (
         modifier = modifier
@@ -40,7 +38,10 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cu
                 color = tertiaryContainerLight,
                 shape = RoundedCornerShape(4.dp)
             )
-            .clickable { navController.navigate(ProfileDetails) }
+            .clickable {
+                navController.currentBackStackEntry?.savedStateHandle?.set("colaboradorJson", colaboradorJson)
+                navController.navigate(ProfileDetails)
+            }
             .padding(16.dp)
     ){
         Row(

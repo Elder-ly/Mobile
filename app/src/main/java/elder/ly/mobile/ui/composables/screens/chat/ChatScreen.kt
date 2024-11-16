@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.chat
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -68,7 +69,8 @@ fun ChatScreen(navController: NavController) {
     val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
     val conversationJson = savedStateHandle?.get<String>("conversationJson")
 
-    val conversation = conversationJson?.let { gson.fromJson(it, UserConversationOutput::class.java) }
+    val conversation =
+        conversationJson?.let { gson.fromJson(it, UserConversationOutput::class.java) }
 
     val context = LocalContext.current
 
@@ -81,14 +83,14 @@ fun ChatScreen(navController: NavController) {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");
 
     LaunchedEffect(key1 = viewModel.recipientId) {
-        getUser(context).collect {
-            viewModel.senderId = it.id
-        }
-        viewModel.isLoading = true
-//        viewModel.senderId = 3
-        while (true) {
-            viewModel.loadMessages()
-            kotlinx.coroutines.delay(2000)
+        getUser(context).collect { userId ->
+            viewModel.senderId = userId.id ?: -1
+
+            viewModel.isLoading = true
+            while (true) {
+                viewModel.loadMessages()
+                kotlinx.coroutines.delay(2000)
+            }
         }
     }
 
@@ -102,7 +104,9 @@ fun ChatScreen(navController: NavController) {
     }
 
     Scaffold { paddingValues ->
-        Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -227,8 +231,8 @@ fun ChatScreen(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageInputField(onclick : (String) -> Unit) {
-    var text by remember { mutableStateOf("")}
+fun MessageInputField(onclick: (String) -> Unit) {
+    var text by remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier
@@ -297,7 +301,7 @@ fun ChatMessage(
     message: String,
     dateTime: LocalDateTime,
     isSender: Boolean
-){
+) {
     val backgroundColor = if (isSender) Color(0xFFD1F5FF) else Color(0xFFECECEC)
     val textColor = if (isSender) Color.Black else Color.DarkGray
     val alignment = if (isSender) Alignment.End else Alignment.Start

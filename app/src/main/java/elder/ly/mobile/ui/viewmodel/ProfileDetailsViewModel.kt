@@ -22,13 +22,9 @@ class ProfileDetailsViewModel(
     val user: StateFlow<GetUsersOutput?> = _user
     var userId by mutableLongStateOf((-1).toLong())
 
-    init {
-        getUserProfileDetails()
-    }
-
-    private fun getUserProfileDetails(){
+    fun getUserProfileDetails() {
         viewModelScope.launch {
-            val response = userRepository.getUser(6)
+            val response = userRepository.getUser(userId)
 
             if (response.isSuccessful) {
                 val userResponse = response.body()
@@ -36,12 +32,18 @@ class ProfileDetailsViewModel(
                     _user.value = userResponse
                     // Adicione um log para verificar os dados recebidos
                     Log.d("ProfileDetailsViewModel", "Usuário recebido: $userResponse")
-                    Log.d("ProfileDetailsViewModel", "Especialidades recebidas: ${userResponse.especialidades}")
+                    Log.d(
+                        "ProfileDetailsViewModel",
+                        "Especialidades recebidas: ${userResponse.especialidades}"
+                    )
                 } else {
                     Log.e("ProfileDetailsViewModel", "A resposta da API é nula.")
                 }
             } else {
-                Log.e("ProfileDetailsViewModel", "Erro na resposta da API: ${response.errorBody()?.string()}")
+                Log.e(
+                    "ProfileDetailsViewModel",
+                    "Erro na resposta da API: ${response.errorBody()?.string()}"
+                )
             }
         }
     }
