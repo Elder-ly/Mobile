@@ -1,12 +1,16 @@
 package elder.ly.mobile.ui.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.user.IUserRepository
+import elder.ly.mobile.domain.model.User
 import elder.ly.mobile.domain.service.CreateAddressInput
 import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.domain.service.CreateUserInput
+import elder.ly.mobile.domain.service.GetUsersOutput
 import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
+import elder.ly.mobile.utils.saveUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +22,7 @@ class SignUpStepViewModel(
     val userCreationStatus: StateFlow<CreateStateHolder> = _userCreationStatus
 
     // Função para enviar os dados ao servidor
-    fun createUser(createClientInput: CreateClientInput, createAddressInput: CreateAddressInput) {
+    fun createUser(context: Context, createClientInput: CreateClientInput, createAddressInput: CreateAddressInput) {
         viewModelScope.launch {
             _userCreationStatus.value = CreateStateHolder.Loading
             try {
@@ -43,6 +47,8 @@ class SignUpStepViewModel(
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
                         _userCreationStatus.value = CreateStateHolder.Content(user) // Atualiza o status com os dados do usuário criado
+
+                        saveUserInDataStore(context, user) // Chamada ao método de persistência
                     } ?: run {
                         _userCreationStatus.value = CreateStateHolder.Error("Resposta vazia do servidor")
                     }
@@ -53,5 +59,22 @@ class SignUpStepViewModel(
                 _userCreationStatus.value = CreateStateHolder.Error("Erro: ${e.message}")
             }
         }
+    }
+
+    private suspend fun saveUserInDataStore(context: Context, getUsersOutput: GetUsersOutput) {
+        saveUser(context,
+            User(
+            id = getUsersOutput.id,
+            type = getUsersOutput.tipoUsuario,
+            gender = getUsersOutput.genero,
+            name = getUsersOutput.nome,
+            email = getUsersOutput.email,
+            googleToken = toString(),
+            phoneNumber = null,
+            pictureURL = getUsersOutput.fotoPerfil,
+            residences = listOf(),
+            resumes = listOf()
+        )
+        )
     }
 }

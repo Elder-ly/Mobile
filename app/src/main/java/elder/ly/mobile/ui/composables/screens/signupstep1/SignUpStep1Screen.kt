@@ -1,5 +1,7 @@
 package elder.ly.mobile.ui.composables.screens.signupstep1
 
+import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,43 +40,25 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) {
-
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     var profilePicture by remember { mutableStateOf<String?>(null) }
-
     var fullName by remember { mutableStateOf("") }
-
     var email by remember { mutableStateOf("") }
-
     var document by remember { mutableStateOf("") }
-
     var birthDate by remember { mutableStateOf("") }
-
     var gender by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            getUser(context)
-                .catch { e ->
-                    if (e is UserNotFoundException) {
-                        Toast.makeText(context, "Usuário não encontrado!", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(context, "Erro ao carregar usuário.", Toast.LENGTH_LONG)
-                            .show()
-                    }
-                }
-                .collect { user ->
-                    email = user.email
-                    profilePicture = user.pictureURL // Atualiza a URL do profile
-                }
+    LaunchedEffect(key1 = Unit) {
+        getUser(context).collect { user ->
+            email = user.email
+            profilePicture = user.pictureURL
         }
     }
 
-    Scaffold(
+    Scaffold (
         topBar = {
-            if (showTopBar) {
+            if (showTopBar){
                 TopBar(
                     title = "Cadastro",
                     modifier = Modifier.padding(top = 44.dp, bottom = 16.dp),
@@ -83,7 +67,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 )
             }
         }
-    ) { paddingValues ->
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -93,7 +77,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
             DefaultTextInput(
                 label = "Nome Completo",
                 value = fullName,
-                changeValue = { newFullName: String ->
+                changeValue = { newFullName : String ->
                     fullName = newFullName
                 }
             )
@@ -103,7 +87,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 placeholder = "seuemail@gmail.com",
                 keyboardType = KeyboardType.Email,
                 value = email,
-                changeValue = { newEmail: String ->
+                changeValue = { newEmail : String ->
                     email = newEmail
                 }
             )
@@ -114,7 +98,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 keyboardType = KeyboardType.Number,
                 maxChar = 11,
                 value = document,
-                changeValue = { newDocument: String ->
+                changeValue = { newDocument : String ->
                     document = newDocument
                 }
             )
@@ -126,7 +110,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 mask = CustomMaskTranformation(mask = "##/##/####"),
                 maxChar = 8,
                 value = birthDate,
-                changeValue = { newBirthDate: String ->
+                changeValue = { newBirthDate : String ->
                     birthDate = newBirthDate
                 },
             )
@@ -136,60 +120,82 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
                 placeholder = "Selecione um Gênero",
                 options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
                 value = gender,
-                changeValue = { newGender: String ->
+                changeValue = { newGender : String ->
                     gender = newGender
                 }
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
+            // Uso no botão
             NextButton(
                 label = "Avançar",
                 onclick = {
-                    // Verifique se todos os campos obrigatórios foram preenchidos
-                    if (fullName.isBlank() || email.isBlank() || document.isBlank() || gender.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            "Por favor, preencha todos os campos obrigatórios.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-
-                    val formattedDate = ConvertDate.convertDate(birthDate)
-                    if (formattedDate.isBlank()) {
-                        Toast.makeText(context, "Data está como: $birthDate.", Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                    val createClientInput = CreateClientInput(
-                        nome = fullName,
+                    val createClientInput = validateAndPrepareClientInput(
+                        fullName = fullName,
                         email = email,
-                        documento = document,
-                        dataNascimento = formattedDate,
-                        biografia = null,
-                        fotoPerfil = profilePicture,
-                        tipoUsuario = TypeUserEnum.CLIENT.id,
-                        genero = when (gender) {
-                            "Masculino" -> GenderEnum.MALE.id
-                            "Feminino" -> GenderEnum.FEMALE.id
-                            else -> GenderEnum.PREFER_NOT_TO_SAY.id
-                        },
-                        especialidades = listOf()
+                        document = document,
+                        birthDate = birthDate,
+                        gender = gender,
+                        profilePicture = profilePicture,
+                        context = context
                     )
 
+                    // Se os dados forem válidos, navegue para a próxima tela
                     val gson = Gson()
                     val createClientInputJson = gson.toJson(createClientInput)
 
-                    // Navegue para a segunda tela passando `CreateUserInput` como argumento
-                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                        "createClientInputJson",
-                        createClientInputJson
-                    )
+                    // Navega para a segunda tela passando os dados
+                    navController.currentBackStackEntry?.savedStateHandle?.set("createClientInputJson", createClientInputJson)
                     navController.navigate(SignUpStep2)
                 }
             )
         }
     }
+}
+
+private fun validateAndPrepareClientInput(
+    fullName: String,
+    email: String,
+    document: String,
+    birthDate: String,
+    gender: String,
+    profilePicture: String?,
+    context: Context
+): CreateClientInput? {
+    // Verificação dos campos obrigatórios
+    if (fullName.isBlank() || email.isBlank() || document.isBlank() || gender.isBlank()) {
+        Toast.makeText(
+            context,
+            "Por favor, preencha todos os campos obrigatórios.",
+            Toast.LENGTH_LONG
+        ).show()
+        return null
+    }
+
+    // Conversão da data de nascimento
+    val formattedDate = ConvertDate.convertDate(birthDate)
+    if (formattedDate.isBlank()) {
+        Toast.makeText(context, "Data inválida: $birthDate.", Toast.LENGTH_LONG).show()
+        return null
+    }
+
+    // Retorna um objeto CreateClientInput se todos os dados forem válidos
+    return CreateClientInput(
+        nome = fullName,
+        email = email,
+        documento = document,
+        dataNascimento = formattedDate,
+        biografia = null,
+        fotoPerfil = profilePicture,
+        tipoUsuario = TypeUserEnum.CLIENT.id,
+        genero = when (gender) {
+            "Masculino" -> GenderEnum.MALE.id
+            "Feminino" -> GenderEnum.FEMALE.id
+            else -> GenderEnum.PREFER_NOT_TO_SAY.id
+        },
+        especialidades = listOf()
+    )
 }
 
 /*@Preview(showBackground = true)

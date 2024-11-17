@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.google.gson.Gson
 import elder.ly.mobile.PersonalInfo
 import elder.ly.mobile.Search
+import elder.ly.mobile.SignUpStep1
 import elder.ly.mobile.domain.service.CreateAddressInput
 import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
@@ -31,64 +32,32 @@ import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
 import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
 import elder.ly.mobile.utils.CustomMaskTranformation
+import elder.ly.mobile.utils.getBrazilStates
+import elder.ly.mobile.utils.saveUser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) {
-
-    // Contexto atual para exibir Toasts ou mensagens relacionadas à UI
     val context = LocalContext.current
-
-    // Instância do ViewModel usando o Koin para injeção de dependências
     val signUpStepViewModel = koinViewModel<SignUpStepViewModel>()
+    val userCreationStatus by signUpStepViewModel.userCreationStatus.collectAsState()
 
     val gson = Gson()
     val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
     val createClientInputJson = savedStateHandle?.get<String>("createClientInputJson")
-
-    // Converte de JSON para `CreateClientInput`
     val createClientInput = createClientInputJson?.let { gson.fromJson(it, CreateClientInput::class.java) }
 
-    // Observa o status da criação de usuário da ViewModel para exibir o progresso ou resultado
-    val userCreationStatus by signUpStepViewModel.userCreationStatus.collectAsState()
+    var cep by remember { mutableStateOf("") }
+    var street by remember { mutableStateOf("") }
+    var number by remember { mutableStateOf("") }
+    var complement by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    var district by remember { mutableStateOf("") }
 
-    val brazilStates = listOf(
-        "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
-        "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
-        "RS", "RO", "RR", "SC", "SP", "SE", "TO"
-    )
-
-    var cep by remember {
-        mutableStateOf("")
-    }
-
-    var street by remember {
-        mutableStateOf("")
-    }
-
-    var number by remember {
-        mutableStateOf("")
-    }
-
-    var complement by remember {
-        mutableStateOf("")
-    }
-
-    var state by remember {
-        mutableStateOf("")
-    }
-
-    var city by remember {
-        mutableStateOf("")
-    }
-
-    var district by remember {
-        mutableStateOf("")
-    }
-
-    Scaffold(
+    Scaffold (
         topBar = {
-            if (showTopBar) {
+            if (showTopBar){
                 TopBar(
                     title = "Cadastro",
                     modifier = Modifier.padding(top = 44.dp, bottom = 12.dp),
@@ -96,7 +65,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 )
             }
         }
-    ) { paddingValues ->
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -110,7 +79,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 mask = CustomMaskTranformation(mask = "#####-###"),
                 maxChar = 8,
                 value = cep,
-                changeValue = { newCep: String ->
+                changeValue = { newCep : String ->
                     cep = newCep
                 }
             )
@@ -119,7 +88,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 label = "Logradouro",
                 placeholder = "Rua Haddock Lobo",
                 value = street,
-                changeValue = { newStreet: String ->
+                changeValue = { newStreet : String ->
                     street = newStreet
                 }
             )
@@ -130,7 +99,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 keyboardType = KeyboardType.Number,
                 maxChar = 6,
                 value = number,
-                changeValue = { newNumber: String ->
+                changeValue = { newNumber : String ->
                     number = newNumber
                 }
             )
@@ -139,7 +108,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 label = "Complemento",
                 placeholder = "Bloco A",
                 value = complement,
-                changeValue = { newComplememt: String ->
+                changeValue = { newComplememt : String ->
                     complement = newComplememt
                 },
             )
@@ -147,9 +116,9 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
             DefaultDropdownMenu(
                 label = "Estado",
                 placeholder = "Selecione um Estado",
-                options = brazilStates,
+                options = getBrazilStates(),
                 value = state,
-                changeValue = { newState: String ->
+                changeValue = { newState : String ->
                     state = newState
                 }
             )
@@ -158,7 +127,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 label = "Cidade",
                 placeholder = "São Paulo",
                 value = city,
-                changeValue = { newCity: String ->
+                changeValue = { newCity : String ->
                     city = newCity
                 },
             )
@@ -167,7 +136,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 label = "Bairro",
                 placeholder = "Consolação",
                 value = district,
-                changeValue = { newDistrict: String ->
+                changeValue = { newDistrict : String ->
                     district = newDistrict
                 },
             )
@@ -175,7 +144,7 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
             Spacer(modifier = Modifier.weight(1f))
 
             NextButton(
-                label = "Enviar",
+                label = "Avançar",
                 onclick = {
                     if (createClientInput != null) {
                         val createAddressInput = CreateAddressInput(
@@ -188,11 +157,10 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                             uf = state
                         )
 
-                        // Envia os dados combinados para a ViewModel
-                        signUpStepViewModel.createUser(createClientInput, createAddressInput)
+                        signUpStepViewModel.createUser(context, createClientInput, createAddressInput)
                     } else {
-                        // Exibir uma mensagem de erro se `createClientInput` for nulo
-                        Toast.makeText(context, "$createClientInput", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Preencher os dados corretamente", Toast.LENGTH_LONG).show()
+                        navController.navigate(SignUpStep1)
                     }
                 }
             )

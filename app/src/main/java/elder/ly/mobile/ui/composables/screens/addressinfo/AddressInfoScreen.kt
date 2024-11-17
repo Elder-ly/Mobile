@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
 import elder.ly.mobile.Profile
 import elder.ly.mobile.domain.service.AddressOutput
+import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.domain.service.GetUsersOutput
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.domain.service.UpdateClientInput
@@ -36,6 +37,7 @@ import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.viewmodel.PersonalInfoViewModel
 import elder.ly.mobile.utils.CustomMaskTranformation
+import elder.ly.mobile.utils.getBrazilStates
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -50,6 +52,13 @@ fun AddressInfoScreen(
     // Observa o estado do usuário e do status de criação
     val user by personalInfoViewModel.user.collectAsState()
     val userCreationStatus by personalInfoViewModel.userCreationStatus.collectAsState()
+
+    val gson = Gson()
+    val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
+    val updateClientInputJson = savedStateHandle?.get<String>("updateClientInputJson")
+
+    // Converte de JSON para `CreateClientInput`
+    var updateClientInput = updateClientInputJson?.let { gson.fromJson(it, UpdateClientInput::class.java) }
 
     // Monitora o estado de criação/atualização do usuário
     LaunchedEffect(userCreationStatus) {
@@ -99,7 +108,7 @@ fun AddressInfoScreen(
                             navController = navController,
                             address = address,
                             onSaveClick = { updatedAddress ->
-                                val updateClientInput = user?.toUpdateClientInput(updatedAddress)
+                                updateClientInput = user?.toUpdateClientInput(updatedAddress)
                                 updateClientInput?.let {
                                     personalInfoViewModel.updateUser(
                                         id = user!!.id,
@@ -218,12 +227,6 @@ private fun AddressForm(
         }
     )
 }
-
-private fun getBrazilStates() = listOf(
-    "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
-    "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
-    "RS", "RO", "RR", "SC", "SP", "SE", "TO"
-)
 
 @Preview(showBackground = true)
 @Composable

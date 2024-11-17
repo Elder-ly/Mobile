@@ -53,7 +53,6 @@ fun PersonalInfoScreen(
     LaunchedEffect(key1 = Unit) {
         getUser(context).collect { userId ->
             viewModel.userId = userId.id ?: -1
-            println("ID do launcher:${viewModel.userId}")
             viewModel.getUser()
         }
     }
@@ -137,6 +136,7 @@ fun PersonalInfoScreen(
                                     city = address.cidade ?: ""
                                     district = address.bairro ?: ""
                                 }
+                                println("Endereço: ${it.endereco}")
                             }
                         }
                     }
@@ -223,6 +223,8 @@ fun PersonalInfoScreen(
                         ),
                         especialidades = listOf()
                     )
+
+                    println("UpdateClienteEndereço: ${updateClientInput.endereco}")
 
                     val gson = Gson()
                     val updateClientInputJson = gson.toJson(updateClientInput)
