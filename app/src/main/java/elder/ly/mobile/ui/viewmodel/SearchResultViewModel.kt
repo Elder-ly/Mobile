@@ -17,12 +17,15 @@ class SearchResultViewModel(
 
     val cuidadores = mutableStateListOf<GetUsersCollaboratorOutput>()
 
+    var isLoading by mutableStateOf(false)
 
     init {
         getUsersCollaborator()
     }
 
     private fun getUsersCollaborator() {
+        isLoading = true
+
         viewModelScope.launch {
             val response = userRepository.getUsersCollaborator()
 
@@ -33,6 +36,8 @@ class SearchResultViewModel(
             } else {
                 // Lidar com erro na resposta (ex: mostrar mensagem de erro)
             }
+
+            isLoading = false
         }
     }
 }

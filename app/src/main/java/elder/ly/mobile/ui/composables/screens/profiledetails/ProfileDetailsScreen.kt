@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,11 +37,13 @@ import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.domain.service.ResidenceOutput
 import elder.ly.mobile.domain.service.SpecialtieOutput
 import elder.ly.mobile.domain.service.UserConversationOutput
+import elder.ly.mobile.ui.composables.components.BackIconButton
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.Feature
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.theme.primaryLight
+import elder.ly.mobile.ui.theme.secondaryContainerLightMediumContrast
 import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
 import elder.ly.mobile.utils.getUser
 import org.koin.compose.viewmodel.koinViewModel
@@ -88,44 +92,68 @@ fun ProfileDetailsScreen(
                     .padding(top = 30.dp, start = 16.dp, end = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageCuidador(modifier = Modifier.size(160.dp), user?.fotoPerfil ?: "")
-                Text(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 36.sp,
-                    color = Color.Black,
-                    text = user?.nome ?: ""
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 16.sp,
-                    color = primaryLight,
-                    text = user?.endereco?.bairro ?: ""
-                )
-
-                Spacer(modifier = Modifier.size(8.dp))
-
-                FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    user?.especialidades?.forEach { especialidade ->
-                        Feature(text = especialidade.nome ?: "especialidade", fontSize = 14.sp)
-                    } ?: ""
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp), // Ajusta o espaçamento abaixo do Row
+                    verticalAlignment = Alignment.Top, // Centraliza os elementos verticalmente
+                    horizontalArrangement = Arrangement.SpaceBetween // Garante que os elementos começam na esquerda
+                ) {
+                    BackIconButton {
+                        navController.popBackStack()
+                    }
+                    ImageCuidador(modifier = Modifier.size(160.dp), user?.fotoPerfil ?: "")
+                    Spacer(modifier = Modifier.size(56.dp))
                 }
-
-                val scrollState = rememberScrollState()
-                Column (
-                    modifier = Modifier.verticalScroll(scrollState)
-                ){
-                    Text(
-                        text = user?.biografia ?: "",
+                if (viewModel.isLoading){
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        textAlign = TextAlign.Start
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator(color = Color.Gray)
+                    }
+                } else{
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 36.sp,
+                        color = Color.Black,
+                        text = user?.nome ?: "",
+                        lineHeight = 40.sp
                     )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontSize = 16.sp,
+                        color = secondaryContainerLightMediumContrast,
+                        text = user?.endereco?.bairro ?: ""
+                    )
+
+                    Spacer(modifier = Modifier.size(8.dp))
+
+                    FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        user?.especialidades?.forEach { especialidade ->
+                            Feature(text = especialidade.nome ?: "especialidade", fontSize = 14.sp)
+                        } ?: ""
+                    }
+
+                    val scrollState = rememberScrollState()
+                    Column (
+                        modifier = Modifier.verticalScroll(scrollState)
+                    ){
+                        Text(
+                            text = user?.biografia ?: "",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            textAlign = TextAlign.Start
+                        )
+                    }
                 }
             }
 

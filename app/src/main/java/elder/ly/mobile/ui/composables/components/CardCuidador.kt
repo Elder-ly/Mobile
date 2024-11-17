@@ -23,6 +23,7 @@ import com.google.gson.Gson
 import elder.ly.mobile.ProfileDetails
 import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.ui.theme.secondaryContainerLight
+import elder.ly.mobile.ui.theme.secondaryContainerLightMediumContrast
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -57,7 +58,7 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cu
                 modifier = modifier
                     .weight(1f)
             ){
-                Text(text = cuidador.endereco.bairro ?: "", color = secondaryContainerLight)
+                Text(text = cuidador.endereco.bairro ?: "", color = secondaryContainerLightMediumContrast)
                 Text(text = cuidador.nome, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
 //            Column {
@@ -72,7 +73,7 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cu
 
         LazyRow {
             items(cuidador.especialidades) { especialidade ->
-                Feature(text = especialidade.nome) // Exibindo o nome da especialidade
+                Feature(text = especialidade.nome, fontSize = 14.sp) // Exibindo o nome da especialidade
             }
         }
 

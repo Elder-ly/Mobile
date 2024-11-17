@@ -36,6 +36,7 @@ import com.maxkeppeler.sheets.clock.models.ClockSelection
 import elder.ly.mobile.R
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryLight
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,9 +80,10 @@ fun DataTextButton(modifier: Modifier = Modifier, labelData: String, onDateSelec
         CalendarDialog(
             state = calendarState,
             selection = CalendarSelection.Date { date ->
-                dateEntered = date.toString()
+                val formattedDate = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                dateEntered = formattedDate
                 onDateSelected(dateEntered)
-                Log.d("Selected Date", "$date")
+                Log.d("Selected Date", formattedDate)
             },
         )
     }
