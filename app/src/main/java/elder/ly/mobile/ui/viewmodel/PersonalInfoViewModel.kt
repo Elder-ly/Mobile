@@ -23,10 +23,6 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
     private val _user = MutableStateFlow<GetUsersOutput?>(null)
     val user: StateFlow<GetUsersOutput?> = _user
 
-    // Armazena o endereço separadamente, caso seja nulo em `user`
-    private val _address = MutableStateFlow<AddressOutput?>(null)
-    val address: StateFlow<AddressOutput?> = _address
-
     // Estado de criação/atualização do usuário
     private val _userCreationStatus = MutableStateFlow<CreateStateHolder>(CreateStateHolder.Loading)
     val userCreationStatus: StateFlow<CreateStateHolder> = _userCreationStatus
@@ -48,19 +44,14 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
                 val response = userRepository.getUser(userId)
                 if (response.isSuccessful) {
                     response.body()?.let { userData ->
-                        _user.value = userData
-                        _address.value = userData.endereco ?: run {
-                            _error.value = "Endereço não encontrado para o usuário."
-                            null
-                        }
-                    } ?: run {
-                        _error.value = "Resposta vazia ao buscar dados do usuário."
+                        _user.value = userData } ?: run {
+                        _error.value = "Os dados do usuário não foram encontrados."
                     }
                 } else {
-                    _error.value = "Erro ao buscar dados do usuário: ${response.code()}"
+                    _error.value = "Erro ao buscar dados do usuário: Código ${response.code()}"
                 }
             } catch (e: Exception) {
-                _error.value = "Erro: ${e.message}"
+                _error.value = "Erro ao buscar dados do usuário: ${e.message}"
             } finally {
                 _isLoading.value = false
             }
@@ -69,8 +60,7 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
 
     fun updateUser(
         id: Long,
-        updateClientInput: UpdateClientInput,
-        updateAddressInput: UpdateAddressInput
+        updateClientInput: UpdateClientInput
     ) {
         viewModelScope.launch {
             _userCreationStatus.value = CreateStateHolder.Loading
@@ -83,17 +73,16 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
                     biografia = updateClientInput.biografia,
                     fotoPerfil = null,
                     genero = updateClientInput.genero,
-                    updateAddressInput = updateAddressInput,
+                    updateAddressInput = null,
                     especialidades = updateClientInput.especialidades
                 )
 
-                // Envia o objeto completo para a API
+                // Envia o objeto para a API
                 val response = userRepository.updateUsers(id, updateUserInput)
 
                 if (response.isSuccessful) {
                     response.body()?.let { updatedUser ->
-                        _user.value = updatedUser // Atualiza `_user` com o usuário atualizado
-                        _address.value = updatedUser.endereco
+                        _user.value = updatedUser // Atualiza `_user` com os dados do usuário
                         _userCreationStatus.value = CreateStateHolder.Content(updatedUser)
                     } ?: run {
                         _userCreationStatus.value = CreateStateHolder.Error("Resposta vazia do servidor.")

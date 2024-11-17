@@ -41,45 +41,10 @@ import elder.ly.mobile.utils.getBrazilStates
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun AddressInfoScreen(
-    showTopBar: Boolean = true,
-    showBottomBar: Boolean = true,
-    navController: NavController
-) {
-    val context = LocalContext.current
-    val personalInfoViewModel: PersonalInfoViewModel = koinViewModel()
-
-    // Observa o estado do usuário e do status de criação
-    val user by personalInfoViewModel.user.collectAsState()
-    val userCreationStatus by personalInfoViewModel.userCreationStatus.collectAsState()
-
-    val gson = Gson()
-    val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
-    val updateClientInputJson = savedStateHandle?.get<String>("updateClientInputJson")
-
-    // Converte de JSON para `CreateClientInput`
-    var updateClientInput = updateClientInputJson?.let { gson.fromJson(it, UpdateClientInput::class.java) }
-
-    // Monitora o estado de criação/atualização do usuário
-    LaunchedEffect(userCreationStatus) {
-        when (userCreationStatus) {
-            is CreateStateHolder.Content -> {
-                Toast.makeText(context, "Dados atualizados com sucesso!", Toast.LENGTH_SHORT).show()
-                navController.popBackStack()
-            }
-            is CreateStateHolder.Error -> {
-                val error = (userCreationStatus as CreateStateHolder.Error).message
-                Toast.makeText(context, error, Toast.LENGTH_LONG).show()
-            }
-            CreateStateHolder.Loading -> {
-                // Mostrar um indicador de carregamento, se necessário
-            }
-        }
-    }
-
-    Scaffold(
+fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
+    Scaffold (
         topBar = {
-            if (showTopBar) {
+            if(showTopBar){
                 TopBar(
                     title = "Endereço",
                     modifier = Modifier.padding(top = 44.dp),
@@ -88,70 +53,38 @@ fun AddressInfoScreen(
             }
         },
         bottomBar = {
-            if (showBottomBar) {
+            if(showBottomBar){
                 BottomBar(navController = navController, colorBlueProfile = true)
             }
         }
-    ) { paddingValues ->
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LazyColumn(
+            LazyColumn (
                 modifier = Modifier.weight(1f)
-            ) {
-                items(1) {
-                    user?.endereco?.let { address ->
-                        AddressForm(
-                            navController = navController,
-                            address = address,
-                            onSaveClick = { updatedAddress ->
-                                updateClientInput = user?.toUpdateClientInput(updatedAddress)
-                                updateClientInput?.let {
-                                    personalInfoViewModel.updateUser(
-                                        id = user!!.id,
-                                        updateClientInput = it,
-                                        updateAddressInput = updatedAddress
-                                    )
-                                }
-                            }
-                        )
-                    }
+            ){
+                items(1){
+                    InputsButton(navController = navController)
                 }
             }
         }
     }
 }
 
-// Função de extensão para criar `UpdateClientInput` usando os dados de `user` e o endereço atualizado
-fun GetUsersOutput.toUpdateClientInput(updatedAddress: UpdateAddressInput): UpdateClientInput {
-    return UpdateClientInput(
-        nome = this.nome,
-        email = this.email,
-        documento = this.documento,
-        dataNascimento = this.dataNascimento,
-        biografia = this.biografia,
-        genero = this.genero,
-        endereco = updatedAddress, // Passa o endereço atualizado
-        especialidades = emptyList()
-    )
-}
-
 @Composable
-private fun AddressForm(
-    navController: NavController,
-    address: AddressOutput,
-    onSaveClick: (UpdateAddressInput) -> Unit
-) {
-    var cep by remember { mutableStateOf(address.cep ?: "") }
-    var street by remember { mutableStateOf(address.logradouro ?: "") }
-    var number by remember { mutableStateOf(address.numero ?: "") }
-    var complement by remember { mutableStateOf(address.complemento ?: "") }
-    var state by remember { mutableStateOf(address.uf ?: "") }
-    var city by remember { mutableStateOf(address.cidade ?: "") }
-    var district by remember { mutableStateOf(address.bairro ?: "") }
+fun InputsButton(navController: NavController) {
+
+    var cep by remember { mutableStateOf("") }
+    var street by remember { mutableStateOf("") }
+    var number by remember { mutableStateOf("") }
+    var complement by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    var district by remember { mutableStateOf("") }
 
     DefaultTextInput(
         label = "CEP",
@@ -160,14 +93,18 @@ private fun AddressForm(
         mask = CustomMaskTranformation(mask = "#####-###"),
         maxChar = 8,
         value = cep,
-        changeValue = { cep = it }
+        changeValue = { newCep : String ->
+            cep = newCep
+        }
     )
 
     DefaultTextInput(
         label = "Logradouro",
         placeholder = "Rua Haddock Lobo",
         value = street,
-        changeValue = { street = it }
+        changeValue = { newStreet : String ->
+            street = newStreet
+        }
     )
 
     DefaultTextInput(
@@ -176,14 +113,18 @@ private fun AddressForm(
         keyboardType = KeyboardType.Number,
         maxChar = 6,
         value = number,
-        changeValue = { number = it }
+        changeValue = { newNumber : String ->
+            number = newNumber
+        }
     )
 
     DefaultTextInput(
         label = "Complemento",
         placeholder = "Bloco A",
         value = complement,
-        changeValue = { complement = it }
+        changeValue = { newComplememt : String ->
+            complement = newComplememt
+        },
     )
 
     DefaultDropdownMenu(
@@ -191,38 +132,32 @@ private fun AddressForm(
         placeholder = "Selecione um Estado",
         options = getBrazilStates(),
         value = state,
-        changeValue = { state = it }
+        changeValue = { newState : String ->
+            state = newState
+        }
     )
 
     DefaultTextInput(
         label = "Cidade",
         placeholder = "São Paulo",
         value = city,
-        changeValue = { city = it }
+        changeValue = { newCity : String ->
+            city = newCity
+        },
     )
 
     DefaultTextInput(
         label = "Bairro",
         placeholder = "Consolação",
         value = district,
-        changeValue = { district = it }
+        changeValue = { newDistrict : String ->
+            district = newDistrict
+        },
     )
-
     NextButton(
         label = "Salvar",
         modifier = Modifier.padding(top = 12.dp),
         onclick = {
-            // Cria o objeto `UpdateAddressInput` usando os valores atuais
-            val updatedAddress = UpdateAddressInput(
-                cep = cep,
-                logradouro = street,
-                complemento = complement,
-                bairro = district,
-                numero = number,
-                cidade = city,
-                uf = state
-            )
-            onSaveClick(updatedAddress)
             navController.navigate(Profile)
         }
     )

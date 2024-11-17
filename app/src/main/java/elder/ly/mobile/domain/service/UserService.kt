@@ -79,7 +79,7 @@ data class UpdateUserInput(
     val biografia: String?,
     val fotoPerfil: String?,
     val genero: Long,
-    val updateAddressInput: UpdateAddressInput,
+    val updateAddressInput: UpdateAddressInput?,
     val especialidades: List<Long>
 )
 
@@ -90,7 +90,6 @@ data class UpdateClientInput(
     val dataNascimento: String?,
     val biografia: String?,
     val genero: Long,
-    val endereco: UpdateAddressInput,
     val especialidades: List<Long>
 )
 

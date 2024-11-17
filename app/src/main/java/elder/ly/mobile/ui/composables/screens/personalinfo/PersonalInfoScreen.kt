@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.gson.Gson
 import elder.ly.mobile.AddressInfo
+import elder.ly.mobile.Profile
 import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.domain.service.UpdateClientInput
@@ -38,17 +40,10 @@ import elder.ly.mobile.utils.getUser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun PersonalInfoScreen(
-    showTopBar: Boolean = true,
-    showBottomBar: Boolean = true,
-    navController: NavController
-) {
+fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true, navController: NavController) {
     val context = LocalContext.current
     val viewModel: PersonalInfoViewModel = koinViewModel()
-
     val user by viewModel.user.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val error by viewModel.error.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         getUser(context).collect { userId ->
@@ -63,17 +58,19 @@ fun PersonalInfoScreen(
     var birthDate by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
 
-    var cep by remember { mutableStateOf("") }
-    var street by remember { mutableStateOf("") }
-    var number by remember { mutableStateOf("") }
-    var complement by remember { mutableStateOf("") }
-    var state by remember { mutableStateOf("") }
-    var city by remember { mutableStateOf("") }
-    var district by remember { mutableStateOf("") }
+    LaunchedEffect(user) {
+        user?.let {
+            fullName = it.nome
+            email = it.email
+            document = it.documento
+            birthDate = ConvertDate.formatDateToDisplay(it.dataNascimento ?: "")
+            gender = it.genero.let { GenderEnum.fromCode(it)?.description } ?: ""
+        }
+    }
 
-    Scaffold(
+    Scaffold (
         topBar = {
-            if (showTopBar) {
+            if(showTopBar){
                 TopBar(
                     title = "Informações Adicionais",
                     modifier = Modifier.padding(top = 44.dp, bottom = 16.dp),
@@ -82,71 +79,26 @@ fun PersonalInfoScreen(
             }
         },
         bottomBar = {
-            if (showBottomBar) {
+            if (showBottomBar){
                 BottomBar(
                     navController = navController,
                     colorBlueProfile = true
                 )
             }
         }
-    ) { paddingValues ->
+    ){ paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween // Garante que o botão ficará no fim da tela
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                when {
-                    isLoading -> {
-                        // Exibir um indicador de carregamento, se necessário
-                    }
-
-                    error != null -> {
-                        Log.e("UserInfoScreen", "Erro ao carregar dados: $error")
-                        Toast.makeText(context, "Erro ao carregar dados: $error", Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                    user != null -> {
-                        LaunchedEffect(user) {
-                            user?.let {
-                                fullName = it.nome ?: ""
-                                email = it.email ?: ""
-                                document = it.documento ?: ""
-                                birthDate = ConvertDate.formatDateToDisplay(it.dataNascimento ?: "")
-                                gender = when (it.genero) {
-                                    GenderEnum.MALE.id -> GenderEnum.MALE.description
-                                    GenderEnum.FEMALE.id -> GenderEnum.FEMALE.description
-                                    else -> GenderEnum.PREFER_NOT_TO_SAY.description
-                                }
-
-                                // Verifica se o endereço não é nulo antes de acessar os campos
-                                it.endereco.let { address ->
-                                    cep = address.cep ?: ""
-                                    street = address.logradouro ?: ""
-                                    number = address.numero ?: ""
-                                    complement = address.complemento ?: ""
-                                    state = address.uf ?: ""
-                                    city = address.cidade ?: ""
-                                    district = address.bairro ?: ""
-                                }
-                                println("Endereço: ${it.endereco}")
-                            }
-                        }
-                    }
-                }
-            }
-
             DefaultTextInput(
                 label = "Nome Completo",
                 value = fullName,
-                changeValue = { newFullName: String -> fullName = newFullName }
+                changeValue = { newFullName : String ->
+                    fullName = newFullName
+                }
             )
 
             DefaultTextInput(
@@ -154,7 +106,9 @@ fun PersonalInfoScreen(
                 placeholder = "seuemail@gmail.com",
                 keyboardType = KeyboardType.Email,
                 value = email,
-                changeValue = { newEmail: String -> email = newEmail }
+                changeValue = { newEmail : String ->
+                    email = newEmail
+                }
             )
 
             DefaultTextInput(
@@ -163,7 +117,9 @@ fun PersonalInfoScreen(
                 keyboardType = KeyboardType.Number,
                 maxChar = 11,
                 value = document,
-                changeValue = { newDocument: String -> document = newDocument }
+                changeValue = { newDocument : String ->
+                    document = newDocument
+                }
             )
 
             DefaultTextInput(
@@ -173,7 +129,9 @@ fun PersonalInfoScreen(
                 mask = CustomMaskTranformation(mask = "##/##/####"),
                 maxChar = 8,
                 value = birthDate,
-                changeValue = { newBirthDate: String -> birthDate = newBirthDate }
+                changeValue = { newBirthDate : String ->
+                    birthDate = newBirthDate
+                },
             )
 
             DefaultDropdownMenu(
@@ -181,24 +139,20 @@ fun PersonalInfoScreen(
                 placeholder = "Selecione um Gênero",
                 options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
                 value = gender,
-                changeValue = { newGender: String -> gender = newGender }
+                changeValue = { newGender : String ->
+                    gender = newGender
+                }
             )
 
-            // Botão de Avançar posicionado no final da coluna
-            NextButton(
-                label = "Avançar",
-                onclick = {
-                    if (fullName.isBlank() || email.isBlank() || document.isBlank() || gender.isBlank()) {
-                        Toast.makeText(
-                            context,
-                            "Por favor, preencha todos os campos obrigatórios.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+            Spacer(modifier = Modifier.weight(1f))
 
+            NextButton(
+                label = "Salvar",
+                onclick = {
+                    // Conversão da data de nascimento
                     val formattedDate = ConvertDate.convertDate(birthDate)
                     if (formattedDate.isBlank()) {
-                        Toast.makeText(context, "Data está como: $birthDate.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Data inválida: $birthDate.", Toast.LENGTH_LONG).show()
                     }
 
                     val updateClientInput = UpdateClientInput(
@@ -212,26 +166,12 @@ fun PersonalInfoScreen(
                             "Feminino" -> GenderEnum.FEMALE.id
                             else -> GenderEnum.PREFER_NOT_TO_SAY.id
                         },
-                        endereco = UpdateAddressInput(
-                            cep = cep,
-                            logradouro = street,
-                            complemento = complement,
-                            bairro = district,
-                            numero = number,
-                            cidade = city,
-                            uf = state
-                        ),
                         especialidades = listOf()
                     )
 
-                    println("UpdateClienteEndereço: ${updateClientInput.endereco}")
+                    Log.d("PersonalInfoScreen", "Update: $updateClientInput")
 
-                    val gson = Gson()
-                    val updateClientInputJson = gson.toJson(updateClientInput)
-
-                    // Navegar para AddressInfoScreen e passar o JSON com os dados
-                    navController.currentBackStackEntry?.savedStateHandle?.set("updateClientInputJson", updateClientInputJson)
-                    navController.navigate(AddressInfo)
+                    viewModel.updateUser(viewModel.userId, updateClientInput)
                 }
             )
         }
