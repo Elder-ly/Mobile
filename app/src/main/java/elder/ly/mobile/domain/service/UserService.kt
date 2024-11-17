@@ -103,16 +103,6 @@ data class CreateAddressInput(
     val uf: String
 )
 
-data class UpdateAddressInput(
-    val cep: String,
-    val logradouro: String,
-    val complemento: String?,
-    val bairro: String,
-    val numero: String?,
-    val cidade: String,
-    val uf: String
-)
-
 data class GetUsersOutput(
     val id: Long,
     val nome: String,

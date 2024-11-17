@@ -9,7 +9,7 @@ import elder.ly.mobile.domain.service.CreateAddressInput
 import elder.ly.mobile.domain.service.CreateClientInput
 import elder.ly.mobile.domain.service.CreateUserInput
 import elder.ly.mobile.domain.service.GetUsersOutput
-import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
+import elder.ly.mobile.ui.composables.stateholders.UserStateHolder
 import elder.ly.mobile.utils.saveUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,13 +18,13 @@ import kotlinx.coroutines.launch
 class SignUpStepViewModel(
     private val userRepository : IUserRepository
 ) : ViewModel() {
-    private val _userCreationStatus = MutableStateFlow<CreateStateHolder>(CreateStateHolder.Loading)
-    val userCreationStatus: StateFlow<CreateStateHolder> = _userCreationStatus
+    private val _userCreationStatus = MutableStateFlow<UserStateHolder>(UserStateHolder.Loading)
+    val userCreationStatus: StateFlow<UserStateHolder> = _userCreationStatus
 
     // Função para enviar os dados ao servidor
     fun createUser(context: Context, createClientInput: CreateClientInput, createAddressInput: CreateAddressInput) {
         viewModelScope.launch {
-            _userCreationStatus.value = CreateStateHolder.Loading
+            _userCreationStatus.value = UserStateHolder.Loading
             try {
                 // Criação do `CreateUserInput` com os dados de `CreateClientInput` e `CreateAddressInput`
                 val completeUserInput = CreateUserInput(
@@ -46,17 +46,17 @@ class SignUpStepViewModel(
                 // Verificar a resposta da API
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
-                        _userCreationStatus.value = CreateStateHolder.Content(user) // Atualiza o status com os dados do usuário criado
+                        _userCreationStatus.value = UserStateHolder.Content(user) // Atualiza o status com os dados do usuário criado
 
                         saveUserInDataStore(context, user) // Chamada ao método de persistência
                     } ?: run {
-                        _userCreationStatus.value = CreateStateHolder.Error("Resposta vazia do servidor")
+                        _userCreationStatus.value = UserStateHolder.Error("Resposta vazia do servidor")
                     }
                 } else {
-                    _userCreationStatus.value = CreateStateHolder.Error("Erro: ${response.code()}")
+                    _userCreationStatus.value = UserStateHolder.Error("Erro: ${response.code()}")
                 }
             } catch (e: Exception) {
-                _userCreationStatus.value = CreateStateHolder.Error("Erro: ${e.message}")
+                _userCreationStatus.value = UserStateHolder.Error("Erro: ${e.message}")
             }
         }
     }

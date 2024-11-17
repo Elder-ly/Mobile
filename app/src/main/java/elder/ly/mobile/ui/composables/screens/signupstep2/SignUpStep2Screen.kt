@@ -20,7 +20,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.gson.Gson
-import elder.ly.mobile.PersonalInfo
 import elder.ly.mobile.Search
 import elder.ly.mobile.SignUpStep1
 import elder.ly.mobile.domain.service.CreateAddressInput
@@ -29,11 +28,10 @@ import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.TopBar
-import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
+import elder.ly.mobile.ui.composables.stateholders.UserStateHolder
 import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
 import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.utils.getBrazilStates
-import elder.ly.mobile.utils.saveUser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -167,18 +165,18 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
 
             LaunchedEffect(userCreationStatus) {
                 when (userCreationStatus) {
-                    is CreateStateHolder.Loading -> {
+                    is UserStateHolder.Loading -> {
                         // Exibir indicador de carregamento
 //                        CircularProgressIndicator()
                     }
 
-                    is CreateStateHolder.Content -> {
+                    is UserStateHolder.Content -> {
                         // Exibir Toast e navegar apenas uma vez
                         Toast.makeText(context, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show()
                         navController.navigate(Search)
                     }
 
-                    is CreateStateHolder.Error -> {
+                    is UserStateHolder.Error -> {
                         // Exibir Toast de erro
                         Toast.makeText(context, "Erro ao cadastrar usuário.", Toast.LENGTH_LONG).show()
                     }

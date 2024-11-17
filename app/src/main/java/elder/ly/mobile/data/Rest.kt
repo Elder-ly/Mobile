@@ -1,6 +1,7 @@
 package elder.ly.mobile.data
 
 import elder.ly.mobile.BuildConfig
+import elder.ly.mobile.domain.service.AddressesService
 import elder.ly.mobile.domain.service.CalendarService
 import elder.ly.mobile.domain.service.MessageService
 import elder.ly.mobile.domain.service.ProposalService
@@ -26,6 +27,10 @@ object Rest {
             .baseUrl(BuildConfig.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    val addressesService by lazy {
+        api.create(AddressesService::class.java)
     }
 
     val calendarService by lazy {

@@ -6,12 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.user.IUserRepository
-import elder.ly.mobile.domain.service.AddressOutput
 import elder.ly.mobile.domain.service.GetUsersOutput
-import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.domain.service.UpdateClientInput
 import elder.ly.mobile.domain.service.UpdateUserInput
-import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
+import elder.ly.mobile.ui.composables.stateholders.UserStateHolder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,8 +22,8 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
     val user: StateFlow<GetUsersOutput?> = _user
 
     // Estado de criação/atualização do usuário
-    private val _userCreationStatus = MutableStateFlow<CreateStateHolder>(CreateStateHolder.Loading)
-    val userCreationStatus: StateFlow<CreateStateHolder> = _userCreationStatus
+    private val _userCreationStatus = MutableStateFlow<UserStateHolder>(UserStateHolder.Loading)
+    val userCreationStatus: StateFlow<UserStateHolder> = _userCreationStatus
 
     // Estado de carregamento e erro
     private val _isLoading = MutableStateFlow(false)
@@ -63,7 +61,7 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
         updateClientInput: UpdateClientInput
     ) {
         viewModelScope.launch {
-            _userCreationStatus.value = CreateStateHolder.Loading
+            _userCreationStatus.value = UserStateHolder.Loading
             try {
                 val updateUserInput = UpdateUserInput(
                     nome = updateClientInput.nome,
@@ -83,15 +81,15 @@ class PersonalInfoViewModel(private val userRepository: IUserRepository) : ViewM
                 if (response.isSuccessful) {
                     response.body()?.let { updatedUser ->
                         _user.value = updatedUser // Atualiza `_user` com os dados do usuário
-                        _userCreationStatus.value = CreateStateHolder.Content(updatedUser)
+                        _userCreationStatus.value = UserStateHolder.Content(updatedUser)
                     } ?: run {
-                        _userCreationStatus.value = CreateStateHolder.Error("Resposta vazia do servidor.")
+                        _userCreationStatus.value = UserStateHolder.Error("Resposta vazia do servidor.")
                     }
                 } else {
-                    _userCreationStatus.value = CreateStateHolder.Error("Erro: ${response.code()}")
+                    _userCreationStatus.value = UserStateHolder.Error("Erro: ${response.code()}")
                 }
             } catch (e: Exception) {
-                _userCreationStatus.value = CreateStateHolder.Error("Erro: ${e.message}")
+                _userCreationStatus.value = UserStateHolder.Error("Erro: ${e.message}")
             }
         }
     }

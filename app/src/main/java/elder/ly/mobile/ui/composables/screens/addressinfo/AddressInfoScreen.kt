@@ -1,6 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.addressinfo
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,23 +21,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.google.gson.Gson
 import elder.ly.mobile.Profile
-import elder.ly.mobile.domain.service.AddressOutput
-import elder.ly.mobile.domain.service.CreateClientInput
-import elder.ly.mobile.domain.service.GetUsersOutput
+import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.service.UpdateAddressInput
-import elder.ly.mobile.domain.service.UpdateClientInput
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.components.DefaultDropdownMenu
 import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
-import elder.ly.mobile.ui.composables.stateholders.CreateStateHolder
 import elder.ly.mobile.ui.theme.MobileTheme
-import elder.ly.mobile.ui.viewmodel.PersonalInfoViewModel
+import elder.ly.mobile.ui.viewmodel.AddressInfoViewModel
+import elder.ly.mobile.utils.ConvertDate
 import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.utils.getBrazilStates
+import elder.ly.mobile.utils.getUser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -77,6 +74,16 @@ fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true,
 
 @Composable
 fun InputsButton(navController: NavController) {
+    val context = LocalContext.current
+    val viewModel: AddressInfoViewModel = koinViewModel()
+    val address by viewModel.address.collectAsState()
+
+    LaunchedEffect(key1 = Unit) {
+        getUser(context).collect { userId ->
+            viewModel.userId = userId.id ?: -1
+            viewModel.getAddress()
+        }
+    }
 
     var cep by remember { mutableStateOf("") }
     var street by remember { mutableStateOf("") }
@@ -85,6 +92,18 @@ fun InputsButton(navController: NavController) {
     var state by remember { mutableStateOf("") }
     var city by remember { mutableStateOf("") }
     var district by remember { mutableStateOf("") }
+
+    LaunchedEffect(address) {
+        address?.let {
+            cep = it.cep
+            street = it.logradouro
+            number = it.numero ?: ""
+            complement = it.complemento ?: ""
+            state = it.uf
+            city = it.cidade
+            district = it.bairro ?: ""
+        }
+    }
 
     DefaultTextInput(
         label = "CEP",
@@ -158,6 +177,17 @@ fun InputsButton(navController: NavController) {
         label = "Salvar",
         modifier = Modifier.padding(top = 12.dp),
         onclick = {
+            val updateAddressInput = UpdateAddressInput(
+                cep = cep,
+                logradouro = street,
+                complemento = complement,
+                bairro = district,
+                numero = number,
+                cidade = city,
+                uf = state
+            )
+
+            viewModel.updateAddress(viewModel.userId, updateAddressInput)
             navController.navigate(Profile)
         }
     )
