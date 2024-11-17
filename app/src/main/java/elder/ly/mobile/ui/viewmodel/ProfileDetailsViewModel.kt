@@ -22,7 +22,11 @@ class ProfileDetailsViewModel(
     val user: StateFlow<GetUsersOutput?> = _user
     var userId by mutableLongStateOf((-1).toLong())
 
+    var isLoading by mutableStateOf(false)
+
     fun getUserProfileDetails() {
+        isLoading = true
+
         viewModelScope.launch {
             val response = userRepository.getUser(userId)
 
@@ -45,6 +49,8 @@ class ProfileDetailsViewModel(
                     "Erro na resposta da API: ${response.errorBody()?.string()}"
                 )
             }
+
+            isLoading = false
         }
     }
 }
