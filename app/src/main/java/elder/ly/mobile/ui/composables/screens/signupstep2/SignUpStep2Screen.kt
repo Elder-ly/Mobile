@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.signupstep2
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,8 +31,10 @@ import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.ui.composables.stateholders.UserStateHolder
 import elder.ly.mobile.ui.viewmodel.SignUpStepViewModel
+import elder.ly.mobile.ui.viewmodel.ViaCepViewModel
 import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.utils.getBrazilStates
+import elder.ly.mobile.utils.getUser
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -39,6 +42,9 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
     val context = LocalContext.current
     val signUpStepViewModel = koinViewModel<SignUpStepViewModel>()
     val userCreationStatus by signUpStepViewModel.userCreationStatus.collectAsState()
+
+    val viaCepViewModel = koinViewModel<ViaCepViewModel>()
+    val address by viaCepViewModel.address.collectAsState()
 
     val gson = Gson()
     val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
@@ -52,6 +58,21 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
     var state by remember { mutableStateOf("") }
     var city by remember { mutableStateOf("") }
     var district by remember { mutableStateOf("") }
+
+    LaunchedEffect(key1 = Unit) {
+        getUser(context).collect { user ->
+            user.googleToken
+        }
+    }
+
+    LaunchedEffect(address) {
+        address?.let {
+            street = it.street ?: ""
+            city = it.city ?: ""
+            state = it.state ?: ""
+            district = it.district ?: ""
+        }
+    }
 
     Scaffold (
         topBar = {
@@ -77,8 +98,12 @@ fun SignUpStep2Screen(showTopBar: Boolean = true, navController: NavController) 
                 mask = CustomMaskTranformation(mask = "#####-###"),
                 maxChar = 8,
                 value = cep,
-                changeValue = { newCep : String ->
+                changeValue = { newCep: String ->
                     cep = newCep
+
+                    if (newCep.length == 8) {
+                        viaCepViewModel.fetchAddress(newCep)
+                    }
                 }
             )
 

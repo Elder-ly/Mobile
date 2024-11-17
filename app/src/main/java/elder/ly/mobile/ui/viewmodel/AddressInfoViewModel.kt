@@ -5,17 +5,16 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import elder.ly.mobile.data.repository.addresses.IAddressesRepository
+import elder.ly.mobile.data.repository.addresses.IAddressRepository
 import elder.ly.mobile.domain.service.AddressOutput
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.ui.composables.stateholders.AddressStateHolder
-import elder.ly.mobile.ui.composables.stateholders.UserStateHolder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class AddressInfoViewModel(
-    private val addressesRepository: IAddressesRepository
+    private val addressesRepository: IAddressRepository
 ) : ViewModel() {
     var userId by mutableLongStateOf(-1L)
 

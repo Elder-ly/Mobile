@@ -50,6 +50,9 @@ class AuthViewModel : ViewModel() {
                 val user = apiAuth(context, googleIdTokenCredential)
 
                 if(user?.id == null){
+                    if (user != null) {
+                        saveUser(context, user)
+                    }
                     navController.navigate(SignUpStep1)
                 }else{
                     saveUser(context, user)

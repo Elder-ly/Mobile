@@ -43,6 +43,7 @@ import elder.ly.mobile.AddressInfo
 import elder.ly.mobile.PersonalInfo
 import elder.ly.mobile.ProfessionalInfo
 import elder.ly.mobile.Welcome
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.theme.tertiaryLight
@@ -101,8 +102,10 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                 MenuButton(label = "Endereço", icon = Icons.Filled.Home,
                     onclick = { navController.navigate(AddressInfo) })
 
-                MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List,
-                    onclick = { navController.navigate(ProfessionalInfo) })
+                if (user?.tipoUsuario == TypeUserEnum.COLLABORATOR.id) {
+                    MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List,
+                        onclick = { navController.navigate(ProfessionalInfo) })
+                }
 
                 MenuButton(label = "Sair", icon = Icons.AutoMirrored.Filled.ExitToApp,
                     onclick = { navController.navigate(Welcome) })

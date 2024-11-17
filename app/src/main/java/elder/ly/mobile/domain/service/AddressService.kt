@@ -6,13 +6,13 @@ import retrofit2.http.GET
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
-interface AddressesService {
+interface AddressService {
 
     @GET("/enderecos/{id}")
-    suspend fun getAddresses(@Path("id") id : Long) : Response<AddressOutput>
+    suspend fun getAddress(@Path("id") id : Long) : Response<AddressOutput>
 
     @PUT("/enderecos/{id}")
-    suspend fun updateAddresses(@Path("id") id : Long, @Body updateAddressInput: UpdateAddressInput) : Response<AddressOutput>
+    suspend fun updateAddress(@Path("id") id : Long, @Body updateAddressInput: UpdateAddressInput) : Response<AddressOutput>
 }
 
 data class UpdateAddressInput(

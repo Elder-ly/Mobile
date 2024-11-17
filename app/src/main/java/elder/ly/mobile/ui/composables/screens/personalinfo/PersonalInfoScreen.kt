@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -64,7 +65,11 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
             email = it.email
             document = it.documento
             birthDate = ConvertDate.formatDateToDisplay(it.dataNascimento ?: "")
-            gender = it.genero.let { GenderEnum.fromCode(it)?.description } ?: ""
+            gender = when (it.genero) {
+                GenderEnum.MALE.id -> "Masculino"
+                GenderEnum.FEMALE.id -> "Feminino"
+                else -> "Prefiro não Informar"
+            }
         }
     }
 
@@ -72,7 +77,7 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
         topBar = {
             if(showTopBar){
                 TopBar(
-                    title = "Informações Adicionais",
+                    title = "Informações\nAdicionais",
                     modifier = Modifier.padding(top = 44.dp, bottom = 16.dp),
                     navController = navController
                 )
@@ -137,9 +142,9 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
             DefaultDropdownMenu(
                 label = "Gênero",
                 placeholder = "Selecione um Gênero",
-                options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
                 value = gender,
-                changeValue = { newGender : String ->
+                options = listOf("Masculino", "Feminino", "Prefiro não Informar"),
+                changeValue = { newGender: String ->
                     gender = newGender
                 }
             )
@@ -168,8 +173,6 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
                         },
                         especialidades = listOf()
                     )
-
-                    Log.d("PersonalInfoScreen", "Update: $updateClientInput")
 
                     viewModel.updateUser(viewModel.userId, updateClientInput)
                 }

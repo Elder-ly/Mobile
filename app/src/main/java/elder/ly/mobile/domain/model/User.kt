@@ -5,8 +5,8 @@ data class User(
     val type: Long?, //TODO replace by Enum
     val gender : Long?,
     var name: String?,
-    var email: String,
-    var googleToken: String,
+    var email: String?,
+    var googleToken: String?,
     var phoneNumber: String?,
     var pictureURL: String?,
     var residences: List<Residence>?,

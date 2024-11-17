@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -12,6 +13,7 @@ import elder.ly.mobile.data.repository.user.IUserRepository
 import elder.ly.mobile.domain.model.User
 import elder.ly.mobile.domain.service.GetUsersOutput
 import elder.ly.mobile.utils.getUser
+import elder.ly.mobile.utils.saveUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -44,6 +46,25 @@ class ProfileViewModel(
                     "Erro na resposta da API: ${response.errorBody()?.string()}"
                 )
             }
+        }
+    }
+
+    fun logout(context: Context){
+        viewModelScope.launch {
+            saveUser(context,
+                User(
+                    id = null,
+                    type = null,
+                    gender = null,
+                    name = null,
+                    email = null,
+                    googleToken = null,
+                    phoneNumber = null,
+                    pictureURL = null,
+                    residences = listOf(),
+                    resumes = listOf()
+                )
+            )
         }
     }
 }

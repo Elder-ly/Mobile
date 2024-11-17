@@ -1,6 +1,5 @@
 package elder.ly.mobile.ui.composables.screens.addressinfo
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.Profile
-import elder.ly.mobile.domain.model.enums.GenderEnum
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.TopBar
@@ -31,7 +29,7 @@ import elder.ly.mobile.ui.composables.components.DefaultTextInput
 import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.theme.MobileTheme
 import elder.ly.mobile.ui.viewmodel.AddressInfoViewModel
-import elder.ly.mobile.utils.ConvertDate
+import elder.ly.mobile.ui.viewmodel.ViaCepViewModel
 import elder.ly.mobile.utils.CustomMaskTranformation
 import elder.ly.mobile.utils.getBrazilStates
 import elder.ly.mobile.utils.getUser
@@ -76,7 +74,10 @@ fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true,
 fun InputsButton(navController: NavController) {
     val context = LocalContext.current
     val viewModel: AddressInfoViewModel = koinViewModel()
-    val address by viewModel.address.collectAsState()
+    val addressApi by viewModel.address.collectAsState()
+
+    val viaCepViewModel = koinViewModel<ViaCepViewModel>()
+    val address by viaCepViewModel.address.collectAsState()
 
     LaunchedEffect(key1 = Unit) {
         getUser(context).collect { userId ->
@@ -93,8 +94,8 @@ fun InputsButton(navController: NavController) {
     var city by remember { mutableStateOf("") }
     var district by remember { mutableStateOf("") }
 
-    LaunchedEffect(address) {
-        address?.let {
+    LaunchedEffect(addressApi) {
+        addressApi?.let {
             cep = it.cep
             street = it.logradouro
             number = it.numero ?: ""
@@ -105,6 +106,15 @@ fun InputsButton(navController: NavController) {
         }
     }
 
+    LaunchedEffect(address) {
+        address?.let {
+            street = it.street ?: ""
+            city = it.city ?: ""
+            state = it.state ?: ""
+            district = it.district ?: ""
+        }
+    }
+
     DefaultTextInput(
         label = "CEP",
         placeholder = "01234-567",
@@ -112,8 +122,12 @@ fun InputsButton(navController: NavController) {
         mask = CustomMaskTranformation(mask = "#####-###"),
         maxChar = 8,
         value = cep,
-        changeValue = { newCep : String ->
+        changeValue = { newCep: String ->
             cep = newCep
+
+            if (newCep.length == 8) {
+                viaCepViewModel.fetchAddress(newCep)
+            }
         }
     )
 

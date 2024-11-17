@@ -4,7 +4,7 @@ import elder.ly.mobile.domain.service.AddressOutput
 import elder.ly.mobile.domain.service.UpdateAddressInput
 import retrofit2.Response
 
-interface IAddressesRepository {
+interface IAddressRepository {
 
     suspend fun getAddresses(id : Long) : Response<AddressOutput>
 

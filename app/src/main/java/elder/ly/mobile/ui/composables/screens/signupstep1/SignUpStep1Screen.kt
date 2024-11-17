@@ -48,11 +48,15 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
     var document by remember { mutableStateOf("") }
     var birthDate by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
+    var googleToken by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         getUser(context).collect { user ->
-            email = user.email
+            email = user.email ?: ""
             profilePicture = user.pictureURL
+            googleToken = user.googleToken ?: ""
+
+            Log.d("SignUpStep1Screen", "GoogleToke: $googleToken")
         }
     }
 
