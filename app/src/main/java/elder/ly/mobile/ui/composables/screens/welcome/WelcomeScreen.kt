@@ -78,8 +78,7 @@ fun WelcomeScreen(navController: NavController) {
                 shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
                 onClick = {
-                    navController.navigate(Search)
-                    // authViewModel.googleSignIn(context = context, navController = navController)
+                    authViewModel.googleSignIn(context = context, navController = navController)
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {

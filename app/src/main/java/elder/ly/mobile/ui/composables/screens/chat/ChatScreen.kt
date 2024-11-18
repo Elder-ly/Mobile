@@ -104,9 +104,11 @@ fun ChatScreen(navController: NavController) {
     }
 
     Scaffold { paddingValues ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -162,24 +164,27 @@ fun ChatScreen(navController: NavController) {
                 }
             }
 
-            if (!isScrolledToEnd) {
-                FloatingActionButton(
-                    onClick = {
-                        composableScope.launch {
-                            listState.animateScrollToItem(viewModel.messages.size - 1)
-                        }
-                    },
-                    containerColor = Color(0xFF2196F3),
-                    modifier = Modifier
-                        .align(BottomEnd)
-                        .padding(16.dp)
-                        .padding(bottom = 72.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = android.R.drawable.arrow_down_float),
-                        contentDescription = "Rolar para baixo",
-                        tint = Color.White
-                    )
+            if (!viewModel.messages.isEmpty()) {
+                if (!isScrolledToEnd) {
+                    println("messages:" + viewModel.messages.isEmpty())
+                    FloatingActionButton(
+                        onClick = {
+                            composableScope.launch {
+                                listState.animateScrollToItem(viewModel.messages.size - 1)
+                            }
+                        },
+                        containerColor = Color(0xFF2196F3),
+                        modifier = Modifier
+                            .align(BottomEnd)
+                            .padding(16.dp)
+                            .padding(bottom = 72.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(id = android.R.drawable.arrow_down_float),
+                            contentDescription = "Rolar para baixo",
+                            tint = Color.White
+                        )
+                    }
                 }
             }
         }

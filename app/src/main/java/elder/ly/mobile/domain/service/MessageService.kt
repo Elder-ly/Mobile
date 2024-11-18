@@ -51,8 +51,8 @@ data class MessageWithProposalOutput(
 data class ProposalOutput(
     val id: Long,
     val descricao: String,
-    val dataHoraInicio: LocalDateTime,
-    val dataHoraFim: LocalDateTime,
+    val dataHoraInicio: String,
+    val dataHoraFim: String,
     val preco: BigDecimal,
     val aceita: Boolean
 )
