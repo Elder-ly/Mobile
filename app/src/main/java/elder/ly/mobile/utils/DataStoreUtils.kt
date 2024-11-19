@@ -30,3 +30,9 @@ fun getUser(context: Context): Flow<User> {
         gson.fromJson(userJson, User::class.java)
     }
 }
+
+suspend fun clearUser(context: Context) {
+    context.dataStore.edit { preferences ->
+        preferences.clear()
+    }
+}
