@@ -25,7 +25,7 @@ class UserRepositoryLocalImpl(
     override suspend fun getAvailableCollaborators(
         accessToken: String,
         getUsersCollaboratorInput: GetUsersCollaboratorInput
-    ): Response<List<GetUsersOutput>> {
+    ): Response<List<GetUsersCollaboratorOutput>> {
         return service.getAvailableCollaborators(accessToken, getUsersCollaboratorInput);
     }
 

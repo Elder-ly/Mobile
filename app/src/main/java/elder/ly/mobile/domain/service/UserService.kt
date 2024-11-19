@@ -18,7 +18,7 @@ interface UserService {
     suspend fun createUserClient(@Body createUserClientInput : CreateUserInput) : Response<GetUsersOutput>
 
     @POST("/usuarios/colaboradores-disponiveis")
-    suspend fun getAvailableCollaborators(@Header("accessToken") accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
+    suspend fun getAvailableCollaborators(@Header("accessToken") accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersCollaboratorOutput>>
 
     @GET("/usuarios/clientes")
     suspend fun getUsersClients() : Response<List<GetUsersClientsOutput>>
@@ -168,9 +168,9 @@ data class AddressBairro (
 )
 
 data class GetUsersCollaboratorInput(
-    val specialties: List<String>,
-    val startDateTime: LocalDateTime,
-    val endDateTime: LocalDateTime
+    val especialidades: List<String>,
+    val dataHoraInicio: String,
+    val dataHoraFim: String
 )
 
 data class ResidenceOutput(

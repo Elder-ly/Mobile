@@ -8,7 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.user.IUserRepository
 import elder.ly.mobile.domain.model.Specialtie
+import elder.ly.mobile.domain.service.GetDataSearchScreen
+import elder.ly.mobile.domain.service.GetUsersCollaboratorInput
 import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
+import elder.ly.mobile.utils.DateTimeUtils
+import elder.ly.mobile.utils.DateTimeUtils.convertToIso8601
 import kotlinx.coroutines.launch
 
 class SearchResultViewModel(
@@ -19,19 +23,21 @@ class SearchResultViewModel(
 
     var isLoading by mutableStateOf(false)
 
-    init {
-        getUsersCollaborator()
-    }
 
-    private fun getUsersCollaborator() {
+    fun getUsersCollaborator(token : String, getDataSearchScreen: GetDataSearchScreen) {
         isLoading = true
-
         viewModelScope.launch {
-            val response = userRepository.getUsersCollaborator()
+            val getUsersCollaboratorInput = GetUsersCollaboratorInput(
+                especialidades = getDataSearchScreen.specialties,
+                dataHoraInicio = convertToIso8601(getDataSearchScreen.startDate + getDataSearchScreen.startTime),
+                dataHoraFim = convertToIso8601(getDataSearchScreen.endDate + getDataSearchScreen.endTime)
+            )
+
+            val response = userRepository.getAvailableCollaborators(token, getUsersCollaboratorInput)
 
             if (response.isSuccessful) {
                 response.body()?.let { colaboradores ->
-                    cuidadores.addAll(colaboradores)
+                    cuidadores.addAll(response.body()!!)
                 }
             } else {
                 // Lidar com erro na resposta (ex: mostrar mensagem de erro)

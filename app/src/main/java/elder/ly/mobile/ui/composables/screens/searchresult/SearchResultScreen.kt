@@ -19,6 +19,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,6 +41,7 @@ import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.CardCuidador
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
+import elder.ly.mobile.utils.getUser
 import org.koin.compose.viewmodel.koinViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -48,12 +51,19 @@ fun SearchResultScreen(
     showBottomBar: Boolean = true,
     navController: NavController
 ) {
+    val context = LocalContext.current
     val viewModel: SearchResultViewModel = koinViewModel()
 
     val gson = Gson()
     val savedStateHandle = navController.previousBackStackEntry?.savedStateHandle
     val sampleSearchResultInputJson = savedStateHandle?.get<String>("sampleSearchResultInputJson")
     val sampleSearchResultInput = sampleSearchResultInputJson?.let { gson.fromJson(it, GetDataSearchScreen::class.java) }
+
+    LaunchedEffect(key1 = Unit) {
+        getUser(context).collect { user ->
+            viewModel.getUsersCollaborator(user.googleToken ?: "", sampleSearchResultInput!!)
+        }
+    }
 
     Scaffold(
         bottomBar = {
