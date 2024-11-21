@@ -26,6 +26,15 @@ object Rest {
             .build()
     }
 
+    val googleAuthApi by lazy {
+        Retrofit
+            .Builder()
+            .client(client)
+            .baseUrl("https://oauth2.googleapis.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     val calendarService by lazy {
         api.create(CalendarService::class.java);
     }

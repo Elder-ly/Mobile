@@ -31,6 +31,12 @@ android {
 
         buildConfigField(
             type = "String",
+            name = "GOOGLE_CLIENT_SECRET",
+            value = properties.getProperty("GOOGLE_CLIENT_SECRET")
+        )
+
+        buildConfigField(
+            type = "String",
             name = "API_BASE_URL",
             value = properties.getProperty("API_BASE_URL")
         )
