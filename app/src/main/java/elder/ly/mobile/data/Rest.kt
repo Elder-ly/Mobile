@@ -52,6 +52,15 @@ object Rest {
         viaCep.create(ViaCepService::class.java)
     }
 
+    val googleAuthApi by lazy {
+        Retrofit
+            .Builder()
+            .client(client)
+            .baseUrl("https://oauth2.googleapis.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
     val calendarService by lazy {
         api.create(CalendarService::class.java);
     }
@@ -68,7 +77,7 @@ object Rest {
         api.create(SpecialtieService::class.java);
     }
 
-    val userService: UserService by lazy {
+    val userService by lazy {
         api.create(UserService::class.java)
     }
 

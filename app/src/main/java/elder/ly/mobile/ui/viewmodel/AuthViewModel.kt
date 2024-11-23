@@ -19,6 +19,7 @@ import elder.ly.mobile.SignUpStep1
 import elder.ly.mobile.domain.model.User
 import elder.ly.mobile.domain.service.AuthService
 import elder.ly.mobile.data.Rest
+import elder.ly.mobile.domain.service.GoogleTokenResponse
 import elder.ly.mobile.utils.clearUser
 import elder.ly.mobile.utils.saveUser
 import java.security.MessageDigest
@@ -29,7 +30,7 @@ class AuthViewModel : ViewModel() {
 
     fun setupGoogleSignIn(context: Context) {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(BuildConfig.GOOGLE_CLIENT_ID)
+            .requestServerAuthCode(BuildConfig.GOOGLE_CLIENT_ID, true)
             .requestEmail()
             .requestScopes(com.google.android.gms.common.api.Scope("https://www.googleapis.com/auth/calendar"))
             .build()
@@ -48,11 +49,22 @@ class AuthViewModel : ViewModel() {
                 val account = task.getResult(ApiException::class.java)
 
                 account?.let { googleAccount ->
-                    val user = apiAuth(context, googleAccount)
-                    if (user == null) {
-                        navController.navigate(SignUpStep1)
+                    val authCode = googleAccount.serverAuthCode
+                    if (authCode != null) {
+                        val tokenResponse = exchangeAuthCodeForToken(authCode)
+                        if(tokenResponse !== null){
+                            //Start of internal API
+                            val user = apiAuth(context, googleAccount, tokenResponse)
+                            if (user == null) {
+                                navController.navigate(SignUpStep1)
+                            } else {
+                                saveUser(context, user)
+                            }
+                        }else{
+                            Toast.makeText(context, "Erro ao logar com o Google, tente novamente mais tarde", Toast.LENGTH_LONG).show()
+                        }
                     } else {
-                        saveUser(context, user)
+                        Toast.makeText(context, "Erro ao logar com o Google, tente novamente mais tarde", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: ApiException) {
@@ -61,6 +73,27 @@ class AuthViewModel : ViewModel() {
             }
         }
     }
+
+    private suspend fun exchangeAuthCodeForToken(authCode: String): GoogleTokenResponse? {
+        return try {
+            val service = Rest.googleAuthApi.create(AuthService::class.java)
+            val response = service.exchangeAuthCode(
+                clientId = BuildConfig.GOOGLE_CLIENT_ID,
+                clientSecret = BuildConfig.GOOGLE_CLIENT_SECRET,
+                authCode = authCode
+            )
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                println("Error exchanging auth code: ${response.errorBody()?.string()}")
+                null
+            }
+        } catch (e: Exception) {
+            println("Exception during token exchange: ${e.message}")
+            null
+        }
+    }
+
 
     fun signOut(context: Context, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
         viewModelScope.launch {
@@ -81,7 +114,8 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    private suspend fun apiAuth(context: Context, googleData: GoogleSignInAccount): User? {
+    //API INTERNA (pode mexer)
+    private suspend fun apiAuth(context: Context, googleData: GoogleSignInAccount, tokenResponse: GoogleTokenResponse): User? {
         try {
             val service = Rest.api.create(AuthService::class.java)
 
@@ -96,7 +130,7 @@ class AuthViewModel : ViewModel() {
                     gender = null,
                     name = googleData.displayName,
                     email = googleData.email!!,
-                    googleToken = googleData.idToken!!,
+                    googleToken = tokenResponse.access_token,
                     phoneNumber = null,
                     pictureURL = googleData.photoUrl.toString(),
                     residences = null,
