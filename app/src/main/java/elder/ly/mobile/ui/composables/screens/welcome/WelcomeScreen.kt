@@ -32,10 +32,11 @@ import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.R
 import elder.ly.mobile.Search
 import elder.ly.mobile.ui.viewmodel.AuthViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
-    val authViewModel = remember { AuthViewModel() }
+    val authViewModel = koinViewModel<AuthViewModel>()
     val context = LocalContext.current
 
     // Set up Google Sign In when the composable is first created

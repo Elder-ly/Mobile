@@ -14,6 +14,8 @@ import elder.ly.mobile.domain.service.UserService
 import elder.ly.mobile.data.Rest
 import elder.ly.mobile.data.repository.addresses.AddressRepository
 import elder.ly.mobile.data.repository.addresses.IAddressRepository
+import elder.ly.mobile.data.repository.auth.AuthRepository
+import elder.ly.mobile.data.repository.auth.IAuthRepository
 import elder.ly.mobile.data.repository.message.IMessageRepository
 import elder.ly.mobile.ui.viewmodel.ChatListViewModel
 import elder.ly.mobile.ui.viewmodel.ChatViewModel
@@ -25,8 +27,10 @@ import elder.ly.mobile.data.repository.specialtie.ISpecialtieRepository
 import elder.ly.mobile.data.repository.viacep.IViaCepRepository
 import elder.ly.mobile.data.repository.viacep.ViaCepRepository
 import elder.ly.mobile.domain.service.AddressService
+import elder.ly.mobile.domain.service.AuthService
 import elder.ly.mobile.domain.service.ViaCepService
 import elder.ly.mobile.ui.viewmodel.AddressInfoViewModel
+import elder.ly.mobile.ui.viewmodel.AuthViewModel
 import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
 import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
 import elder.ly.mobile.ui.viewmodel.SearchViewModel
@@ -34,6 +38,14 @@ import elder.ly.mobile.ui.viewmodel.ViaCepViewModel
 import org.koin.dsl.module
 
 val appModule = module {
+
+    single<AuthService> {
+        Rest.authService
+    }
+
+    single<IAuthRepository>{
+        AuthRepository(get())
+    }
 
     single<AddressService> {
         Rest.addressService
@@ -92,6 +104,10 @@ val appModule = module {
 
     single<IViaCepRepository> {
         ViaCepRepository(get())
+    }
+
+    viewModel {
+        AuthViewModel(get())
     }
 
     viewModel{

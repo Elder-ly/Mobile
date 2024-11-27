@@ -2,6 +2,7 @@ package elder.ly.mobile.data
 
 import elder.ly.mobile.BuildConfig
 import elder.ly.mobile.domain.service.AddressService
+import elder.ly.mobile.domain.service.AuthService
 import elder.ly.mobile.domain.service.CalendarService
 import elder.ly.mobile.domain.service.MessageService
 import elder.ly.mobile.domain.service.ProposalService
@@ -42,6 +43,10 @@ object Rest {
             .baseUrl("https://viacep.com.br/ws/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    val authService by lazy {
+        api.create(AuthService::class.java)
     }
 
     val addressService by lazy {

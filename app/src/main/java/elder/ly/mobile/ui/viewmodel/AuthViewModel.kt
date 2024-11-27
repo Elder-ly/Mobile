@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import android.widget.Toast
 import androidx.navigation.NavController
@@ -19,14 +20,17 @@ import elder.ly.mobile.SignUpStep1
 import elder.ly.mobile.domain.model.User
 import elder.ly.mobile.domain.service.AuthService
 import elder.ly.mobile.data.Rest
+import elder.ly.mobile.data.repository.auth.IAuthRepository
 import elder.ly.mobile.domain.service.GoogleTokenResponse
 import elder.ly.mobile.utils.clearUser
 import elder.ly.mobile.utils.saveUser
 import java.security.MessageDigest
 import java.util.*
 
-class AuthViewModel : ViewModel() {
-    private lateinit var googleSignInClient: GoogleSignInClient
+class AuthViewModel(
+    private val authService: AuthService
+) : ViewModel() {
+    private lateinit var googleSignInClient : GoogleSignInClient
 
     fun setupGoogleSignIn(context: Context) {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -52,13 +56,18 @@ class AuthViewModel : ViewModel() {
                     val authCode = googleAccount.serverAuthCode
                     if (authCode != null) {
                         val tokenResponse = exchangeAuthCodeForToken(authCode)
+                        Log.d("AuthViewModel" , "token: $tokenResponse.access_token")
                         if(tokenResponse !== null){
                             //Start of internal API
                             val user = apiAuth(context, googleAccount, tokenResponse)
-                            if (user == null) {
-                                navController.navigate(SignUpStep1)
+                            if (user?.id == null) {
+                                if (user != null){
+                                    saveUser(context, user)
+                                    navController.navigate(SignUpStep1)
+                                }
                             } else {
                                 saveUser(context, user)
+                                navController.navigate(Search)
                             }
                         }else{
                             Toast.makeText(context, "Erro ao logar com o Google, tente novamente mais tarde", Toast.LENGTH_LONG).show()
@@ -97,11 +106,11 @@ class AuthViewModel : ViewModel() {
 
     fun signOut(context: Context, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
         viewModelScope.launch {
+            setupGoogleSignIn(context)
             try {
                 googleSignInClient.signOut().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         viewModelScope.launch {
-                            clearUser(context)
                             onSuccess()
                         }
                     } else {
@@ -141,7 +150,19 @@ class AuthViewModel : ViewModel() {
             Toast.makeText(context, "Erro na comunicação com API", Toast.LENGTH_SHORT).show()
             println(e.message)
         }
-        return null
+
+        return User(
+            id = null,
+            type = null,
+            gender = null,
+            name = googleData.displayName,
+            email = googleData.email!!,
+            googleToken = tokenResponse.access_token,
+            phoneNumber = null,
+            pictureURL = googleData.photoUrl.toString(),
+            residences = null,
+            resumes = null
+        )
     }
 
     // Usage example of signOut:

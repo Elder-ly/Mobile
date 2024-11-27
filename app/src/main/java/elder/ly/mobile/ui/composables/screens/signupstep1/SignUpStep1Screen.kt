@@ -13,7 +13,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,10 +31,7 @@ import elder.ly.mobile.ui.composables.components.NextButton
 import elder.ly.mobile.ui.composables.components.TopBar
 import elder.ly.mobile.utils.ConvertDate
 import elder.ly.mobile.utils.CustomMaskTranformation
-import elder.ly.mobile.utils.UserNotFoundException
 import elder.ly.mobile.utils.getUser
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -49,6 +45,7 @@ fun SignUpStep1Screen(showTopBar: Boolean = true, navController: NavController) 
     var birthDate by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
     var googleToken by remember { mutableStateOf("") }
+
 
     LaunchedEffect(key1 = Unit) {
         getUser(context).collect { user ->
