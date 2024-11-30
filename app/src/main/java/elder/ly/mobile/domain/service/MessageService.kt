@@ -45,7 +45,7 @@ data class MessageWithProposalOutput(
     val dataHora: String,
     val remetente: UserMessageOutput,
     val destinatario: UserMessageOutput,
-    val proposta: ProposalOutput
+    val proposta: ProposalOutput?
 )
 
 data class ProposalOutput(

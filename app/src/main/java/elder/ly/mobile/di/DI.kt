@@ -150,7 +150,7 @@ val appModule = module {
     }
 
     viewModel {
-        ChatViewModel(get())
+        ChatViewModel(get(), get())
     }
 
     viewModel {

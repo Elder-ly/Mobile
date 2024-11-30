@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Chat
 import elder.ly.mobile.R
 import elder.ly.mobile.Search
 import elder.ly.mobile.ui.viewmodel.AuthViewModel
@@ -92,7 +93,7 @@ fun WelcomeScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 44.dp).height(72.dp),
                 shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
-                onClick = { googleSignInLauncher.launch(authViewModel.getGoogleSignInIntent()) },
+                onClick = { navController.navigate(Chat) }, // googleSignInLauncher.launch(authViewModel.getGoogleSignInIntent()) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Row(
