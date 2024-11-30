@@ -19,15 +19,25 @@ interface ProposalService {
 }
 
 data class MessageWithProposalInput(
-    val senderId: Long,
-    val recipientId: Long,
-    val content: String,
-    val proposal: ProposalInput
+    val remetenteId: Long,
+    val destinatarioId: Long,
+    val conteudo: String,
+    val proposta: ProposalInput
 )
 
 data class ProposalInput(
-    val description: String,
-    val startDateTime: LocalDateTime,
-    val endDateTime: LocalDateTime,
-    val price: BigDecimal
+    val descricao: String,
+    val dataHoraInicio: String,
+    val dataHoraFim: String,
+    val preco: BigDecimal
+)
+
+data class GetDataProposalScreen(
+    val titulo : String,
+    val descricao : String,
+    val startDate: String,
+    val endDate: String,
+    val startTime: String,
+    val endTime: String,
+    val preco : BigDecimal
 )

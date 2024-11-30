@@ -33,6 +33,7 @@ import elder.ly.mobile.ui.viewmodel.AddressInfoViewModel
 import elder.ly.mobile.ui.viewmodel.AuthViewModel
 import elder.ly.mobile.ui.viewmodel.ProfessionalInfoViewModel
 import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
+import elder.ly.mobile.ui.viewmodel.ProposalViewModel
 import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
 import elder.ly.mobile.ui.viewmodel.SearchViewModel
 import elder.ly.mobile.ui.viewmodel.ViaCepViewModel
@@ -153,5 +154,9 @@ val appModule = module {
 
     viewModel {
         ViaCepViewModel(get())
+    }
+
+    viewModel {
+        ProposalViewModel(get())
     }
 }

@@ -50,7 +50,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
+import elder.ly.mobile.Proposal
 import elder.ly.mobile.domain.service.UserConversationOutput
+import elder.ly.mobile.ui.composables.screens.proposal.ProposalScreen
 import elder.ly.mobile.ui.viewmodel.ChatViewModel
 import elder.ly.mobile.utils.DateTimeUtils
 import elder.ly.mobile.utils.getUser
@@ -153,7 +155,11 @@ fun ChatScreen(navController: NavController) {
                                 )
                             }
                         }
-                        MessageInputField(onclick = { message -> viewModel.sendMessages(message) })
+                        MessageInputField(
+                            onclick = { message -> viewModel.sendMessages(message) },
+                            data = ProposalDataJson(viewModel.senderId, viewModel.recipientId),
+                            navController = navController
+                        )
                     }
                 }
             }
@@ -234,9 +240,18 @@ fun ChatScreen(navController: NavController) {
 //}
 
 
+data class ProposalDataJson(
+    val senderId: Long,
+    val recipientId: Long
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageInputField(onclick: (String) -> Unit) {
+fun MessageInputField(
+    onclick: (String) -> Unit,
+    data: ProposalDataJson,
+    navController: NavController
+) {
     var text by remember { mutableStateOf("") }
 
     Row(
@@ -246,20 +261,29 @@ fun MessageInputField(onclick: (String) -> Unit) {
             .background(Color(0xFFDFDFDF), CircleShape),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-//        IconButton(
-//            onClick = { /* Ação do botão */ },
-//            modifier = Modifier
-//                .padding(start = 10.dp)
-//                .size(48.dp)
-//                .clip(CircleShape)
-//                .background(Color(0xFF2196F3))
-//        ) {
-//            Icon(
-//                painter = painterResource(id = android.R.drawable.ic_input_add),
-//                contentDescription = "Enviar",
-//                tint = Color.White
-//            )
-//        }
+        IconButton(
+            onClick = {
+                val gson = Gson()
+                val conversationDataJson = gson.toJson(data)
+
+                navController.currentBackStackEntry?.savedStateHandle?.set(
+                    "ProposalDataJson",
+                    conversationDataJson
+                )
+                navController.navigate(Proposal)
+            },
+            modifier = Modifier
+                .padding(start = 10.dp)
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(Color(0xFF2196F3))
+        ) {
+            Icon(
+                painter = painterResource(id = android.R.drawable.ic_input_add),
+                contentDescription = "Enviar",
+                tint = Color.White
+            )
+        }
 
         TextField(
             value = text,
@@ -298,7 +322,6 @@ fun MessageInputField(onclick: (String) -> Unit) {
         }
     }
 }
-
 
 @Composable
 fun ChatMessage(
@@ -345,12 +368,3 @@ fun ChatMessage(
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun ChatScreenPreview(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
-    ChatScreen(navController = navController)
-}
-
