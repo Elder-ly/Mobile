@@ -199,7 +199,7 @@ fun ProposalScreen(
                                 preco = price
                             )
                         )
-                        navController.navigate(Chat)
+                        navController.popBackStack()
                     },
                 )
             }

@@ -26,6 +26,7 @@ import elder.ly.mobile.ui.composables.screens.personalinfo.PersonalInfoScreen
 import elder.ly.mobile.ui.composables.screens.professionalinfo.ProfessionalInfoScreen
 import elder.ly.mobile.ui.composables.screens.profile.ProfileScreen
 import elder.ly.mobile.ui.composables.screens.profiledetails.ProfileDetailsScreen
+import elder.ly.mobile.ui.composables.screens.proposal.ProposalScreen
 import elder.ly.mobile.ui.composables.screens.search.SearchScreen
 import elder.ly.mobile.ui.composables.screens.searchresult.SearchResultScreen
 import elder.ly.mobile.ui.composables.screens.signupstep1.SignUpStep1Screen
@@ -138,7 +139,7 @@ fun App(modifier: Modifier = Modifier) {
         }
 
         composable<Proposal> {
-            ProfileScreen(navController = navController)
+            ProposalScreen(navController = navController)
         }
 
         composable<ChatList> {
