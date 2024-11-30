@@ -89,21 +89,17 @@ fun ChatScreen(navController: NavController) {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");
 
     LaunchedEffect(key1 = viewModel.recipientId) {
-        // getUser(context).collect { userId ->
-            // viewModel.senderId = userId.id ?: -1
-            // viewModel.userType = userId.type ?: -1
-            // viewModel.accessToken = userId.accessToken ?: ""
-            viewModel.senderId = 5
-            viewModel.recipientId = 6
-            viewModel.userType = 3
-            viewModel.accessToken = ""
+         getUser(context).collect { userId ->
+             viewModel.senderId = userId.id ?: -1
+             viewModel.userType = userId.type ?: -1
+             viewModel.accessToken = userId.googleToken ?: ""
 
             viewModel.isLoading = true
             while (true) {
                 viewModel.loadMessages()
                 kotlinx.coroutines.delay(2000)
             }
-        // }
+         }
     }
 
     LaunchedEffect(Unit) {

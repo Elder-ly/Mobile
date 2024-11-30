@@ -93,7 +93,7 @@ fun WelcomeScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 44.dp).height(72.dp),
                 shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
-                onClick = { navController.navigate(Chat) }, // googleSignInLauncher.launch(authViewModel.getGoogleSignInIntent()) },
+                onClick = { googleSignInLauncher.launch(authViewModel.getGoogleSignInIntent()) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Row(
