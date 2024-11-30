@@ -1,6 +1,10 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -13,6 +17,29 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        val localProperties = project.rootProject.file("local.properties")
+        val properties = Properties().apply {
+            load(FileInputStream(localProperties))
+        }
+
+        buildConfigField(
+            type = "String",
+            name = "GOOGLE_CLIENT_ID",
+            value = properties.getProperty("GOOGLE_CLIENT_ID")
+        )
+
+        buildConfigField(
+            type = "String",
+            name = "GOOGLE_CLIENT_SECRET",
+            value = properties.getProperty("GOOGLE_CLIENT_SECRET")
+        )
+
+        buildConfigField(
+            type = "String",
+            name = "API_BASE_URL",
+            value = properties.getProperty("API_BASE_URL")
+        )
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -38,6 +65,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -59,6 +87,10 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.core)
+    implementation(libs.sheets.compose.dialogs.calendar)
+    implementation(libs.clock)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +98,29 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
+
+    //RetroFit
+    implementation(libs.retrofit)
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
+    //Gson
+    implementation(libs.gson)
+    implementation(libs.converter.gson)
+
+    //Google SSO
+    implementation(libs.googleid)
+    implementation(libs.androidx.credentials.v122)
+    implementation(libs.androidx.credentials.play.services.auth.v122)
+    implementation (libs.play.services.auth.v2070)
+
+    // Koin
+    implementation("io.insert-koin:koin-android:4.0.0")
+    implementation("io.insert-koin:koin-compose-viewmodel:4.0.0")
+
+    implementation(libs.coil.compose)
 }
