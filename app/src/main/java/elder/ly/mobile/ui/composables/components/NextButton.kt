@@ -37,6 +37,7 @@ fun NextButton(
     label: String,
     onclick: () -> Any,
     icon: ImageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     var isLoading by remember { mutableStateOf(false) }
@@ -46,6 +47,7 @@ fun NextButton(
             isLoading = true
             onclick()
         },
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = primaryContainerLight, // Cor de fundo azul
             contentColor = onPrimaryLightHighContrast // Cor do texto e ícone

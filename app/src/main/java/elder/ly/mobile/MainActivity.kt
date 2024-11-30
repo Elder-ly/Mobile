@@ -85,6 +85,9 @@ object ProfessionalInfo
 object PersonalInfo
 
 @Serializable
+object Proposal
+
+@Serializable
 object ChatList
 
 @Serializable
@@ -132,6 +135,10 @@ fun App(modifier: Modifier = Modifier) {
 
         composable<PersonalInfo> {
             PersonalInfoScreen(navController = navController)
+        }
+
+        composable<Proposal> {
+            ProfileScreen(navController = navController)
         }
 
         composable<ChatList> {
