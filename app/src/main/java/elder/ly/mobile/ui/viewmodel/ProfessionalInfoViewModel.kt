@@ -2,19 +2,13 @@ package elder.ly.mobile.ui.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.specialtie.ISpecialtieRepository
 import elder.ly.mobile.data.repository.user.IUserRepository
-import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.domain.service.GetUsersOutput
 import elder.ly.mobile.domain.service.SpecialtieOutput
-import elder.ly.mobile.domain.service.UpdateClientInput
 import elder.ly.mobile.domain.service.UpdateUserInput
 import elder.ly.mobile.ui.composables.stateholders.UserStateHolder
 import kotlinx.coroutines.flow.MutableStateFlow
