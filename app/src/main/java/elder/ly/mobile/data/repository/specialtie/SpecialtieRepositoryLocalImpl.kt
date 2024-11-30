@@ -1,7 +1,6 @@
 package elder.ly.mobile.data.repository.specialtie
 
 import elder.ly.mobile.domain.model.Specialtie
-import elder.ly.mobile.domain.service.CreateSpecialtie
 import elder.ly.mobile.domain.service.GetUsersOutput
 import elder.ly.mobile.domain.service.SpecialtieOutput
 import elder.ly.mobile.domain.service.SpecialtieService
@@ -11,10 +10,6 @@ import retrofit2.Response
 class SpecialtieRepositoryLocalImpl (
     private val service : SpecialtieService
 ) : ISpecialtieRepository {
-
-    override suspend fun createSpecialtie(createSpecialtieInput: CreateSpecialtie): Response<CreateSpecialtie> {
-        return service.createSpecialtie(createSpecialtieInput);
-    }
 
     override suspend fun getSpecialtie(id: Long): Response<SpecialtieOutput> {
         return service.getSpecialtie(id);

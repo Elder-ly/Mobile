@@ -99,7 +99,8 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 36.sp,
                     color = Color.Black,
-                    text = user?.nome ?: ""
+                    text = user?.nome ?: "",
+                    lineHeight = 40.sp
                 )
                 MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle,
                     onclick = { navController.navigate(PersonalInfo) })

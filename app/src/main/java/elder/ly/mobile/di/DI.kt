@@ -31,6 +31,7 @@ import elder.ly.mobile.domain.service.AuthService
 import elder.ly.mobile.domain.service.ViaCepService
 import elder.ly.mobile.ui.viewmodel.AddressInfoViewModel
 import elder.ly.mobile.ui.viewmodel.AuthViewModel
+import elder.ly.mobile.ui.viewmodel.ProfessionalInfoViewModel
 import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
 import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
 import elder.ly.mobile.ui.viewmodel.SearchViewModel
@@ -85,8 +86,8 @@ val appModule = module {
     }
 
     single<ISpecialtieRepository> {
-//        SpecialtieRepositoryLocalImpl(get())
         SpecialtieRepository(get())
+//        SpecialtieRepositoryLocalImpl(get())
     }
 
     single<UserService> {
@@ -112,6 +113,10 @@ val appModule = module {
 
     viewModel{
         ProfileViewModel(get())
+    }
+
+    viewModel {
+        ProfessionalInfoViewModel(get(), get())
     }
 
     viewModel {

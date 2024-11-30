@@ -9,10 +9,6 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface SpecialtieService {
-
-    @POST("/especialidades")
-    suspend fun createSpecialtie(@Body createSpecialtieInput : CreateSpecialtie) : Response<CreateSpecialtie>
-
     @GET("/especialidades/{id}")
     suspend fun getSpecialtie(@Path("id") id : Long) : Response<SpecialtieOutput>
 
@@ -25,10 +21,6 @@ interface SpecialtieService {
     @DELETE("/especialidades/{id}")
     suspend fun deleteUsers(@Path("id") id : Long) : Void
 }
-
-data class CreateSpecialtie(
-    val specialties: List<String>
-)
 
 data class SpecialtieOutput(
     val id: Long,
