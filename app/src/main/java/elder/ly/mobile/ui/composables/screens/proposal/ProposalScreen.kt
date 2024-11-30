@@ -65,6 +65,8 @@ fun ProposalScreen(
     showBottomBar: Boolean = true,
     navController: NavController
 ) {
+    println("ok 2")
+
     var startDate by remember { mutableStateOf("") }
     var endDate by remember { mutableStateOf("") }
     var startTime by remember { mutableStateOf("") }

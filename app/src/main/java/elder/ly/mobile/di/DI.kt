@@ -17,6 +17,7 @@ import elder.ly.mobile.data.repository.addresses.IAddressRepository
 import elder.ly.mobile.data.repository.auth.AuthRepository
 import elder.ly.mobile.data.repository.auth.IAuthRepository
 import elder.ly.mobile.data.repository.message.IMessageRepository
+import elder.ly.mobile.data.repository.proposal.IProposalRepository
 import elder.ly.mobile.ui.viewmodel.ChatListViewModel
 import elder.ly.mobile.ui.viewmodel.ChatViewModel
 import org.koin.core.module.dsl.viewModel
@@ -77,7 +78,7 @@ val appModule = module {
         Rest.proposalService
     }
 
-    single<ProposalRepository> {
+    single<IProposalRepository> {
        ProposalRepository(get())
     }
 
@@ -144,7 +145,7 @@ val appModule = module {
     }
 
     viewModel {
-        ChatViewModel(get())
+        ChatViewModel(get(), get())
     }
 
     viewModel {
