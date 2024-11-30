@@ -36,10 +36,11 @@ import com.maxkeppeler.sheets.clock.models.ClockSelection
 import elder.ly.mobile.R
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 import elder.ly.mobile.ui.theme.tertiaryLight
+import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DataTextButton(modifier: Modifier = Modifier, labelData: String) {
+fun DataTextButton(modifier: Modifier = Modifier, labelData: String, onDateSelected: (String) -> Unit) {
     val calendarState = rememberSheetState()
 
     var dateEntered by remember { mutableStateOf("Selecione Data") }
@@ -79,8 +80,10 @@ fun DataTextButton(modifier: Modifier = Modifier, labelData: String) {
         CalendarDialog(
             state = calendarState,
             selection = CalendarSelection.Date { date ->
-                dateEntered = date.toString()
-                Log.d("Selected Date", "$date")
+                val formattedDate = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                dateEntered = formattedDate
+                onDateSelected(dateEntered)
+                Log.d("Selected Date", formattedDate)
             },
         )
     }
@@ -89,7 +92,7 @@ fun DataTextButton(modifier: Modifier = Modifier, labelData: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HourTextButton(modifier: Modifier = Modifier, labelHora: String) {
+fun HourTextButton(modifier: Modifier = Modifier, labelHora: String, onHourSelected: (String) -> Unit) {
     val clockState = rememberSheetState()
 
     var hourEntered by remember { mutableStateOf("Selecione Hora") }
@@ -133,6 +136,7 @@ fun HourTextButton(modifier: Modifier = Modifier, labelHora: String) {
             ),
             selection = ClockSelection.HoursMinutes { hours, minutes ->
                 hourEntered = String.format("%02d:%02d", hours, minutes) // Formatar a hora
+                onHourSelected(hourEntered)
                 Log.d("Selected Time", "$hours:$minutes")
             },
         )

@@ -31,6 +31,12 @@ android {
 
         buildConfigField(
             type = "String",
+            name = "GOOGLE_CLIENT_SECRET",
+            value = properties.getProperty("GOOGLE_CLIENT_SECRET")
+        )
+
+        buildConfigField(
+            type = "String",
             name = "API_BASE_URL",
             value = properties.getProperty("API_BASE_URL")
         )
@@ -100,6 +106,7 @@ dependencies {
 
     //RetroFit
     implementation(libs.retrofit)
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
     //Gson
     implementation(libs.gson)
@@ -109,8 +116,11 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.androidx.credentials.v122)
     implementation(libs.androidx.credentials.play.services.auth.v122)
+    implementation (libs.play.services.auth.v2070)
 
     // Koin
     implementation("io.insert-koin:koin-android:4.0.0")
     implementation("io.insert-koin:koin-compose-viewmodel:4.0.0")
+
+    implementation(libs.coil.compose)
 }

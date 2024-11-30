@@ -1,5 +1,6 @@
 package elder.ly.mobile.ui.composables.screens.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,27 +24,51 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.auth.api.Auth
 import elder.ly.mobile.AddressInfo
 import elder.ly.mobile.PersonalInfo
 import elder.ly.mobile.ProfessionalInfo
 import elder.ly.mobile.Welcome
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
 import elder.ly.mobile.ui.composables.components.BottomBar
 import elder.ly.mobile.ui.composables.components.ImageCuidador
 import elder.ly.mobile.ui.theme.tertiaryLight
+import elder.ly.mobile.ui.viewmodel.AuthViewModel
+import elder.ly.mobile.ui.viewmodel.ProfileViewModel
+import elder.ly.mobile.utils.getUser
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
+    val viewModel = koinViewModel<ProfileViewModel>()
+    val user by viewModel.user.collectAsState()
+    val context = LocalContext.current
+
+    val authViewModel = koinViewModel<AuthViewModel>()
+    LaunchedEffect(key1 = Unit) {
+        getUser(context).collect { userId ->
+            viewModel.userId = userId.id ?: -1
+            viewModel.getUserProfile()
+        }
+    }
+
     Scaffold (
         bottomBar = {
             if (showBottomBar){
@@ -61,7 +86,11 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     .weight(1f)
                     .padding(top = 30.dp, start = 16.dp, end = 16.dp)
             ) {
-                ImageCuidador(modifier = Modifier.size(160.dp).align(Alignment.CenterHorizontally))
+                ImageCuidador(modifier = Modifier
+                    .size(160.dp)
+                    .align(Alignment.CenterHorizontally),
+                    url = user?.fotoPerfil ?: ""
+                )
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -70,7 +99,7 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 36.sp,
                     color = Color.Black,
-                    text = "Maria Antonieta"
+                    text = user?.nome ?: ""
                 )
                 MenuButton(label = "Informações Pessoais", icon = Icons.Filled.AccountCircle,
                     onclick = { navController.navigate(PersonalInfo) })
@@ -78,11 +107,24 @@ fun ProfileScreen(showBottomBar: Boolean = true, navController: NavController) {
                 MenuButton(label = "Endereço", icon = Icons.Filled.Home,
                     onclick = { navController.navigate(AddressInfo) })
 
-                MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List,
-                    onclick = { navController.navigate(ProfessionalInfo) })
+                if (user?.tipoUsuario == TypeUserEnum.COLLABORATOR.id) {
+                    MenuButton(label = "Profissional", icon = Icons.AutoMirrored.Filled.List,
+                        onclick = { navController.navigate(ProfessionalInfo) })
+                }
 
                 MenuButton(label = "Sair", icon = Icons.AutoMirrored.Filled.ExitToApp,
-                    onclick = { navController.navigate(Welcome) })
+                    onclick = {
+                        authViewModel.signOut(
+                            context = context,
+                            onSuccess = {
+                                navController.navigate(Welcome)
+                            },
+                            onError = { exception ->
+                                println("exception:" + exception.message)
+                                Toast.makeText(context, "Error signing out: ${exception.message}", Toast.LENGTH_LONG).show()
+                            }
+                        )
+                    })
             }
         }
     }
@@ -133,18 +175,6 @@ fun Divisor() {
         thickness = 1.2.dp,
         modifier = Modifier.fillMaxWidth()
     )
-}
-
-@Composable
-fun DrawCircle() {
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(170.dp)) {
-        drawCircle(
-            color = tertiaryLight,
-            radius = 180f,
-        )
-    }
 }
 
 @Preview(showBackground = true)

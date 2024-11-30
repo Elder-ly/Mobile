@@ -9,12 +9,16 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentManager.BackStackEntry
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import elder.ly.mobile.di.appModule
 import elder.ly.mobile.ui.composables.screens.addressinfo.AddressInfoScreen
 import elder.ly.mobile.ui.composables.screens.chat.ChatScreen
 import elder.ly.mobile.ui.composables.screens.chatlist.ChatListScreen
@@ -29,11 +33,18 @@ import elder.ly.mobile.ui.composables.screens.signupstep2.SignUpStep2Screen
 import elder.ly.mobile.ui.composables.screens.welcome.WelcomeScreen
 import elder.ly.mobile.ui.theme.MobileTheme
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        startKoin{
+            androidContext(this@MainActivity)
+            modules(appModule)
+        }
         setContent {
             MaterialTheme {
                 Scaffold(modifier = Modifier

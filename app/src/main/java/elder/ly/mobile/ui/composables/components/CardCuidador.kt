@@ -1,45 +1,37 @@
 package elder.ly.mobile.ui.composables.components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import elder.ly.mobile.ProfileDetails
-import elder.ly.mobile.R
-import elder.ly.mobile.R.drawable.ic_launcher_background
-import elder.ly.mobile.Search
+import elder.ly.mobile.domain.service.GetUsersCollaboratorOutput
 import elder.ly.mobile.ui.theme.secondaryContainerLight
+import elder.ly.mobile.ui.theme.secondaryContainerLightMediumContrast
 import elder.ly.mobile.ui.theme.tertiaryContainerLight
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
+fun CardCuidador(modifier: Modifier = Modifier, navController: NavController, cuidador: GetUsersCollaboratorOutput) {
+    val gson = Gson()
+    val colaboradorJson = gson.toJson(cuidador)
+
     Column (
         modifier = modifier
             .border(
@@ -47,7 +39,10 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
                 color = tertiaryContainerLight,
                 shape = RoundedCornerShape(4.dp)
             )
-            .clickable { navController.navigate(ProfileDetails) }
+            .clickable {
+                navController.currentBackStackEntry?.savedStateHandle?.set("colaboradorJson", colaboradorJson)
+                navController.navigate(ProfileDetails)
+            }
             .padding(16.dp)
     ){
         Row(
@@ -55,7 +50,7 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
                 .padding(bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ){
-            ImageCuidador(modifier = modifier.size(48.dp))
+            ImageCuidador(modifier = modifier.size(48.dp), cuidador.fotoPerfil ?: "")
 
             Spacer(modifier = modifier.size(8.dp))
 
@@ -63,25 +58,30 @@ fun CardCuidador(modifier: Modifier = Modifier, navController: NavController){
                 modifier = modifier
                     .weight(1f)
             ){
-                Text(text = "Vila Matilde", color = secondaryContainerLight)
-                Text(text = "Maria Antonieta", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text(text = cuidador.endereco.bairro ?: "", color = secondaryContainerLightMediumContrast)
+                Text(text = cuidador.nome, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             }
-            Column {
-                Text(text = "R$150/hora")
-            }
+//            Column {
+//                Text(text = "R$${cuidador.}/hora")
+//            }
         }
 
-        Text(text = "Sou uma pessoa dedicada e experiente, comprometida em proporcionar cuidados compassivos e de qualidade para seus entes queridos. Com habilidades abrangentes em assistência diária, incluindo higiene.")
+        Text(text = cuidador.biografia ?: "")
 
         Spacer(modifier = modifier.size(8.dp))
 
-        FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Feature(text = "Fraldas")
-            Feature(text = "Bingo")
-            Feature(text = "Medicação")
-            Feature(text = "Medicação")
-            Feature(text = "Medicação")
+
+        LazyRow {
+            items(cuidador.especialidades) { especialidade ->
+                Feature(text = especialidade.nome, fontSize = 14.sp) // Exibindo o nome da especialidade
+            }
         }
+
+//        FlowRow(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+//            cuidador.especialidades.forEach() { especialidade ->
+//                Feature(text = especialidade.name)
+//            }
+//        }
     }
     Spacer(modifier = Modifier.padding(bottom = 8.dp))
 }

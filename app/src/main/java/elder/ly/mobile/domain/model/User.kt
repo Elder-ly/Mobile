@@ -1,17 +1,12 @@
 package elder.ly.mobile.domain.model
 
-import elder.ly.mobile.domain.model.Residence
-import elder.ly.mobile.domain.model.Resumes
-import elder.ly.mobile.domain.model.enums.GenderEnum
-import elder.ly.mobile.domain.model.enums.TypeUserEnum
-
 data class User(
-    val id: Long,
-    val type: TypeUserEnum, //TODO replace by Enum
-    val gender : GenderEnum?,
+    val id: Long?,
+    val type: Long?, //TODO replace by Enum
+    val gender : Long?,
     var name: String?,
-    var email: String,
-    var googleToken: String,
+    var email: String?,
+    var googleToken: String?,
     var phoneNumber: String?,
     var pictureURL: String?,
     var residences: List<Residence>?,

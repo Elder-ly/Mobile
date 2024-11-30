@@ -16,6 +16,9 @@ interface SpecialtieService {
     @GET("/especialidades/{id}")
     suspend fun getSpecialtie(@Path("id") id : Long) : Response<SpecialtieOutput>
 
+    @GET("/especialidades")
+    suspend fun getSpecialties() : Response<List<SpecialtieOutput>>
+
     @PUT("/especialidades/{id}")
     suspend fun updateSpecialtie(@Path("id") id : Long, @Body updateSpecialtieInput: UpdateSpecialtieInput) : Response<List<GetUsersOutput>>
 
@@ -29,7 +32,7 @@ data class CreateSpecialtie(
 
 data class SpecialtieOutput(
     val id: Long,
-    val name: String
+    val nome: String
 )
 
 data class UpdateSpecialtieInput(

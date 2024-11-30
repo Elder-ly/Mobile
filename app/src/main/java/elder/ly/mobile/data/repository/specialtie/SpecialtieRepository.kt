@@ -19,6 +19,10 @@ class SpecialtieRepository(
         return service.getSpecialtie(id);
     }
 
+    override suspend fun getSpecialties(): Response<List<SpecialtieOutput>> {
+        return service.getSpecialties()
+    }
+
     override suspend fun updateSpecialtie(
         id: Long,
         updateSpecialtieInput: UpdateSpecialtieInput
@@ -29,6 +33,4 @@ class SpecialtieRepository(
     override suspend fun deleteUsers(id: Long): Void {
         return service.deleteUsers(id);
     }
-
-
 }

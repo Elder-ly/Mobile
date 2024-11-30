@@ -40,7 +40,7 @@ fun DefaultDropdownMenu(
     val focusedBorderColor = primaryContainerLight
 
     var expanded by remember { mutableStateOf(false) }
-    var selectedOption by remember { mutableStateOf("") }
+    var selectedOption by remember(value) { mutableStateOf(value) }
 
     Column(
         modifier = Modifier.padding(vertical = 8.dp)

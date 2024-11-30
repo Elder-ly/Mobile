@@ -17,11 +17,8 @@ interface UserService {
     @POST("/usuarios/cliente")
     suspend fun createUserClient(@Body createUserClientInput : CreateUserInput) : Response<GetUsersOutput>
 
-    @POST("/usuarios/colaborador")
-    suspend fun createUserCollaborator(@Body createUserCollaboratorInput : CreateUserInput) : Response<GetUsersOutput>
-
     @POST("/usuarios/colaboradores-disponiveis")
-    suspend fun getAvailableCollaborators(@Header("accessToken") accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersOutput>>
+    suspend fun getAvailableCollaborators(@Header("accessToken") accessToken : String, @Body getUsersCollaboratorInput: GetUsersCollaboratorInput) : Response<List<GetUsersCollaboratorOutput>>
 
     @GET("/usuarios/clientes")
     suspend fun getUsersClients() : Response<List<GetUsersClientsOutput>>
@@ -35,8 +32,14 @@ interface UserService {
     @GET("/usuarios/{id}")
     suspend fun getUser(@Path("id") id : Long) : Response<GetUsersOutput>
 
+    @GET("/usuarios/{id}")
+    suspend fun getUserProfile(@Path("id") id : Long) : Response<GetProfileUse>
+
+    @GET("/usuarios/{id}")
+    suspend fun getUserProfileDetails(@Path("id") id : Long) : Response<GetProfileDetails>
+
     @PUT("/usuarios/{id}")
-    suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<List<GetUsersOutput>>
+    suspend fun updateUsers(@Path("id") id : Long, @Body updateUserInput: UpdateUserInput) : Response<GetUsersOutput>
 
     @DELETE("/usuarios/{id}")
     suspend fun deleteUsers(@Path("id") id : Long) : Void
@@ -44,52 +47,89 @@ interface UserService {
 }
 
 data class CreateUserInput(
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate?,
-    val biography: String?,
-    val profilePicture: String?,
-    val userType: Long,
-    val gender: Long,
-    val address: CreateAddressInput,
-    val specialties: List<Long>
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val tipoUsuario: Long,
+    val genero: Long,
+    val endereco: CreateAddressInput,
+    val especialidades: List<Long>
+)
+
+data class CreateClientInput(
+    val nome: String,
+    val email: String,
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val tipoUsuario: Long,
+    val genero: Long,
+    val especialidades: List<Long>
 )
 
 data class UpdateUserInput(
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate?,
-    val biography: String?,
-    val profilePicture: String?,
-    val gender: Long,
-    val address: CreateAddressInput,
-    val specialties: List<Long>
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val genero: Long,
+    val updateAddressInput: UpdateAddressInput?,
+    val especialidades: List<Long>
+)
+
+data class UpdateClientInput(
+    val nome: String,
+    val email: String,
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val genero: Long,
+    val especialidades: List<Long>
 )
 
 data class CreateAddressInput(
     val cep: String,
-    val street: String,
-    val complement: String?,
-    val neighborhood: String,
-    val number: String?,
-    val city: String,
-    val state: String
+    val logradouro: String,
+    val complemento: String,
+    val bairro: String,
+    val numero: String,
+    val cidade: String,
+    val uf: String
 )
 
 data class GetUsersOutput(
     val id: Long,
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate?,
-    val biography: String?,
+    val documento: String,
+    val dataNascimento: String?,
+    val biografia: String?,
+    val fotoPerfil: String?,
+    val tipoUsuario: Long,
+    val genero: Long,
+    val endereco: AddressOutput,
+    val especialidades: List<SpecialtieOutput>
+)
+
+data class GetProfileUse(
+    val name: String,
+    val profilePicture: String?
+)
+
+data class GetProfileDetails(
+    val id: Long,
+    val name: String,
     val profilePicture: String?,
-    val userType: Long,
-    val gender: Long,
-    val address: AddressOutput,
-    val specialties: List<Specialtie>
+    val address: AddressBairro,
+    val biography: String?,
+    val specialties: List<Specialtie>?,
+    val price: String
 )
 
 data class GetUsersClientsOutput(
@@ -102,29 +142,52 @@ data class GetUsersClientsOutput(
 
 data class GetUsersCollaboratorOutput(
     val id: Long,
-    val name: String,
+    val nome: String,
     val email: String,
-    val document: String,
-    val birthDate: LocalDate,
-    val profilePicture: String?,
-    val biography: String?,
-    val address: AddressOutput,
-    val specialties: List<Specialtie>
+    val documento: String,
+    val dataNascimento: String,
+    val fotoPerfil: String?,
+    val biografia: String?,
+    val endereco: AddressOutput,
+    val especialidades: List<Specialtie>
 )
 
 data class AddressOutput(
     val id : Long,
     val cep: String,
-    val street: String,
-    val complement: String?,
-    val neighborhood: String,
-    val number: String?,
-    val city: String,
-    val state: String
+    val logradouro: String,
+    val complemento: String?,
+    val bairro: String?,
+    val numero: String?,
+    val cidade: String,
+    val uf: String
+)
+
+data class AddressBairro (
+    val neighborhood: String
 )
 
 data class GetUsersCollaboratorInput(
-    val specialties: List<String>,
-    val startDateTime: LocalDateTime,
-    val endDateTime: LocalDateTime
+    val especialidades: List<String>,
+    val dataHoraInicio: String,
+    val dataHoraFim: String
+)
+
+data class ResidenceOutput(
+    val bairro : String,
+    val cidade: String
+)
+
+data class ResumeOutput(
+    val id: Long,
+    val user : GetUsersOutput,
+    val specialtie : SpecialtieOutput
+)
+
+data class GetDataSearchScreen(
+    val startDate: String,
+    val endDate: String,
+    val startTime: String,
+    val endTime: String,
+    val specialties: List<String>
 )

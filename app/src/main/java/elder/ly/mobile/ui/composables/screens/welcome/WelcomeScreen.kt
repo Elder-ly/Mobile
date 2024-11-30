@@ -1,5 +1,7 @@
 package elder.ly.mobile.ui.composables.screens.welcome
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,12 +30,27 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import elder.ly.mobile.R
+import elder.ly.mobile.Search
 import elder.ly.mobile.ui.viewmodel.AuthViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
-    val authViewModel = AuthViewModel()
+    val authViewModel = koinViewModel<AuthViewModel>()
     val context = LocalContext.current
+
+    // Set up Google Sign In when the composable is first created
+    remember {
+        authViewModel.setupGoogleSignIn(context)
+        true // Return true to satisfy remember's requirement for a value
+    }
+
+    // Create activity launcher for Google Sign In
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        authViewModel.handleSignInResult(context, navController, result)
+    }
 
     Scaffold { paddingValues ->
         Column(
@@ -53,7 +71,7 @@ fun WelcomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(64.dp))
 
             Image(
-                painter = painterResource(id = R.drawable.titulo),
+                painter = painterResource(id = R.drawable.ic_titulo),
                 contentDescription = "Titulo"
             )
 
@@ -74,7 +92,7 @@ fun WelcomeScreen(navController: NavController) {
                 modifier = Modifier.padding(horizontal = 44.dp).height(72.dp),
                 shape = RoundedCornerShape(8.dp),
                 border = ButtonDefaults.outlinedButtonBorder,
-                onClick = { authViewModel.googleSignIn(context = context, navController = navController) },
+                onClick = { googleSignInLauncher.launch(authViewModel.getGoogleSignInIntent()) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White)
             ) {
                 Row(
