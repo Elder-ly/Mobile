@@ -175,6 +175,7 @@ fun PersonalInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true
                     )
 
                     viewModel.updateUser(viewModel.userId, updateClientInput)
+                    navController.navigate(Profile)
                 }
             )
         }

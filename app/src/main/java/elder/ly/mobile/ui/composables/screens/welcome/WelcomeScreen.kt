@@ -71,7 +71,7 @@ fun WelcomeScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(64.dp))
 
             Image(
-                painter = painterResource(id = R.drawable.titulo),
+                painter = painterResource(id = R.drawable.ic_titulo),
                 contentDescription = "Titulo"
             )
 
