@@ -5,19 +5,25 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import elder.ly.mobile.data.repository.specialtie.ISpecialtieRepository
 import elder.ly.mobile.data.repository.user.IUserRepository
 import elder.ly.mobile.domain.service.GetUsersOutput
-import elder.ly.mobile.domain.service.UpdateClientInput
+import elder.ly.mobile.domain.service.SpecialtieOutput
 import elder.ly.mobile.domain.service.UpdateUserInput
 import elder.ly.mobile.ui.composables.stateholders.UserStateHolder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PersonalInfoViewModel(
-    private val userRepository: IUserRepository
+class ProfessionalInfoViewModel(
+    private val userRepository: IUserRepository,
+    private val iSpecialtieRepository: ISpecialtieRepository
 ) : ViewModel() {
     var userId by mutableLongStateOf(-1L)
+
+    // Armazena os dados das especialidades
+    private val _specialties = MutableStateFlow<List<SpecialtieOutput>>(emptyList())
+    val specialties: StateFlow<List<SpecialtieOutput>> = _specialties
 
     // Armazena os dados do usuário
     private val _user = MutableStateFlow<GetUsersOutput?>(null)
@@ -44,7 +50,8 @@ class PersonalInfoViewModel(
                 val response = userRepository.getUser(userId)
                 if (response.isSuccessful) {
                     response.body()?.let { userData ->
-                        _user.value = userData } ?: run {
+                        _user.value = userData
+                    } ?: run {
                         _error.value = "Os dados do usuário não foram encontrados."
                     }
                 } else {
@@ -58,23 +65,52 @@ class PersonalInfoViewModel(
         }
     }
 
-    fun updateUser(
+    // Função para buscar as especialidades
+    fun getSpecialties() {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val response = iSpecialtieRepository.getSpecialties() // Adapte o método aqui.
+                response.body()?.let { specialties ->
+                    _specialties.value = specialties.map { SpecialtieOutput(it.id, it.nome) }
+                } ?: run {
+                    _error.value = "Nenhuma especialidade encontrada."
+                }
+            } catch (e: Exception) {
+                _error.value = "Erro ao buscar especialidades: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun updateSpecialtie(
         id: Long,
-        updateClientInput: UpdateClientInput
+        nome: String,
+        email: String,
+        documento: String,
+        dataNascimento: String?,
+        biografia: String?,
+        genero: Long,
+        especialidadesSelecionadas: List<SpecialtieOutput>
     ) {
         viewModelScope.launch {
             _userCreationStatus.value = UserStateHolder.Loading
             try {
+                // Converte as especialidades selecionadas para IDs
+                val especialidadesIds = especialidadesSelecionadas.map { it.id }
+
+                // Prepara o objeto de entrada para atualização
                 val updateUserInput = UpdateUserInput(
-                    nome = updateClientInput.nome,
-                    email = updateClientInput.email,
-                    documento = updateClientInput.documento,
-                    dataNascimento = updateClientInput.dataNascimento,
-                    biografia = updateClientInput.biografia,
-                    fotoPerfil = null,
-                    genero = updateClientInput.genero,
-                    updateAddressInput = null,
-                    especialidades = updateClientInput.especialidades
+                    nome = nome,
+                    email = email,
+                    documento = documento,
+                    dataNascimento = dataNascimento,
+                    biografia = biografia,
+                    fotoPerfil = null, // Pode ser ajustado para aceitar imagens no futuro
+                    genero = genero,
+                    updateAddressInput = null, // Não incluído por enquanto
+                    especialidades = especialidadesIds
                 )
 
                 // Envia o objeto para a API
@@ -85,14 +121,17 @@ class PersonalInfoViewModel(
                         _user.value = updatedUser // Atualiza `_user` com os dados do usuário
                         _userCreationStatus.value = UserStateHolder.Content(updatedUser)
                     } ?: run {
-                        _userCreationStatus.value = UserStateHolder.Error("Resposta vazia do servidor.")
+                        _userCreationStatus.value =
+                            UserStateHolder.Error("Resposta vazia do servidor.")
                     }
                 } else {
-                    _userCreationStatus.value = UserStateHolder.Error("Erro: ${response.code()}")
+                    _userCreationStatus.value =
+                        UserStateHolder.Error("Erro: ${response.code()} - ${response.message()}")
                 }
             } catch (e: Exception) {
                 _userCreationStatus.value = UserStateHolder.Error("Erro: ${e.message}")
             }
         }
     }
+
 }

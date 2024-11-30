@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import elder.ly.mobile.Chat
 import elder.ly.mobile.R
 import elder.ly.mobile.Search
 import elder.ly.mobile.ui.viewmodel.AuthViewModel

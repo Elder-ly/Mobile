@@ -17,6 +17,7 @@ import elder.ly.mobile.data.repository.addresses.IAddressRepository
 import elder.ly.mobile.data.repository.auth.AuthRepository
 import elder.ly.mobile.data.repository.auth.IAuthRepository
 import elder.ly.mobile.data.repository.message.IMessageRepository
+import elder.ly.mobile.data.repository.proposal.IProposalRepository
 import elder.ly.mobile.ui.viewmodel.ChatListViewModel
 import elder.ly.mobile.ui.viewmodel.ChatViewModel
 import org.koin.core.module.dsl.viewModel
@@ -31,7 +32,9 @@ import elder.ly.mobile.domain.service.AuthService
 import elder.ly.mobile.domain.service.ViaCepService
 import elder.ly.mobile.ui.viewmodel.AddressInfoViewModel
 import elder.ly.mobile.ui.viewmodel.AuthViewModel
+import elder.ly.mobile.ui.viewmodel.ProfessionalInfoViewModel
 import elder.ly.mobile.ui.viewmodel.ProfileDetailsViewModel
+import elder.ly.mobile.ui.viewmodel.ProposalViewModel
 import elder.ly.mobile.ui.viewmodel.SearchResultViewModel
 import elder.ly.mobile.ui.viewmodel.SearchViewModel
 import elder.ly.mobile.ui.viewmodel.ViaCepViewModel
@@ -76,7 +79,7 @@ val appModule = module {
         Rest.proposalService
     }
 
-    single<ProposalRepository> {
+    single<IProposalRepository> {
        ProposalRepository(get())
     }
 
@@ -85,8 +88,8 @@ val appModule = module {
     }
 
     single<ISpecialtieRepository> {
-//        SpecialtieRepositoryLocalImpl(get())
         SpecialtieRepository(get())
+//        SpecialtieRepositoryLocalImpl(get())
     }
 
     single<UserService> {
@@ -112,6 +115,10 @@ val appModule = module {
 
     viewModel{
         ProfileViewModel(get())
+    }
+
+    viewModel {
+        ProfessionalInfoViewModel(get(), get())
     }
 
     viewModel {
@@ -143,10 +150,14 @@ val appModule = module {
     }
 
     viewModel {
-        ChatViewModel(get())
+        ChatViewModel(get(), get())
     }
 
     viewModel {
         ViaCepViewModel(get())
+    }
+
+    viewModel {
+        ProposalViewModel(get())
     }
 }

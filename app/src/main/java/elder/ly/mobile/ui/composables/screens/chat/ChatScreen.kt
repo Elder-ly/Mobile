@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -50,7 +52,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.gson.Gson
+import elder.ly.mobile.Proposal
+import elder.ly.mobile.domain.model.enums.TypeUserEnum
+import elder.ly.mobile.domain.service.ProposalOutput
 import elder.ly.mobile.domain.service.UserConversationOutput
+import elder.ly.mobile.ui.composables.screens.proposal.ProposalScreen
 import elder.ly.mobile.ui.viewmodel.ChatViewModel
 import elder.ly.mobile.utils.DateTimeUtils
 import elder.ly.mobile.utils.getUser
@@ -83,15 +89,17 @@ fun ChatScreen(navController: NavController) {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm");
 
     LaunchedEffect(key1 = viewModel.recipientId) {
-        getUser(context).collect { userId ->
-            viewModel.senderId = userId.id ?: -1
+         getUser(context).collect { userId ->
+             viewModel.senderId = userId.id ?: -1
+             viewModel.userType = userId.type ?: -1
+             viewModel.accessToken = userId.googleToken ?: ""
 
             viewModel.isLoading = true
             while (true) {
                 viewModel.loadMessages()
                 kotlinx.coroutines.delay(2000)
             }
-        }
+         }
     }
 
     LaunchedEffect(Unit) {
@@ -146,14 +154,29 @@ fun ChatScreen(navController: NavController) {
                             verticalArrangement = Arrangement.Bottom
                         ) {
                             items(viewModel.messages) {
-                                ChatMessage(
-                                    message = it.conteudo,
-                                    dateTime = DateTimeUtils.parseToLocalDateTime(it.dataHora),
-                                    isSender = it.remetente.id == viewModel.senderId
-                                )
+                                if (it.proposta == null) {
+                                    ChatMessage(
+                                        message = it.conteudo,
+                                        dateTime = DateTimeUtils.parseToLocalDateTime(it.dataHora),
+                                        isSender = it.remetente.id == viewModel.senderId
+                                    )
+                                } else {
+                                    ProposalMessage(
+                                        title = it.conteudo,
+                                        dateTime = DateTimeUtils.parseToLocalDateTime(it.dataHora),
+                                        proposta = it.proposta,
+                                        isSender = it.remetente.id == viewModel.senderId,
+                                        onAcceptProposal = { viewModel.acceptProposal(it.proposta.id) }
+                                    )
+                                }
                             }
                         }
-                        MessageInputField(onclick = { message -> viewModel.sendMessages(message) })
+                        MessageInputField(
+                            onclick = { message -> viewModel.sendMessages(message) },
+                            data = ProposalDataJson(viewModel.senderId, viewModel.recipientId),
+                            userIsColaborator = (viewModel.userType == TypeUserEnum.COLLABORATOR.id),
+                            navController = navController
+                        )
                     }
                 }
             }
@@ -234,9 +257,19 @@ fun ChatScreen(navController: NavController) {
 //}
 
 
+data class ProposalDataJson(
+    val senderId: Long,
+    val recipientId: Long
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MessageInputField(onclick: (String) -> Unit) {
+fun MessageInputField(
+    onclick: (String) -> Unit,
+    data: ProposalDataJson,
+    userIsColaborator: Boolean,
+    navController: NavController
+) {
     var text by remember { mutableStateOf("") }
 
     Row(
@@ -246,20 +279,33 @@ fun MessageInputField(onclick: (String) -> Unit) {
             .background(Color(0xFFDFDFDF), CircleShape),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-//        IconButton(
-//            onClick = { /* Ação do botão */ },
-//            modifier = Modifier
-//                .padding(start = 10.dp)
-//                .size(48.dp)
-//                .clip(CircleShape)
-//                .background(Color(0xFF2196F3))
-//        ) {
-//            Icon(
-//                painter = painterResource(id = android.R.drawable.ic_input_add),
-//                contentDescription = "Enviar",
-//                tint = Color.White
-//            )
-//        }
+        if (userIsColaborator) {
+            IconButton(
+                onClick = {
+                    val gson = Gson()
+                    val conversationDataJson = gson.toJson(data)
+
+                    print("ok")
+                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                        "ProposalDataJson",
+                        conversationDataJson
+                    )
+
+                    navController.navigate(Proposal)
+                },
+                modifier = Modifier
+                    .padding(start = 10.dp)
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF2196F3))
+            ) {
+                Icon(
+                    painter = painterResource(id = android.R.drawable.ic_input_add),
+                    contentDescription = "Enviar",
+                    tint = Color.White
+                )
+            }
+        }
 
         TextField(
             value = text,
@@ -298,7 +344,6 @@ fun MessageInputField(onclick: (String) -> Unit) {
         }
     }
 }
-
 
 @Composable
 fun ChatMessage(
@@ -346,11 +391,93 @@ fun ChatMessage(
     }
 }
 
-
-@Preview(showBackground = true)
 @Composable
-fun ChatScreenPreview(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
-    ChatScreen(navController = navController)
-}
+fun ProposalMessage(
+    title: String, // Exibe o conteúdo como título
+    dateTime: LocalDateTime,
+    proposta: ProposalOutput,
+    isSender: Boolean,
+    onAcceptProposal: () -> Unit // Callback para aceitar a proposta
+) {
+    val backgroundColor = if (isSender) Color(0xFFD1F5FF) else Color(0xFFECECEC)
+    val textColor = if (isSender) Color.Black else Color.DarkGray
+    val alignment = if (isSender) Alignment.End else Alignment.Start
 
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        horizontalArrangement = if (isSender) Arrangement.End else Arrangement.Start
+    ) {
+        Column(
+            horizontalAlignment = alignment
+        ) {
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = backgroundColor,
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    .padding(12.dp)
+                    .widthIn(max = 240.dp)
+            ) {
+                Column {
+                    Text(
+                        text = "Proposta: $title",
+                        color = textColor,
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = if (isSender) TextAlign.End else TextAlign.Start
+                    )
+                    Text(
+                        text = "Início: ${DateTimeUtils.formatLocalDateTime(DateTimeUtils.parseToLocalDateTime(proposta.dataHoraInicio))}",
+                        color = textColor,
+                    )
+                    Text(
+                        text = "Fim: ${DateTimeUtils.formatLocalDateTime(DateTimeUtils.parseToLocalDateTime(proposta.dataHoraFim))}",
+                        color = textColor,
+                    )
+                    Text(
+                        text = "Preço: R$ ${proposta.preco}",
+                        color = textColor,
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        if (isSender) {
+                            Text(
+                                text = if (proposta.aceita) "Aceita" else "Pendente",
+                                color = if (proposta.aceita) Color(0xFF4CAF50) else Color(0xFFF44336),
+                            )
+                        } else {
+                            Button(
+                                onClick = onAcceptProposal,
+                                enabled = !proposta.aceita,
+                                modifier = Modifier.padding(top = 8.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (proposta.aceita) Color.Gray else Color(0xFF2196F3),
+                                    contentColor = Color.White
+                                )
+
+                            ) {
+                                Text(
+                                    text = if (proposta.aceita) "Aceito" else "Aceitar",
+                                    color = if (proposta.aceita) Color.Gray else Color.White
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            Text(
+                text = DateTimeUtils.formatLocalDateTime(dateTime),
+                color = Color.Gray,
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = if (isSender) TextAlign.End else TextAlign.Start
+            )
+        }
+    }
+}
