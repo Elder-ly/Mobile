@@ -101,26 +101,35 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 
-    //DataStore
+    /*  ---------- DATA STORE ------------  */
     implementation(libs.androidx.datastore.preferences)
 
-    //RetroFit
+    /*  ---------- RETROFIT ------------  */
     implementation(libs.retrofit)
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
 
-    //Gson
+    /*  ---------- GSON ------------  */
     implementation(libs.gson)
     implementation(libs.converter.gson)
 
-    //Google SSO
+    /*  ---------- GOOGLE SSO ------------  */
     implementation(libs.googleid)
     implementation(libs.androidx.credentials.v122)
     implementation(libs.androidx.credentials.play.services.auth.v122)
     implementation (libs.play.services.auth.v2070)
 
-    // Koin
+    /*  ---------- KOIN ------------  */
     implementation("io.insert-koin:koin-android:4.0.0")
     implementation("io.insert-koin:koin-compose-viewmodel:4.0.0")
-
     implementation(libs.coil.compose)
+
+    /*  ---------- JUNIT ------------  */
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
+
+    /*  ---------- LIVE DATA ------------  */
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.1")
 }

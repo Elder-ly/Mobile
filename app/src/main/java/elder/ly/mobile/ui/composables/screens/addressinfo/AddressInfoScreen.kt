@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -74,7 +75,7 @@ fun AddressInfoScreen(showTopBar: Boolean = true, showBottomBar: Boolean = true,
 fun InputsButton(navController: NavController) {
     val context = LocalContext.current
     val viewModel: AddressInfoViewModel = koinViewModel()
-    val addressApi by viewModel.address.collectAsState()
+    val addressApi by viewModel.address.observeAsState()
 
     val viaCepViewModel = koinViewModel<ViaCepViewModel>()
     val address by viaCepViewModel.address.collectAsState()

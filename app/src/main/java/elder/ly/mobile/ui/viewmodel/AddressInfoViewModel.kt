@@ -3,6 +3,8 @@ package elder.ly.mobile.ui.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import elder.ly.mobile.data.repository.addresses.IAddressRepository
@@ -16,42 +18,43 @@ import kotlinx.coroutines.launch
 class AddressInfoViewModel(
     private val addressesRepository: IAddressRepository
 ) : ViewModel() {
+
     var userId by mutableLongStateOf(-1L)
 
     // Armazena os dados do usuário
-    private val _address = MutableStateFlow<AddressOutput?>(null)
-    val address: StateFlow<AddressOutput?> = _address
+    private val _address = MutableLiveData<AddressOutput?>()
+    val address: LiveData<AddressOutput?> = _address
 
-    private val _userCreationStatus = MutableStateFlow<AddressStateHolder>(AddressStateHolder.Loading)
-    val addressCreationStatus: StateFlow<AddressStateHolder> = _userCreationStatus
+    private val _userCreationStatus = MutableLiveData<AddressStateHolder>()
+    val addressCreationStatus: LiveData<AddressStateHolder> = _userCreationStatus
 
     // Estado de carregamento e erro
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
 
-    // Função para buscar dados do usuário
     fun getAddress() {
         viewModelScope.launch {
-            _isLoading.value = true
-            _error.value = null
+            _isLoading.postValue(true)
+            _error.postValue(null)
 
             try {
                 val response = addressesRepository.getAddresses(userId)
                 if (response.isSuccessful) {
                     response.body()?.let { userData ->
-                        _address.value = userData } ?: run {
-                        _error.value = "Os dados do usuário não foram encontrados."
+                        _address.postValue(userData)
+                    } ?: run {
+                        _error.postValue("Os dados do usuário não foram encontrados.")
                     }
                 } else {
-                    _error.value = "Erro ao buscar dados do usuário: Código ${response.code()}"
+                    _error.postValue("Erro ao buscar dados do usuário: Código ${response.code()}")
                 }
             } catch (e: Exception) {
-                _error.value = "Erro ao buscar dados do usuário: ${e.message}"
+                _error.postValue("Erro ao buscar dados do usuário: ${e.message}")
             } finally {
-                _isLoading.value = false
+                _isLoading.postValue(false)
             }
         }
     }
@@ -60,21 +63,20 @@ class AddressInfoViewModel(
         viewModelScope.launch {
             _userCreationStatus.value = AddressStateHolder.Loading
             try {
-                // Envia o objeto para a API
                 val response = addressesRepository.updateAddresses(id, updateAddressInput)
 
                 if (response.isSuccessful) {
                     response.body()?.let { updatedAddress ->
-                        _address.value = updatedAddress // Atualiza `_user` com os dados do usuário
-                        _userCreationStatus.value = AddressStateHolder.Content(updatedAddress)
+                        _address.postValue(updatedAddress)
+                        _userCreationStatus.postValue(AddressStateHolder.Content(updatedAddress))
                     } ?: run {
-                        _userCreationStatus.value = AddressStateHolder.Error("Resposta vazia do servidor.")
+                        _userCreationStatus.postValue(AddressStateHolder.Error("Resposta vazia do servidor."))
                     }
                 } else {
-                    _userCreationStatus.value = AddressStateHolder.Error("Erro: ${response.code()}")
+                    _userCreationStatus.postValue(AddressStateHolder.Error("Erro: ${response.code()}"))
                 }
             } catch (e: Exception) {
-                _userCreationStatus.value = AddressStateHolder.Error("Erro: ${e.message}")
+                _userCreationStatus.postValue(AddressStateHolder.Error("Erro: ${e.message}"))
             }
         }
     }

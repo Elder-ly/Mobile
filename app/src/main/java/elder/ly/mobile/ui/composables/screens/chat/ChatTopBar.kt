@@ -61,12 +61,12 @@ fun ChatTopBar(navController: NavController, conversation: UserConversationOutpu
                 }
             }
             Spacer(modifier = Modifier.weight(10f))
-            Icon(
+            /*Icon(
                 imageVector = Icons.Filled.Info,
                 contentDescription = "Seta para a esquerda",
                 modifier = Modifier.size(30.dp),
                 tint = Color.Black
-            )
+            )*/
         }
     }
 }

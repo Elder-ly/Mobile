@@ -48,13 +48,13 @@ fun Contacts(navController: NavController, conversation: UserConversationOutput)
                 modifier = Modifier
                     .padding(start = 8.dp)
                     .align(Alignment.CenterVertically)
-
+                    .weight(1f)
             ) {
                 Text(text = conversation.endereco.bairro, color = secondaryContainerLight)
                 Text(text = conversation.nome, fontSize = 18.sp)
                 LazyRow {
                     items(conversation.especialidades) { featureText ->
-                        Feature(text = featureText.nome)
+                        Feature(text = featureText.nome, fontSize = 14.sp)
                     }
                 }
             }
